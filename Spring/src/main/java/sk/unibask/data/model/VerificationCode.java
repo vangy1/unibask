@@ -11,7 +11,6 @@ public class VerificationCode {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-
     private Date creationDate;
     private String email;
     private String code;
@@ -19,6 +18,14 @@ public class VerificationCode {
 
     public Date getCreationDate() {
         return creationDate;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public void setCreationDate(Date creationDate) {

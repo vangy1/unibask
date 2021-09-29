@@ -8,10 +8,17 @@ public class Account {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-
     private String email;
     private String username;
     private String password;
+    private String avatar;
+
+    @OneToOne
+    @JoinColumn
+    private StudyProgram studyProgram;
+
+    @OneToMany(mappedBy = "account")
+    private List<Entry> entries;
 
     @ManyToMany
     private List<Authority> authorities;
@@ -48,6 +55,30 @@ public class Account {
         this.password = password;
     }
 
+    public String getAvatar() {
+        return avatar;
+    }
+
+    public void setAvatar(String avatar) {
+        this.avatar = avatar;
+    }
+
+    public StudyProgram getStudyProgram() {
+        return studyProgram;
+    }
+
+    public void setStudyProgram(StudyProgram studyProgram) {
+        this.studyProgram = studyProgram;
+    }
+
+    public List<Entry> getEntries() {
+        return entries;
+    }
+
+    public void setEntries(List<Entry> entries) {
+        this.entries = entries;
+    }
+
     public List<Authority> getAuthorities() {
         return authorities;
     }
@@ -55,6 +86,4 @@ public class Account {
     public void setAuthorities(List<Authority> authorities) {
         this.authorities = authorities;
     }
-
-    //    private Date registrationDate = new Date(System.currentTimeMillis());
 }
