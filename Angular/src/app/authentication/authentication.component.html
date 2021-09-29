@@ -1,0 +1,121 @@
+<div class="auth-info-small">
+  <h1>Unibask je uzavretý systém</h1>
+  <h2>
+    Vstup je možný iba s platnou @uniba.sk adresou
+  </h2>
+</div>
+<div class="auth-content">
+  <div class="inputs" *ngIf="state == AuthenticationState.START">
+    <div class="login">
+      <h2>Prihlásenie</h2>
+      <mat-form-field appearance="outline">
+        <mat-label>E-mail</mat-label>
+        <input type="email" matInput [(ngModel)]="loginMail">
+        <span matSuffix>@uniba.sk</span>
+      </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>Heslo</mat-label>
+        <input matInput type="password" [(ngModel)]="loginPassword">
+      </mat-form-field>
+      <button color="accent" mat-raised-button (click)="login()">Prihlásiť sa</button>
+      <button color="accent" mat-stroked-button (click)="continueToPasswordChange()" class="forgot-password-button">
+        Zabudol som heslo
+      </button>
+    </div>
+    <div class="divider"></div>
+    <div class="register">
+      <h2>Registrácia</h2>
+      <mat-form-field appearance="outline">
+        <mat-label>E-mail</mat-label>
+        <input type="email" matInput [(ngModel)]="registerMail">
+        <span matSuffix>@uniba.sk</span>
+      </mat-form-field>
+      <button color="accent" mat-raised-button (click)="continueToRegisterVerification()">Pokračovať v registrácii
+      </button>
+    </div>
+  </div>
+
+  <div class="inputs" *ngIf="state == AuthenticationState.PASSWORD_CHANGE">
+    <div class="register ">
+      <h2>Zmena hesla</h2>
+      <mat-form-field appearance="outline">
+        <mat-label>E-mail</mat-label>
+        <input type="email" matInput [(ngModel)]="loginMail">
+        <span matSuffix>@uniba.sk</span>
+      </mat-form-field>
+      <button color="accent" mat-raised-button (click)="continueToPasswordChangeVerification()">Pokračovať v zmene
+        hesla
+      </button>
+    </div>
+  </div>
+
+  <div class="inputs" *ngIf="state == AuthenticationState.VERIFY_PASSWORD_CHANGE">
+    <div class="register ">
+      <h2>Overenie identity</h2>
+      <p class="verification-notice">Na adresu <span style="font-weight: bold">{{getLoginMail()}}</span> bol zaslaný
+        overovací kód pre potvrdenie tvojej identity.</p>
+      <p class="verification-notice">V prípade, že mail nevieš nájsť ani v spame, prosím kontaktuj ma na
+        vangor2@uniba.sk.</p>
+      <mat-form-field appearance="outline">
+        <mat-label>Overovací kód</mat-label>
+        <input type="text" [(ngModel)]="verificationCode" matInput>
+      </mat-form-field>
+      <button color="accent" mat-raised-button (click)="continueToPasswordChangeFinish()">Pokračovať v zmene hesla
+      </button>
+    </div>
+  </div>
+
+  <div class="inputs" *ngIf="state == AuthenticationState.FINISH_PASSWORD_CHANGE">
+    <div class="register ">
+      <h2>Dokončenie zmeny hesla</h2>
+      <mat-form-field appearance="outline">
+        <mat-label>Nové heslo</mat-label>
+        <input matInput type="password" [(ngModel)]="newPassword">
+      </mat-form-field>
+      <button color="accent" mat-raised-button (click)="completePasswordChange()">Zmeniť heslo</button>
+    </div>
+  </div>
+
+  <div class="inputs" *ngIf="state == AuthenticationState.VERIFY_REGISTRATION">
+    <div class="register ">
+      <h2>Overenie identity</h2>
+      <p class="verification-notice">Na adresu <span style="font-weight: bold">{{getRegisterMail()}}</span> bol zaslaný
+        overovací kód pre potvrdenie tvojej identity.</p>
+      <p class="verification-notice">V prípade, že mail nevieš nájsť ani v spame, prosím kontaktuj ma na
+        vangor2@uniba.sk.</p>
+      <mat-form-field appearance="outline">
+        <mat-label>Overovací kód</mat-label>
+        <input type="text" [(ngModel)]="verificationCode" matInput>
+      </mat-form-field>
+      <button color="accent" mat-raised-button (click)="continueToRegistrationFinish()">Pokračovať v registrácii
+      </button>
+    </div>
+  </div>
+
+  <div class="inputs" *ngIf="state == AuthenticationState.FINISH_REGISTRATION">
+    <div class="register ">
+      <h2>Dokončenie registrácie</h2>
+      <mat-form-field appearance="outline">
+        <mat-label>Používateľské meno</mat-label>
+        <input type="text" matInput [(ngModel)]="username">
+      </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>Heslo</mat-label>
+        <input matInput type="password" [(ngModel)]="registerPassword">
+      </mat-form-field>
+      <!--      študijny odbor-->
+      <button color="accent" mat-raised-button (click)="register()">Registrovať sa</button>
+    </div>
+  </div>
+
+  <div class="info">
+    <h1>UnibASK je uzavretý systém</h1>
+    <h2>
+      Vstup je možný iba s platnou @uniba.sk adresou
+    </h2>
+    <div class="device-pictures">
+      <img alt="Laptop webpage preview" class="laptop-picture" src="../../assets/laptop.png"/>
+      <img alt="Phone webpage preview" class="phone-picture" src="../../assets/phone.png"/>
+    </div>
+  </div>
+</div>

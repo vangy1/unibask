@@ -1,3 +1,9 @@
-<div>
-  <button color="primary" mat-raised-button>Test</button>
+<div style="height: 100%" *ngIf="router.url != '/authentication'">
+  <app-navigation>
+    <div style="height: 100%">
+      <router-outlet></router-outlet>
+    </div>
+  </app-navigation>
 </div>
+<router-outlet *ngIf="router.url == '/authentication'"></router-outlet>
+

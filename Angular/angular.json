@@ -73,6 +73,17 @@
               "sourceMap": true,
               "namedChunks": true,
               "outputPath": "../Spring/src/main/resources/static"
+            },
+            "development-refresh": {
+              "aot": false,
+              "sourceMap": true,
+              "namedChunks": true,
+              "buildOptimizer": false,
+              "optimization": false,
+              "vendorChunk": true,
+              "extractLicenses": false,
+              "watch": true,
+              "outputPath": "../Spring/build/resources/main/static"
             }
           },
           "defaultConfiguration": ""

@@ -1,0 +1,144 @@
+@import "src/variables";
+
+$sm: "(max-width: 799px)";
+$md: "(min-width: 800px) and (max-width: 1350px)";
+$lg: "(min-width: 1351px)";
+
+h1, h2 {
+  text-align: center;
+  padding: 0 16px
+}
+
+.auth-info-small {
+  background-color: $color-primary;
+  padding: 32px 0;
+  margin-bottom: 32px;
+
+  @media #{$md},#{$lg} {
+    display: none;
+  }
+
+  h1, h2 {
+    color: white;
+  }
+
+  h1 {
+    margin-top: 0;
+  }
+
+  h2 {
+    margin-bottom: 0;
+  }
+}
+
+.auth-content {
+  display: flex;
+  width: 100%;
+
+  @media #{$md},#{$lg} {
+    height: 100%;
+  }
+
+  .inputs {
+    background-color: white;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex: 1;
+
+    @media #{$md},#{$lg} {
+      max-width: 50%;
+      justify-content: center;
+    }
+
+    h2 {
+      text-align: center;
+      margin: 0;
+    }
+
+    .login, .register, .divider {
+      @media #{$sm} {
+        width: 95%;
+      }
+
+      @media #{$md},#{$lg} {
+        width: 380px;
+      }
+    }
+
+    .divider {
+      margin-top: 32px;
+      margin-bottom: 32px;
+      height: 2px;
+      background-color: rgba(0, 0, 0, 0.12);
+    }
+
+    button {
+      width: 100%;
+      color: white;
+      margin-top: 24px;
+    }
+
+    mat-form-field {
+      width: 100%;
+      margin-top: 16px;
+    }
+
+    .forgot-password-button {
+      margin-top: 16px;
+      color: $color-accent;
+    }
+
+    .verification-notice {
+      margin-top: 12px;
+      text-align: center;
+    }
+  }
+
+  .info {
+    background-color: $color-primary;
+    flex-direction: column;
+    display: flex;
+    max-width: 50%;
+    justify-content: center;
+    flex: 1;
+
+    @media #{$sm} {
+      display: none;
+      flex: 0;
+    }
+
+    h1 {
+      font-size: 48px;
+      margin-bottom: 8px;
+    }
+
+    h1, h2 {
+      color: white;
+    }
+
+    .device-pictures {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-top: 64px;
+
+      img {
+        height: 280px;
+        margin: 0 24px;
+
+        @media #{$md} {
+          height: 235px;
+        }
+      }
+
+      .phone-picture {
+        @media #{$md} {
+          display: none;
+        }
+      }
+    }
+  }
+
+}
+

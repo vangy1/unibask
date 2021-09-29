@@ -7,7 +7,17 @@ import org.springframework.web.bind.annotation.GetMapping;
 @Controller
 public class ApplicationController {
     @GetMapping("/")
-    public String index(){
+    public String index() {
+        return "index";
+    }
+
+    @GetMapping("/authentication")
+    public String authentication() {
+        return "index";
+    }
+
+    @GetMapping("/ask")
+    public String ask() {
         return "index";
     }
 }
