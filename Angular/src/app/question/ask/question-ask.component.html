@@ -3,7 +3,7 @@
   <div class="title-category">
     <mat-form-field appearance="outline" class="title-input">
       <mat-label>Nadpis</mat-label>
-      <input matInput>
+      <input matInput [(ngModel)]="title">
     </mat-form-field>
     <mat-form-field appearance="outline" class="category-input">
       <mat-label>Kategórie</mat-label>
@@ -16,10 +16,10 @@
   </div>
 
   <div class="editor">
-    <quill-editor #editor></quill-editor>
+    <quill-editor #editor [(ngModel)]="text" placeholder="Text tvojej otázky"></quill-editor>
     <div class="action">
-      <mat-checkbox class="example-margin">Skryť moju identitu</mat-checkbox>
-      <button mat-flat-button color="accent" class="submit-button">Odoslať</button>
+      <mat-checkbox class="example-margin" [(ngModel)]="isAnonymous">Skryť moju identitu</mat-checkbox>
+      <button mat-flat-button color="accent" class="submit-button" (click)="createNewQuestion()">Odoslať</button>
     </div>
   </div>
 </section>

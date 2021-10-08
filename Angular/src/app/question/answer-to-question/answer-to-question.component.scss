@@ -1,0 +1,36 @@
+@import "src/variables.scss";
+
+.title {
+  font-size: 30px;
+}
+
+.editor {
+  height: 410px;
+
+  .wrapper {
+    height: 300px;
+
+    @media #{$sm} {
+      height: 500px;
+    }
+  }
+
+  @media #{$sm} {
+    height: 610px;
+  }
+
+  .action {
+    margin-top: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+
+    .submit-button {
+      color: white;
+      margin-left: 16px;
+      text-transform: uppercase;
+
+      //width: 300px;
+    }
+  }
+}

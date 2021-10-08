@@ -6,5 +6,7 @@ import sk.unibask.data.model.Account;
 import java.util.Optional;
 
 public interface AccountRepository extends JpaRepository<Account, Integer> {
+    Optional<Account> findById(long id);
+
     Optional<Account> findByEmail(String email);
 }

@@ -2,27 +2,22 @@ package sk.unibask.data.model;
 
 import javax.persistence.*;
 import java.util.Date;
-import java.util.List;
 
 @Entity
-@Inheritance(strategy = InheritanceType.JOINED)
-public class Entry {
+public class Vote {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private Date creationDate;
-    @Column(columnDefinition = "TEXT")
-    private String entryText;
+    private int value;
 
     @ManyToOne
     @JoinColumn(nullable = false)
     private Account account;
 
-    @OneToMany(mappedBy = "entry")
-    private List<Comment> comments;
-
-    @OneToMany(mappedBy = "entry")
-    private List<Vote> votes;
+    @ManyToOne
+    @JoinColumn(nullable = false)
+    private Entry entry;
 
     public Long getId() {
         return id;
@@ -40,12 +35,12 @@ public class Entry {
         this.creationDate = creationDate;
     }
 
-    public String getEntryText() {
-        return entryText;
+    public int getValue() {
+        return value;
     }
 
-    public void setEntryText(String entryText) {
-        this.entryText = entryText;
+    public void setValue(int value) {
+        this.value = value;
     }
 
     public Account getAccount() {
@@ -56,19 +51,11 @@ public class Entry {
         this.account = account;
     }
 
-    public List<Comment> getComments() {
-        return comments;
+    public Entry getEntry() {
+        return entry;
     }
 
-    public void setComments(List<Comment> comments) {
-        this.comments = comments;
-    }
-
-    public List<Vote> getVotes() {
-        return votes;
-    }
-
-    public void setVotes(List<Vote> votes) {
-        this.votes = votes;
+    public void setEntry(Entry entry) {
+        this.entry = entry;
     }
 }

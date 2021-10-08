@@ -1,14 +1,14 @@
 import {Component} from '@angular/core';
-import {AuthenticationService} from "./authentication.service";
+import {AuthenticationService} from "../authentication.service";
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {Router} from "@angular/router";
 
 @Component({
-  selector: 'app-root',
-  templateUrl: './authentication.component.html',
-  styleUrls: ['./authentication.component.scss']
+  selector: 'app-authentication-page',
+  templateUrl: './authentication-page.component.html',
+  styleUrls: ['./authentication-page.component.scss']
 })
-export class AuthenticationComponent {
+export class AuthenticationPageComponent {
   public state: AuthenticationState = AuthenticationState.START;
   AuthenticationState = AuthenticationState;
 

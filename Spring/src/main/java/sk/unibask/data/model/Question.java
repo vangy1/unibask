@@ -1,16 +1,14 @@
 package sk.unibask.data.model;
 
 
-import javax.persistence.Entity;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
+import javax.persistence.*;
 import java.util.List;
 
 @Entity
 public class Question extends Entry {
-    private int upvotes;
-    private int downvotes;
+    @Column(columnDefinition = "varchar(1000)")
+    private String title;
+    private boolean isAnonymous;
 
     @ManyToOne
     private Category category;
@@ -21,20 +19,20 @@ public class Question extends Entry {
     @OneToMany(mappedBy = "question")
     private List<Answer> answers;
 
-    public int getUpvotes() {
-        return upvotes;
+    public String getTitle() {
+        return title;
     }
 
-    public void setUpvotes(int upvotes) {
-        this.upvotes = upvotes;
+    public void setTitle(String title) {
+        this.title = title;
     }
 
-    public int getDownvotes() {
-        return downvotes;
+    public boolean isAnonymous() {
+        return isAnonymous;
     }
 
-    public void setDownvotes(int downvotes) {
-        this.downvotes = downvotes;
+    public void setAnonymous(boolean anonymous) {
+        isAnonymous = anonymous;
     }
 
     public Category getCategory() {

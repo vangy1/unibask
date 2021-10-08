@@ -38,11 +38,17 @@ section {
 
   .editor {
     margin-top: 24px;
-    height: 400px;
+    height: 300px;
+
+    @media #{$sm} {
+      height: 600px;
+    }
+
   }
 
   .action {
     margin-top: 24px;
+    padding-bottom: 32px;
     display: flex;
     align-items: center;
     justify-content: flex-end;
@@ -51,8 +57,6 @@ section {
       color: white;
       margin-left: 16px;
       text-transform: uppercase;
-
-      //width: 300px;
     }
   }
 }

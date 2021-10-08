@@ -20,6 +20,9 @@ public class Account {
     @OneToMany(mappedBy = "account")
     private List<Entry> entries;
 
+    @OneToMany(mappedBy = "account")
+    private List<Vote> votes;
+
     @ManyToMany
     private List<Authority> authorities;
 
@@ -85,5 +88,13 @@ public class Account {
 
     public void setAuthorities(List<Authority> authorities) {
         this.authorities = authorities;
+    }
+
+    public List<Vote> getVotes() {
+        return votes;
+    }
+
+    public void setVotes(List<Vote> votes) {
+        this.votes = votes;
     }
 }

@@ -1,0 +1,133 @@
+@import "src/variables.scss";
+
+.question {
+  display: grid;
+  grid-template-rows: auto auto auto;
+  grid-template-columns: auto 1fr;
+
+
+  .voting {
+    grid-row: 1 / span 1;
+    display: flex;
+    align-items: center;
+    margin-right: 18px;
+
+    @media #{$sm} {
+      grid-column: 1 / span 2;
+      flex-direction: row-reverse;
+      justify-content: center;
+      gap: 12px;
+      margin-bottom: 12px;
+    }
+
+    @media #{$md},#{$lg} {
+      grid-column: 1 / span 1;
+      flex-direction: column;
+    }
+
+
+    .mat-icon-button.large {
+      width: 64px;
+      height: 64px;
+      line-height: 64px;
+
+      .mat-icon {
+        font-size: 64px;
+        width: 64px;
+        height: 64px;
+        line-height: 64px;
+      }
+    }
+
+    .voting-summary {
+      font-size: 32px;
+    }
+  }
+
+  .content {
+    margin-top: 8px;
+
+
+    @media #{$sm} {
+      grid-row: 2 / span 1;
+      grid-column: 2 / span 2;
+    }
+
+    @media #{$md},#{$lg} {
+      grid-row: 1 / span 1;
+      grid-column: 2 / span 1;
+    }
+  }
+
+  .meta-author {
+    grid-row: 3 / span 1;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 16px;
+
+
+    @media #{$sm} {
+      grid-column: 1 / span 2;
+      flex-direction: column;
+    }
+
+    @media #{$md},#{$lg} {
+      grid-column: 2 / span 1;
+    }
+
+    .meta {
+      display: flex;
+      flex-direction: column;
+
+      @media #{$sm} {
+        align-items: center;
+        margin-top: 16px;
+      }
+
+      @media #{$md},#{$lg} {
+        align-items: flex-end;
+      }
+
+      .buttons {
+        :not(:first-child):not(:last-child) {
+          margin: 0 6px;
+        }
+      }
+
+      .date {
+        margin-top: 8px;
+
+        @media #{$sm} {
+          text-align: center;
+        }
+
+        @media #{$md},#{$lg} {
+          text-align: right;
+        }
+      }
+    }
+
+    .author {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+
+
+      .avatar {
+        height: 56px;
+        width: 56px;
+        margin-right: 12px;
+      }
+
+      .name-reputation {
+        display: flex;
+        flex-direction: column;
+
+        .name {
+          font-weight: bold;
+        }
+      }
+    }
+  }
+}

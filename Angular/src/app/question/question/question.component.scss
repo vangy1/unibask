@@ -1,0 +1,170 @@
+@import "src/variables.scss";
+
+
+.question {
+  display: grid;
+  grid-template-rows: auto auto auto auto;
+  grid-template-columns: auto 1fr;
+
+  .header {
+    grid-row: 1 / span 1;
+    align-self: center;
+
+    h1 {
+      color: $color-primary;
+      margin: 0;
+      font-size: 30px;
+      @media #{$sm} {
+        font-size: 24px;
+      }
+    }
+
+    h2 {
+      margin-top: 8px;
+      margin-bottom: 0;
+      font-size: 26px;
+
+      @media #{$sm} {
+        font-size: 20px;
+      }
+    }
+
+    @media #{$sm} {
+      grid-column: 2 / span 1;
+    }
+
+    @media #{$md},#{$lg} {
+      grid-column: 1 / span 2;
+    }
+  }
+
+
+  .divider {
+    grid-row: 2 / span 1;
+    grid-column: 1 / span 2;
+  }
+
+  .voting {
+    grid-column: 1 / span 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-right: 18px;
+
+    @media #{$sm} {
+      grid-row: 1 / span 1;
+      align-self: center;
+
+    }
+
+    @media #{$md},#{$lg} {
+      grid-row: 3 / span 1;
+    }
+
+
+    .mat-icon-button.large {
+      width: 64px;
+      height: 64px;
+      line-height: 64px;
+
+      .mat-icon {
+        font-size: 64px;
+        width: 64px;
+        height: 64px;
+        line-height: 64px;
+      }
+    }
+
+    .voting-summary {
+      font-size: 32px;
+    }
+  }
+
+  .content {
+    margin-top: 8px;
+    grid-row: 3 / span 1;
+
+    @media #{$sm} {
+      grid-column: 1 / span 2;
+    }
+
+    @media #{$md},#{$lg} {
+      grid-column: 2 / span 1;
+    }
+
+  }
+
+  .meta-author {
+    grid-row: 4 / span 1;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 16px;
+
+
+    @media #{$sm} {
+      grid-column: 1 / span 2;
+      flex-direction: column;
+    }
+
+    @media #{$md},#{$lg} {
+      grid-column: 2 / span 1;
+    }
+
+    .meta {
+      display: flex;
+      flex-direction: column;
+
+      @media #{$sm} {
+        align-items: center;
+        margin-top: 16px;
+      }
+
+      @media #{$md},#{$lg} {
+        align-items: flex-end;
+      }
+
+      .buttons {
+        :not(:first-child):not(:last-child) {
+          margin: 0 6px;
+        }
+      }
+
+      .date {
+        margin-top: 8px;
+
+        @media #{$sm} {
+          text-align: center;
+        }
+
+        @media #{$md},#{$lg} {
+          text-align: right;
+        }
+      }
+    }
+
+    .author {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+
+
+      .avatar {
+        height: 56px;
+        width: 56px;
+        margin-right: 12px;
+      }
+
+      .name-reputation {
+        display: flex;
+        flex-direction: column;
+
+        .name {
+          font-weight: bold;
+        }
+      }
+    }
+  }
+}
+
+

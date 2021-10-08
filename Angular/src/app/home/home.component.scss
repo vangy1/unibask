@@ -91,7 +91,6 @@ $lg: "(min-width: 1050px)";
   align-items: center;
   margin-left: auto;
   margin-right: auto;
-  margin-bottom: 30px;
   max-width: 1200px;
   width: 90%;
 
@@ -111,14 +110,16 @@ $lg: "(min-width: 1050px)";
     font-size: 36px;
     @media #{$md},#{$lg} {
       margin-top: 0;
+    }
 
+    @media #{$sm} {
+      margin-bottom: 6px;
     }
 
   }
 
   .all-questions-button {
-    margin-top: 32px;
-    margin-bottom: 24px;
+    margin: 36px 0;
   }
 
   ::ng-deep .xxx {
@@ -138,6 +139,10 @@ $lg: "(min-width: 1050px)";
     text-align: center;
     font-size: 36px;
     color: white;
+
+    @media #{$sm} {
+      margin-bottom: 6px;
+    }
   }
 
   .content {

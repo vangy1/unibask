@@ -17,7 +17,12 @@ public class ApplicationController {
     }
 
     @GetMapping("/ask")
-    public String ask() {
+    public String questionAsk() {
+        return "index";
+    }
+
+    @GetMapping("/question")
+    public String questionView() {
         return "index";
     }
 }
