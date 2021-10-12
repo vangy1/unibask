@@ -1,0 +1,25 @@
+<div class="comments">
+  <div *ngFor="let comment of entry.comments" class="comment">
+    <span class="vote-count">{{comment.reputation}}</span>
+    <button mat-icon-button class="upvote-button">
+      <mat-icon>keyboard_arrow_up</mat-icon>
+    </button>
+    <div>
+      <span>{{comment.text}}</span>
+      <div class="author-name-and-comment-date">
+        <span class="author-name"> {{comment.author.username}}</span>
+        <span class="comment-date"> - {{comment.creationDate | date:'d. MMMM y, HH:mm:ss '  }}</span>
+      </div>
+    </div>
+    <div class="divider-thin"></div>
+  </div>
+</div>
+<div class="add-comment">
+  <mat-form-field appearance="outline" style="width: 100%" class="form-field-less-padding">
+    <!--      <mat-label>Komentár</mat-label>-->
+    <textarea cdkTextareaAutosize
+              cdkAutosizeMinRows="1"
+              cdkAutosizeMaxRows="5" matInput placeholder="Komentár" [(ngModel)]="text"></textarea>
+  </mat-form-field>
+  <button mat-flat-button color="accent" (click)="createNewComment()">Pridaj komentár</button>
+</div>

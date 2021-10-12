@@ -113,6 +113,7 @@ body {
   font-family: Roboto, "Helvetica Neue", sans-serif;
 }
 
+
 .container {
   margin-right: auto;
   margin-left: auto;
@@ -125,6 +126,10 @@ body {
   margin-left: auto;
   width: 90%;
   max-width: 1100px;
+}
+
+.wf-loading body {
+  display: none;
 }
 
 .form-field-less-padding .mat-form-field-infix {
