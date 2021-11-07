@@ -1,0 +1,47 @@
+<div class="question">
+  <div class="header">
+    <h1>{{question.title}}</h1>
+    <h2>{{question.categoryName}}</h2>
+  </div>
+  <div class="divider"></div>
+  <div class="voting" *ngIf="allowVoting">
+    <button mat-icon-button class="large">
+      <mat-icon class="large">keyboard_arrow_up</mat-icon>
+    </button>
+    <span class="voting-summary">{{question.reputation}}</span>
+    <button mat-icon-button class="large">
+      <mat-icon>keyboard_arrow_down</mat-icon>
+    </button>
+  </div>
+  <div class="content">
+    <quill-view class="no-padding-ql-editor" [content]="question.text"></quill-view>
+  </div>
+  <div class="meta-author">
+    <div class="author">
+      <img class="avatar" [src]="question.author.avatar"/>
+      <div class="name-reputation">
+        <span class="name">vangy</span>
+        <span class="reputation">130 reputácie</span>
+      </div>
+    </div>
+    <div class="meta">
+      <div class="buttons">
+        <button mat-icon-button>
+          <mat-icon>edit</mat-icon>
+        </button>
+        <button mat-icon-button class="">
+          <mat-icon>notifications</mat-icon>
+        </button>
+        <button mat-icon-button>
+          <mat-icon>report</mat-icon>
+        </button>
+
+        <!--        <button mat-stroked-button color="accent">Upraviť</button>-->
+        <!--        <button mat-stroked-button color="accent">Sledovať</button>-->
+        <!--        <button mat-stroked-button color="accent">Nahlásiť</button>-->
+      </div>
+      <span class="date">Pridané {{question.creationDate | date:'d. MMMM y, HH:mm:ss '  }}</span>
+    </div>
+  </div>
+</div>
+

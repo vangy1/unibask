@@ -25,4 +25,19 @@ public class ApplicationController {
     public String questionView() {
         return "index";
     }
+
+    @GetMapping("/categories")
+    public String categories() {
+        return "index";
+    }
+
+    @GetMapping("/list")
+    public String listQuestions() {
+        return "index";
+    }
+
+    @GetMapping("/profile")
+    public String profile() {
+        return "index";
+    }
 }

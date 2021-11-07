@@ -8,29 +8,35 @@ import {QuillModule} from "ngx-quill";
 import {MatFormFieldModule} from "@angular/material/form-field";
 import {MatInputModule} from "@angular/material/input";
 import {AuthenticationPageComponent} from "./authentication/page/authentication-page.component";
-import {HomeComponent} from './home/home.component';
-import {QuestionPreviewComponent} from './entries/components/preview/question-preview.component';
+import {HomeComponent} from './components/home/home.component';
+import {QuestionPreviewComponent} from './components/question-preview/question-preview.component';
 import {MatIconModule} from "@angular/material/icon";
 import {AppComponent} from './app.component';
 import {MatSidenavModule} from "@angular/material/sidenav";
-import {NavigationComponent} from './navigation/navigation.component';
+import {NavigationComponent} from './components/navigation/navigation.component';
 import {MatListModule} from "@angular/material/list";
 import {MatToolbarModule} from "@angular/material/toolbar";
-import {QuestionAskComponent} from './entries/components/ask/question-ask.component';
+import {AskQuestionComponent} from './components/ask-question/ask-question.component';
 import {MatSelectModule} from "@angular/material/select";
 import {MatOptionModule} from "@angular/material/core";
 import {MatCheckboxModule} from "@angular/material/checkbox";
-import {FormsModule} from "@angular/forms";
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {HttpClientModule} from "@angular/common/http";
 import {MatSnackBarModule} from "@angular/material/snack-bar";
-import {QuestionViewComponent} from './entries/components/view/question-view.component';
-import {QuestionComponent} from './entries/components/question/question.component';
+import {ViewQuestionComponent} from './components/view-question/view-question.component';
+import {QuestionComponent} from './components/question/question.component';
 import {MatCardModule} from "@angular/material/card";
 import localeSk from '@angular/common/locales/sk';
 import {registerLocaleData} from "@angular/common";
-import {CommentSectionComponent} from './entries/components/comment-section/comment-section.component';
-import {AnswerComponent} from './entries/components/answer/answer.component';
-import {AnswerToQuestionComponent} from './entries/components/answer-to-question/answer-to-question.component';
+import {CommentSectionComponent} from './components/comment-section/comment-section.component';
+import {AnswerComponent} from './components/answer/answer.component';
+import {AnswerQuestionComponent} from './components/answer-question/answer-question.component';
+import {ListQuestionsComponent} from './components/list-questions/list-questions.component';
+import {CategoryComponent} from './components/category/category.component';
+import {MatTreeModule} from "@angular/material/tree";
+import {AuthenticationService} from "./authentication/authentication.service";
+import {NgxMatSelectSearchModule} from "ngx-mat-select-search";
+import {ProfileComponent} from './components/profile/profile.component';
 
 registerLocaleData(localeSk);
 
@@ -41,12 +47,15 @@ registerLocaleData(localeSk);
     QuestionPreviewComponent,
     AppComponent,
     NavigationComponent,
-    QuestionAskComponent,
-    QuestionViewComponent,
+    AskQuestionComponent,
+    ViewQuestionComponent,
     QuestionComponent,
     CommentSectionComponent,
     AnswerComponent,
-    AnswerToQuestionComponent
+    AnswerQuestionComponent,
+    ListQuestionsComponent,
+    CategoryComponent,
+    ProfileComponent
   ],
   imports: [
     BrowserModule,
@@ -77,9 +86,12 @@ registerLocaleData(localeSk);
     MatCheckboxModule,
     MatSnackBarModule,
     FormsModule,
-    MatCardModule
+    MatCardModule,
+    MatTreeModule,
+    NgxMatSelectSearchModule,
+    ReactiveFormsModule
   ],
-  providers: [{provide: LOCALE_ID, useValue: 'sk-SK'},
+  providers: [AuthenticationService, {provide: LOCALE_ID, useValue: 'sk-SK'},
   ],
   bootstrap: [AppComponent]
 })

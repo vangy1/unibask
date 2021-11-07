@@ -1,25 +1,32 @@
 package sk.unibask.data.model;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 public class Category {
     @Id
     private Long id;
     private String title;
-    @Column(columnDefinition = "varchar(1000)")
-    private String subtitle;
-    private String icon;
 
-    @ManyToOne
-    private Category parentCategory;
+    @ManyToMany
+    private List<Category> parentCategories;
 
     @OneToMany(mappedBy = "category")
     private List<Question> questions;
 
-    @OneToMany(mappedBy = "parentCategory")
+    @OneToMany(mappedBy = "category")
+    private List<Follow> follows;
+
+    @ManyToMany(mappedBy = "parentCategories")
     private List<Category> childrenCategories;
+
+    @ManyToMany(mappedBy = "favoriteCategories")
+    private Set<Account> favoritedAccounts;
 
     public Long getId() {
         return id;
@@ -37,30 +44,6 @@ public class Category {
         this.title = title;
     }
 
-    public String getSubtitle() {
-        return subtitle;
-    }
-
-    public void setSubtitle(String subtitle) {
-        this.subtitle = subtitle;
-    }
-
-    public String getIcon() {
-        return icon;
-    }
-
-    public void setIcon(String icon) {
-        this.icon = icon;
-    }
-
-    public Category getParentCategory() {
-        return parentCategory;
-    }
-
-    public void setParentCategory(Category parentCategory) {
-        this.parentCategory = parentCategory;
-    }
-
     public List<Question> getQuestions() {
         return questions;
     }
@@ -75,5 +58,21 @@ public class Category {
 
     public void setChildrenCategories(List<Category> childrenCategories) {
         this.childrenCategories = childrenCategories;
+    }
+
+    public List<Category> getParentCategories() {
+        return parentCategories;
+    }
+
+    public void setParentCategories(List<Category> parentCategories) {
+        this.parentCategories = parentCategories;
+    }
+
+    public Set<Account> getFavoritedAccounts() {
+        return favoritedAccounts;
+    }
+
+    public void setFavoritedAccounts(Set<Account> favoritedAccounts) {
+        this.favoritedAccounts = favoritedAccounts;
     }
 }

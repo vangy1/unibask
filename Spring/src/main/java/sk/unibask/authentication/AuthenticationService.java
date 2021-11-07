@@ -31,24 +31,25 @@ public class AuthenticationService {
         this.accountRepository = accountRepository;
     }
 
-    public UserDto login(String mail, String password) {
+    public Account login(String mail, String password) {
         SecurityContextHolder.getContext().setAuthentication(authenticationProvider.authenticate(new UsernamePasswordAuthenticationToken(mail, password)));
-        return authenticationService.getLoggedUser();
+        return authenticationService.getLoggedAccount();
     }
 
-    public UserDto register(String mail, String password, String username, String verificationCode) {
+    public Account register(String mail, String password, String username, String verificationCode) {
         if (!mail.endsWith("@uniba.sk")) return null;
         if (verificationCodeService.isVerificationCodeValid(mail, verificationCode)) {
             authenticationService.createAccount(mail, password, username);
         }
         SecurityContextHolder.getContext().setAuthentication(authenticationProvider.authenticate(new UsernamePasswordAuthenticationToken(mail, password)));
-        return authenticationService.getLoggedUser();
+        return authenticationService.getLoggedAccount();
     }
 
     @Transactional
     public void createAccount(String mail, String password, String username) {
         var account = new Account();
         account.setEmail(mail);
+        account.setAvatarSeed(username);
         account.setUsername(username);
         account.setPassword(passwordEncoder.encode(password));
         accountRepository.save(account);
@@ -68,13 +69,4 @@ public class AuthenticationService {
         if (principal == null) return null;
         return accountRepository.findByEmail(principal.getName()).orElse(null);
     }
-
-    @Transactional
-    public UserDto getLoggedUser() {
-        var account = authenticationService.getLoggedAccount();
-        if (account == null) return null;
-        return new UserDto(account);
-    }
-
-
 }

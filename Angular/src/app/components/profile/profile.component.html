@@ -1,0 +1,75 @@
+<div class="profile">
+  <div class="public-info">
+    <img class="avatar" [src]="authenticationService.user.avatar" alt="avatar"/>
+    <div class="user-info">
+      <div class="username">Robert Vangor</div>
+      <div class="study-program">AIN - Aplikovana informatika</div>
+      <div class="join-date">Clenom od 2.10.2021</div>
+    </div>
+  </div>
+  <div class="change-info">
+    <div class="card change-user-info" style="flex: 1">
+      <h2>Zmena údajov</h2>
+      <mat-form-field appearance="outline" class="study-program-input">
+        <mat-label>Študijný program</mat-label>
+        <mat-select>
+          <mat-option>
+            Test 1
+          </mat-option>
+          <mat-option>
+            Test 2
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field appearance="outline" class="notifications-input">
+        <mat-label>Emailové notifikácie</mat-label>
+        <mat-select>
+          <mat-option>
+            Vypnuté
+          </mat-option>
+          <mat-option>
+            Zapnuté pre nové odpovede
+          </mat-option>
+          <mat-option>
+            Zapnuté pre nové odpovede a komentáre
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <button mat-flat-button color="accent">Uložiť zmeny</button>
+    </div>
+
+
+    <div class="card change-password" style="flex: 1">
+      <h2>Zmena hesla</h2>
+      <mat-form-field appearance="outline" class="old-password-input">
+        <mat-label>Staré heslo</mat-label>
+        <input matInput>
+      </mat-form-field>
+      <mat-form-field appearance="outline" class="new-password-input">
+        <mat-label>Nové heslo</mat-label>
+        <input matInput>
+      </mat-form-field>
+      <button mat-flat-button color="accent">Zmeniť heslo</button>
+    </div>
+
+    <div class="card change-avatar" style="flex: 1">
+      <h2>Zmena avataru</h2>
+      <div class="change-avatar-container">
+        <img class="avatar" [src]="newAvatar" alt="avatar"/>
+
+        <div class="change-avatar-buttons">
+          <button mat-stroked-button color="accent" (click)="setNewPictureSeed()">Generuj nový</button>
+          <button mat-stroked-button color="accent" (click)="imageInput.click()"
+                  [disabled]="uploadProgress != -1">{{uploadPictureButtonText}}</button>
+          <input hidden #imageInput type="file" name="imageInput" (change)="uploadImagePick()"
+                 accept="image/*"/>
+        </div>
+      </div>
+      <button mat-flat-button color="accent" class="save-avatar-button" (click)="saveImage()">Ulož avatar</button>
+
+    </div>
+
+  </div>
+  <div class="activity"></div>
+</div>

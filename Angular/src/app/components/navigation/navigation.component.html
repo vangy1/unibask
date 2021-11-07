@@ -1,0 +1,64 @@
+<mat-sidenav-container class="sidenav-container">
+  <mat-sidenav class="mobile-navigation" fixedInViewport="false">
+    <mat-toolbar color="primary">Menu</mat-toolbar>
+    <mat-nav-list>
+      <a mat-list-item [class.selected-navbar-item]="this.router.url.startsWith('/upload')"
+         (click)="router.navigate(['/list'])">
+        {{authenticationService.user?.mail}}
+      </a>
+      <a mat-list-item [class.selected-navbar-item]="this.router.url.startsWith('/upload')"
+         (click)="router.navigate(['/categories'])">
+        Opýtaj sa
+      </a>
+      <a mat-list-item [class.selected-navbar-item]="this.router.url.startsWith('/upload')">
+        Otázky
+      </a>
+      <a mat-list-item [class.selected-navbar-item]="this.router.url.startsWith('/upload')">
+        Kategórie
+      </a>
+      <a mat-list-item [class.selected-navbar-item]="this.router.url.startsWith('/upload')">
+        Rebríček
+      </a>
+    </mat-nav-list>
+  </mat-sidenav>
+
+  <mat-sidenav-content>
+    <mat-toolbar color="primary" #toolbar id="toolbar">
+      <button class="toggle-sidenav-button" type="button" aria-label="Toggle sidenav" mat-icon-button
+              (click)="drawer.toggle()">
+        <img src="/assets/menu.svg" alt="Menu"/>
+      </button>
+      <span class="unibask-title" (click)="goToRoute('')">
+        <span>UnibASK</span>
+      </span>
+      <div></div>
+      <div class="desktop-navigation">
+        <button class="button-text" mat-button [class.selected-navbar-item]="this.router.url.startsWith('/profile')"
+                (click)="router.navigate(['/profile'])">
+          {{mail}}
+        </button>
+        <button class="button-text" mat-button [class.selected-navbar-item]="this.router.url.startsWith('/categories')"
+                (click)="router.navigate(['/categories'])">
+          Kategórie
+        </button>
+        <button class="button-text" mat-button
+                [class.selected-navbar-item]="this.router.url.startsWith('/list?favorites=true')">
+          Sledované
+        </button>
+        <button class="button-text" mat-button [class.selected-navbar-item]="this.router.url.startsWith('/list')"
+                (click)="router.navigate(['/list'])">
+          Otázky
+        </button>
+        <button mat-icon-button>
+          <mat-icon>notifications</mat-icon>
+        </button>
+        <button class="button-text" mat-flat-button color="accent" *ngIf="!this.router.url.startsWith('/ask')"
+                style="color: white"
+                (click)="router.navigate(['/ask'])">
+          Opýtaj sa
+        </button>
+      </div>
+    </mat-toolbar>
+    <ng-content></ng-content>
+  </mat-sidenav-content>
+</mat-sidenav-container>

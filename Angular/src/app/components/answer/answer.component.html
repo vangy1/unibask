@@ -1,0 +1,41 @@
+<div class="question">
+  <div class="voting">
+    <button mat-icon-button class="large upvote-button">
+      <mat-icon class="large">keyboard_arrow_up</mat-icon>
+    </button>
+    <span class="voting-summary">{{answer.reputation}}</span>
+    <button mat-icon-button class="large downvote-button">
+      <mat-icon>keyboard_arrow_down</mat-icon>
+    </button>
+  </div>
+  <div class="content">
+    <quill-view class="no-padding-ql-editor" [content]="answer.text"></quill-view>
+  </div>
+  <div class="meta-author">
+    <div class="author">
+      <img class="avatar" [src]="answer.author.avatar"/>
+      <div class="name-reputation">
+        <span class="name">vangy</span>
+        <span class="reputation">130 reputácie</span>
+      </div>
+    </div>
+    <div class="meta">
+      <div class="buttons">
+        <button mat-icon-button>
+          <mat-icon>verified</mat-icon>
+        </button>
+        <button mat-icon-button>
+          <mat-icon>edit</mat-icon>
+        </button>
+        <button mat-icon-button class="">
+          <mat-icon>notifications</mat-icon>
+        </button>
+        <button mat-icon-button>
+          <mat-icon>report</mat-icon>
+        </button>
+      </div>
+      <span class="date">Pridané {{answer.creationDate | date:'d. MMMM y, HH:mm:ss '  }}</span>
+    </div>
+  </div>
+</div>
+

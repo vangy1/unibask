@@ -9,6 +9,8 @@ public class Question extends Entry {
     @Column(columnDefinition = "varchar(1000)")
     private String title;
     private boolean isAnonymous;
+    @Column(columnDefinition = "varchar(1000)")
+    private Long views;
 
     @ManyToOne
     private Category category;
@@ -53,6 +55,14 @@ public class Question extends Entry {
 
     public List<Answer> getAnswers() {
         return answers;
+    }
+
+    public Long getViews() {
+        return views;
+    }
+
+    public void setViews(Long views) {
+        this.views = views;
     }
 
     public void setAnswers(List<Answer> answers) {

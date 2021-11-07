@@ -1,11 +1,6 @@
-<div style="height: 100%" *ngIf="router.url != '/authentication'; else withoutNav">
-  <app-navigation>
-    <div style="height: 100%">
-      <router-outlet></router-outlet>
-    </div>
-  </app-navigation>
-</div>
-<ng-template #withoutNav>
-  <router-outlet></router-outlet>
-</ng-template>
+<app-navigation style="height: 100%">
+  <div style="height: 100%">
+    <router-outlet></router-outlet>
+  </div>
+</app-navigation>
 

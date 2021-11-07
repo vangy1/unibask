@@ -1,25 +1,19 @@
 package sk.unibask.authentication;
 
-import sk.unibask.data.model.Account;
-import sk.unibask.data.model.Authority;
-
 import java.util.List;
 
 public class UserDto {
     private String mail;
     private String username;
+    private String avatar;
     private List<String> roles;
+    private Long reputation;
 
-    public UserDto(String mail, String username, List<String> roles) {
+    public UserDto(String mail, String username, String avatar, List<String> roles) {
         this.mail = mail;
         this.username = username;
+        this.avatar = avatar;
         this.roles = roles;
-    }
-
-    public UserDto(Account account) {
-        this.mail = account.getEmail();
-        this.username = account.getUsername();
-        this.roles = account.getAuthorities().stream().map(Authority::getName).toList();
     }
 
     public String getMail() {
@@ -44,5 +38,13 @@ public class UserDto {
 
     public void setRoles(List<String> roles) {
         this.roles = roles;
+    }
+
+    public String getAvatar() {
+        return avatar;
+    }
+
+    public void setAvatar(String avatar) {
+        this.avatar = avatar;
     }
 }

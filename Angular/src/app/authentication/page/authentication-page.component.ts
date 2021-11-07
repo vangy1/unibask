@@ -29,6 +29,7 @@ export class AuthenticationPageComponent {
 
   login() {
     this.authenticationService.login(this.getLoginMail(), this.loginPassword).subscribe(() => {
+      this.authenticationService.checkIfSignedInRequest = this.authenticationService.createCheckIfSignedInRequest()
       this.router.navigate(['/']);
     }, error => {
       this.snackBar.open("Zadané prihlasovacie údaje neprísluchajú žiadnému existujúcemu účtu.", undefined, {duration: 3000});

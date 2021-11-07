@@ -1,0 +1,50 @@
+@import "src/variables";
+
+.question-view {
+  max-width: 1200px;
+  margin-left: auto;
+  margin-right: auto;
+  padding-bottom: 32px;
+}
+
+.divider {
+  margin-top: 36px;
+}
+
+.card {
+  @media #{$sm} {
+    padding: 32px 16px;
+  }
+
+  @media #{$md}{
+    padding: 32px 24px;
+  }
+
+  @media #{$lg}{
+    padding: 32px 48px;
+  }
+
+  @media #{$md},#{$lg} {
+    margin: 32px 24px;
+    background: white;
+    border: 1px solid rgba(0, 0, 0, 0.12);
+    display: block;
+    position: relative;
+    border-radius: 4px;
+  }
+}
+
+.solves-question {
+  background-color: rgb(144, 238, 144, 0.1);
+
+}
+
+.entry-divider {
+  @media #{$sm} {
+    margin-top: 32px;
+    margin-bottom: 16px;
+    height: 3px;
+    background-color: rgba(0, 0, 0, 0.12);
+  }
+
+}

@@ -24,6 +24,9 @@ public class Entry {
     @OneToMany(mappedBy = "entry")
     private List<Vote> votes;
 
+    @OneToMany(mappedBy = "entry")
+    private List<Notification> notifications;
+
     public Long getId() {
         return id;
     }

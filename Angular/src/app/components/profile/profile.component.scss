@@ -1,0 +1,133 @@
+@import "src/variables.scss";
+
+.profile {
+  max-width: 1200px;
+  margin-left: auto;
+  margin-right: auto;
+  padding-top: 16px;
+  padding-bottom: 32px;
+}
+
+.card {
+  @media #{$md},#{$lg} {
+    background: white;
+    border: 1px solid rgba(0, 0, 0, 0.12);
+    display: block;
+    position: relative;
+    border-radius: 4px;
+    padding: 20px;
+
+  }
+}
+
+
+.public-info {
+  display: flex;
+  align-items: center;
+
+  .avatar {
+    height: 128px;
+    width: 128px;
+    border-radius: 4px;
+  }
+
+  .user-info {
+    margin-left: 32px;
+
+    .username {
+      font-size: 32px;
+    }
+
+    .study-program {
+      font-size: 24px;
+      color: #000000AA;
+      margin-top: 16px;
+    }
+
+    .join-date {
+      color: #000000AA;
+      margin-top: 4px;
+    }
+  }
+}
+
+.change-info {
+  display: flex;
+
+  h2 {
+    margin: 0 0 8px;
+  }
+
+
+  .change-user-info {
+    .study-program-input {
+      width: 100%;
+    }
+
+    .notifications-input {
+      margin-top: 12px;
+      width: 100%;
+    }
+
+    button {
+      margin-top: 24px;
+      width: 100%;
+      color: white;
+    }
+
+  }
+
+  .change-password {
+    margin-left: 16px;
+    margin-right: 16px;
+
+    .old-password-input {
+      width: 100%;
+    }
+
+    .new-password-input {
+      margin-top: 12px;
+      width: 100%;
+    }
+
+    button {
+      margin-top: 24px;
+      width: 100%;
+      color: white;
+    }
+
+
+  }
+
+  .change-avatar {
+    display: flex;
+    flex-direction: column;
+
+
+    .change-avatar-container {
+      display: flex;
+      margin-top: auto;
+      margin-bottom: auto;
+      padding-bottom: 18px;
+
+      img {
+        height: 84px;
+        width: 84px;
+      }
+
+      .change-avatar-buttons {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        width: 100%;
+        margin-left: 16px;
+      }
+    }
+
+    .save-avatar-button {
+      color: white;
+    }
+  }
+
+
+}

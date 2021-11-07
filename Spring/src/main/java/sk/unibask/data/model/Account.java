@@ -1,7 +1,7 @@
 package sk.unibask.data.model;
 
 import javax.persistence.*;
-import java.util.List;
+import java.util.Set;
 
 @Entity(name = "accounts")
 public class Account {
@@ -11,20 +11,30 @@ public class Account {
     private String email;
     private String username;
     private String password;
-    private String avatar;
+    private String avatarSeed;
+    private String avatarFilename;
 
     @OneToOne
     @JoinColumn
     private StudyProgram studyProgram;
 
     @OneToMany(mappedBy = "account")
-    private List<Entry> entries;
+    private Set<Entry> entries;
 
     @OneToMany(mappedBy = "account")
-    private List<Vote> votes;
+    private Set<Vote> votes;
+
+    @OneToMany(mappedBy = "account")
+    private Set<Follow> follows;
+
+    @OneToMany(mappedBy = "account")
+    private Set<Notification> notifications;
 
     @ManyToMany
-    private List<Authority> authorities;
+    private Set<Authority> authorities;
+
+    @ManyToMany
+    private Set<Category> favoriteCategories;
 
     public Long getId() {
         return id;
@@ -58,12 +68,20 @@ public class Account {
         this.password = password;
     }
 
-    public String getAvatar() {
-        return avatar;
+    public String getAvatarSeed() {
+        return avatarSeed;
     }
 
-    public void setAvatar(String avatar) {
-        this.avatar = avatar;
+    public void setAvatarSeed(String avatarSeed) {
+        this.avatarSeed = avatarSeed;
+    }
+
+    public String getAvatarFilename() {
+        return avatarFilename;
+    }
+
+    public void setAvatarFilename(String avatarPath) {
+        this.avatarFilename = avatarPath;
     }
 
     public StudyProgram getStudyProgram() {
@@ -74,27 +92,51 @@ public class Account {
         this.studyProgram = studyProgram;
     }
 
-    public List<Entry> getEntries() {
+    public Set<Entry> getEntries() {
         return entries;
     }
 
-    public void setEntries(List<Entry> entries) {
+    public void setEntries(Set<Entry> entries) {
         this.entries = entries;
     }
 
-    public List<Authority> getAuthorities() {
+    public Set<Authority> getAuthorities() {
         return authorities;
     }
 
-    public void setAuthorities(List<Authority> authorities) {
+    public void setAuthorities(Set<Authority> authorities) {
         this.authorities = authorities;
     }
 
-    public List<Vote> getVotes() {
+    public Set<Vote> getVotes() {
         return votes;
     }
 
-    public void setVotes(List<Vote> votes) {
+    public void setVotes(Set<Vote> votes) {
         this.votes = votes;
+    }
+
+    public Set<Category> getFavoriteCategories() {
+        return favoriteCategories;
+    }
+
+    public void setFavoriteCategories(Set<Category> favoriteCategories) {
+        this.favoriteCategories = favoriteCategories;
+    }
+
+    public Set<Follow> getFollows() {
+        return follows;
+    }
+
+    public void setFollows(Set<Follow> follows) {
+        this.follows = follows;
+    }
+
+    public Set<Notification> getNotifications() {
+        return notifications;
+    }
+
+    public void setNotifications(Set<Notification> notifications) {
+        this.notifications = notifications;
     }
 }
