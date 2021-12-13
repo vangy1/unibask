@@ -15,6 +15,7 @@ public interface CategoryRepository extends JpaRepository<Category, Integer> {
     @Query("SELECT c FROM Category c where c not in (select c from Category c join c.parentCategories pc)")
     List<Category> findRoots();
 
+
     //    @Query(
 //            value = "SELECT * FROM category_parent_categories u WHERE u.status = 1",
 //            nativeQuery = true)

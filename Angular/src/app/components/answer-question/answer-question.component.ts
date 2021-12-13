@@ -20,6 +20,7 @@ export class AnswerQuestionComponent implements OnInit {
 
   createNewAnswer() {
     this.answerService.createNewAnswer(this.text, this.isAnonymous, this.question).subscribe(answer => {
+      this.text = '';
       this.question.answers.push(answer);
     });
   }

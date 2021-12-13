@@ -19,14 +19,11 @@ public class Category {
     @OneToMany(mappedBy = "category")
     private List<Question> questions;
 
-    @OneToMany(mappedBy = "category")
-    private List<Follow> follows;
-
     @ManyToMany(mappedBy = "parentCategories")
     private List<Category> childrenCategories;
 
-    @ManyToMany(mappedBy = "favoriteCategories")
-    private Set<Account> favoritedAccounts;
+    @ManyToMany(mappedBy = "followingCategories")
+    private Set<Account> followerAccounts;
 
     public Long getId() {
         return id;
@@ -66,13 +63,5 @@ public class Category {
 
     public void setParentCategories(List<Category> parentCategories) {
         this.parentCategories = parentCategories;
-    }
-
-    public Set<Account> getFavoritedAccounts() {
-        return favoritedAccounts;
-    }
-
-    public void setFavoritedAccounts(Set<Account> favoritedAccounts) {
-        this.favoritedAccounts = favoritedAccounts;
     }
 }

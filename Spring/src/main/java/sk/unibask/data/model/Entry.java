@@ -2,7 +2,7 @@ package sk.unibask.data.model;
 
 import javax.persistence.*;
 import java.util.Date;
-import java.util.List;
+import java.util.Set;
 
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
@@ -19,13 +19,13 @@ public class Entry {
     private Account account;
 
     @OneToMany(mappedBy = "entry")
-    private List<Comment> comments;
+    private Set<Comment> comments;
 
     @OneToMany(mappedBy = "entry")
-    private List<Vote> votes;
+    private Set<Vote> votes;
 
     @OneToMany(mappedBy = "entry")
-    private List<Notification> notifications;
+    private Set<Notification> notifications;
 
     public Long getId() {
         return id;
@@ -59,19 +59,19 @@ public class Entry {
         this.account = account;
     }
 
-    public List<Comment> getComments() {
+    public Set<Comment> getComments() {
         return comments;
     }
 
-    public void setComments(List<Comment> comments) {
+    public void setComments(Set<Comment> comments) {
         this.comments = comments;
     }
 
-    public List<Vote> getVotes() {
+    public Set<Vote> getVotes() {
         return votes;
     }
 
-    public void setVotes(List<Vote> votes) {
+    public void setVotes(Set<Vote> votes) {
         this.votes = votes;
     }
 }

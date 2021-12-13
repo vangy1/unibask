@@ -9,13 +9,12 @@ public class CategoryDto {
     private List<CategoryDto> childrenCategories;
     private Long questionCount;
     private List<String> path;
-    private Boolean isFavorite;
+    private Boolean isFollowed;
 
-
-    public CategoryDto(Long id, String title, Boolean isFavorite) {
+    public CategoryDto(Long id, String title, Boolean isFollowed) {
         this.id = id;
         this.title = title;
-        this.isFavorite = isFavorite;
+        this.isFollowed = isFollowed;
         this.path = new ArrayList<>();
         this.childrenCategories = new ArrayList<>();
     }
@@ -52,13 +51,6 @@ public class CategoryDto {
         this.questionCount = questionCount;
     }
 
-    public boolean isFavorite() {
-        return isFavorite;
-    }
-
-    public void setFavorite(Boolean favorite) {
-        isFavorite = favorite;
-    }
 
     public List<String> getPath() {
         return path;
@@ -68,7 +60,11 @@ public class CategoryDto {
         this.path = path;
     }
 
-    public Boolean getFavorite() {
-        return isFavorite;
+    public Boolean getFollowed() {
+        return isFollowed;
+    }
+
+    public void setFollowed(Boolean followed) {
+        isFollowed = followed;
     }
 }

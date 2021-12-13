@@ -2,10 +2,17 @@ package sk.unibask;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import sk.unibask.entry.EntryService;
 
 
 @Controller
 public class ApplicationController {
+    private final EntryService entryService;
+
+    public ApplicationController(EntryService entryService) {
+        this.entryService = entryService;
+    }
+
     @GetMapping("/")
     public String index() {
         return "index";

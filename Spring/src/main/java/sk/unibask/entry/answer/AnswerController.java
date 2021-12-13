@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import sk.unibask.entry.EntityToDtoService;
 
 import java.util.Map;
 
@@ -13,16 +14,18 @@ import java.util.Map;
 @RequestMapping("/api/answer")
 public class AnswerController {
     private final AnswerService answerService;
+    private final EntityToDtoService entityToDtoService;
+
 
     @Autowired
-    public AnswerController(AnswerService answerService) {
+    public AnswerController(AnswerService answerService, EntityToDtoService entityToDtoService) {
         this.answerService = answerService;
+        this.entityToDtoService = entityToDtoService;
     }
 
     @PostMapping
     @Transactional
     public AnswerDto createNewAnswer(@RequestBody Map<String, String> body) {
-        var newAnswer = answerService.createNewAnswer(body.get("text"), Boolean.parseBoolean(body.get("isAnonymous")), Long.valueOf(body.get("questionId")));
-        return answerService.answerToDto(newAnswer);
+        return entityToDtoService.answerToAnswerDto(answerService.createNewAnswer(body.get("text"), Boolean.parseBoolean(body.get("isAnonymous")), Long.valueOf(body.get("questionId"))), null);
     }
 }

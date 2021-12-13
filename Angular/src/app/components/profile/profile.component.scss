@@ -1,25 +1,18 @@
 @import "src/variables.scss";
 
+$sm: "(max-width: 519px)";
+$md: "(min-width: 520px) and (max-width: 899px)";
+$lg: "(min-width: 900px)";
+
 .profile {
   max-width: 1200px;
   margin-left: auto;
   margin-right: auto;
   padding-top: 16px;
   padding-bottom: 32px;
+  width: 90%;
+
 }
-
-.card {
-  @media #{$md},#{$lg} {
-    background: white;
-    border: 1px solid rgba(0, 0, 0, 0.12);
-    display: block;
-    position: relative;
-    border-radius: 4px;
-    padding: 20px;
-
-  }
-}
-
 
 .public-info {
   display: flex;
@@ -53,11 +46,30 @@
 
 .change-info {
   display: flex;
+  margin-top: 16px;
+  margin-bottom: 16px;
 
-  h2 {
-    margin: 0 0 8px;
+  .card {
+    margin: 8px 0;
   }
 
+  @media #{$sm},#{$md} {
+    flex-direction: column;
+  }
+
+  @media #{$lg}{
+
+    .change-password {
+      margin-left: 16px;
+      margin-right: 16px;
+    }
+
+  }
+
+  .subsection-title {
+    text-align: center;
+    margin-bottom: 16px;
+  }
 
   .change-user-info {
     .study-program-input {
@@ -78,9 +90,6 @@
   }
 
   .change-password {
-    margin-left: 16px;
-    margin-right: 16px;
-
     .old-password-input {
       width: 100%;
     }
@@ -128,6 +137,10 @@
       color: white;
     }
   }
-
-
 }
+
+.entry {
+  margin: 8px 0;
+}
+
+

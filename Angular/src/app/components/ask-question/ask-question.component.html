@@ -1,34 +1,39 @@
 <section>
-  <h1>Nová otázka</h1>
-  <div class="title-category">
-    <mat-form-field appearance="outline" class="title-input">
-      <mat-label>Nadpis</mat-label>
-      <input matInput [(ngModel)]="title">
-    </mat-form-field>
-    <mat-form-field appearance="outline" class="category-input">
-      <mat-label>Kategórie</mat-label>
-      <mat-select [(value)]="selectedCategory" placeholder="Bank">
-        <mat-select-trigger *ngIf="selectedCategory">
-          <span style="font-weight: bold">{{selectedCategory.title}}</span> {{getPath(selectedCategory)}}
-        </mat-select-trigger>
-        <mat-option>
-          <ngx-mat-select-search placeholderLabel="Vyhľadaj kategóriu"
-                                 noEntriesFoundLabel="Žiadna kategória nebola nájdená"
-                                 [formControl]="categoryFilterCtrl"></ngx-mat-select-search>
-        </mat-option>
+  <h1 class="section-title">Nová otázka</h1>
 
-        <mat-option *ngFor="let category of filteredCategories | async" [value]="category">
-          <span style="font-weight: bold">{{category.title}}</span> {{getPath(category)}}
-        </mat-option>
-      </mat-select>
-    </mat-form-field>
-  </div>
+  <div class="card">
+    <div class="title-category">
+      <mat-form-field appearance="outline" class="title-input">
+        <mat-label>Nadpis</mat-label>
+        <input matInput [(ngModel)]="title">
+      </mat-form-field>
+      <mat-form-field appearance="outline" class="category-input">
+        <mat-label>Kategórie</mat-label>
+        <mat-select [(value)]="selectedCategory">
+          <mat-select-trigger *ngIf="selectedCategory">
+            <span style="font-weight: bold">{{selectedCategory.title}}</span> {{getPath(selectedCategory)}}
+          </mat-select-trigger>
+          <mat-option>
+            <ngx-mat-select-search placeholderLabel="Vyhľadaj kategóriu"
+                                   noEntriesFoundLabel="Žiadna kategória nebola nájdená"
+                                   [formControl]="categoryFilterCtrl"></ngx-mat-select-search>
+          </mat-option>
 
-  <div class="editor">
-    <quill-editor #editor [(ngModel)]="text" placeholder="Text tvojej otázky"></quill-editor>
+          <mat-option *ngFor="let category of filteredCategories | async" [value]="category">
+            <span style="font-weight: bold">{{category.title}}</span> {{getPath(category)}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+
+    <div class="editor ql-fix-height">
+      <quill-editor #editor [(ngModel)]="text" placeholder="Text tvojej otázky"></quill-editor>
+    </div>
+
     <div class="action">
       <mat-checkbox class="example-margin" [(ngModel)]="isAnonymous">Skryť moju identitu</mat-checkbox>
       <button mat-flat-button color="accent" class="submit-button" (click)="createNewQuestion()">Odoslať</button>
     </div>
   </div>
+
 </section>

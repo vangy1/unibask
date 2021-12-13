@@ -4,31 +4,25 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import sk.unibask.authentication.AuthenticationService;
-import sk.unibask.authentication.UserService;
+import sk.unibask.data.model.Answer;
 import sk.unibask.data.model.Comment;
+import sk.unibask.data.model.Question;
 import sk.unibask.data.repository.CommentRepository;
 import sk.unibask.data.repository.EntryRepository;
-import sk.unibask.data.repository.VoteRepository;
 
 import java.util.Date;
-import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 public class CommentService {
 
     private final CommentRepository commentRepository;
     private final EntryRepository entryRepository;
-    private final VoteRepository voteRepository;
-    private final UserService userService;
     private final AuthenticationService authenticationService;
 
     @Autowired
-    public CommentService(CommentRepository commentRepository, EntryRepository entryRepository, VoteRepository voteRepository, UserService userService, AuthenticationService authenticationService) {
+    public CommentService(CommentRepository commentRepository, EntryRepository entryRepository, AuthenticationService authenticationService) {
         this.commentRepository = commentRepository;
         this.entryRepository = entryRepository;
-        this.voteRepository = voteRepository;
-        this.userService = userService;
         this.authenticationService = authenticationService;
     }
 
@@ -40,18 +34,13 @@ public class CommentService {
         comment.setAccount(authenticationService.getLoggedAccount());
         comment.setEntry(entryRepository.findById(entryId).get());
 
+        if (comment.getEntry() instanceof Question question) {
+            question.setLastActivity(comment.getCreationDate());
+        } else if (comment.getEntry() instanceof Answer answer) {
+            answer.getQuestion().setLastActivity(comment.getCreationDate());
+        }
+
         commentRepository.save(comment);
         return comment;
-    }
-
-    @Transactional
-    public List<CommentDto> findCommentsByEntryId(Long entryId) {
-        return commentRepository.findAllByEntryId(entryId).parallelStream().map(comment ->
-                new CommentDto(comment.getId(), comment.getEntryText(), voteRepository.findEntryReputation(comment), comment.getCreationDate(), userService.getUser(comment.getEntry().getAccount()))).collect(Collectors.toList());
-    }
-
-    @Transactional
-    public CommentDto commentToDto(Comment comment) {
-        return new CommentDto(comment.getId(), comment.getEntryText(), 0L, comment.getCreationDate(), userService.getUser(comment.getAccount()));
     }
 }

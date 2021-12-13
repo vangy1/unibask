@@ -37,6 +37,9 @@ import {MatTreeModule} from "@angular/material/tree";
 import {AuthenticationService} from "./authentication/authentication.service";
 import {NgxMatSelectSearchModule} from "ngx-mat-select-search";
 import {ProfileComponent} from './components/profile/profile.component';
+import {MatPaginatorModule} from "@angular/material/paginator";
+import {InfiniteScrollModule} from "ngx-infinite-scroll";
+import {EntryPreviewComponent} from './components/profile/entry-preview/entry-preview.component';
 
 registerLocaleData(localeSk);
 
@@ -55,8 +58,8 @@ registerLocaleData(localeSk);
     AnswerQuestionComponent,
     ListQuestionsComponent,
     CategoryComponent,
-    ProfileComponent
-  ],
+    ProfileComponent,
+    EntryPreviewComponent],
   imports: [
     BrowserModule,
     HttpClientModule,
@@ -89,7 +92,9 @@ registerLocaleData(localeSk);
     MatCardModule,
     MatTreeModule,
     NgxMatSelectSearchModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    MatPaginatorModule,
+    InfiniteScrollModule
   ],
   providers: [AuthenticationService, {provide: LOCALE_ID, useValue: 'sk-SK'},
   ],

@@ -5,7 +5,7 @@ $md: "(min-width: 700px) and (max-width: 1049px)";
 $lg: "(min-width: 1050px)";
 
 .sidenav-container {
-  height: 100% !important;
+  min-height: 100% !important;
 }
 
 .mobile-navigation {
@@ -15,7 +15,7 @@ $lg: "(min-width: 1050px)";
 
 .selected-navbar-item {
   cursor: default;
-  color: $color-accent;
+  color: $color-accent !important;
 }
 
 .desktop-navigation {
@@ -41,10 +41,11 @@ $lg: "(min-width: 1050px)";
 }
 
 .toggle-sidenav-button {
+  margin-right: 6px;
+  margin-bottom: 2px;
+
   img {
     width: 22px;
-    margin-right: 6px;
-    margin-bottom: 2px
   }
 }
 

@@ -11,12 +11,34 @@ export class QuestionService {
   constructor(private http: HttpClient) {
   }
 
-  getQuestions(categoryId?: number) {
-    let params = new HttpParams();
-    if (categoryId) {
-      params = params.append('categoryId', categoryId);
-    }
 
+  getQuestions(page: number, limit: number) {
+    let params = new HttpParams();
+    params = params.append('page', page);
+    params = params.append('limit', limit);
+
+    return this.getQuestionsRequest(params);
+  }
+
+  getFollowedQuestions(page: number, limit: number) {
+    let params = new HttpParams();
+    params = params.append('followed', true);
+    params = params.append('page', page);
+    params = params.append('limit', limit);
+
+    return this.getQuestionsRequest(params);
+  }
+
+  getQuestionsByCategory(category: number, page: number, limit: number) {
+    let params = new HttpParams();
+    params = params.append('category', category);
+    params = params.append('page', page);
+    params = params.append('limit', limit);
+
+    return this.getQuestionsRequest(params);
+  }
+
+  getQuestionsRequest(params: HttpParams) {
     return this.http.get<Question[]>(environment.apiUrl + '/api/questions', {
       headers: new HttpHeaders({'Content-Type': 'application/json', 'ngsw-bypass': 'true'}),
       withCredentials: true,

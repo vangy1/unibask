@@ -1,5 +1,13 @@
-<div class="question-list">
-  <div class="card" *ngFor="let question of questions">
+<h1 class="section-title">{{title}}</h1>
+<div style="text-align: center" *ngIf="listQuestionsService.questions.length < 1">
+  <p>Neboli najdené žiadne dostupné otázky.</p>
+  <p *ngIf="params['followed']">Sledovať kategóriu môžeš v sekcii "Kategórie" pomocou kliknutia
+    na ikonu hviezdičky napravo od názvu kategórie.</p>
+</div>
+<div class="question-list" infiniteScroll
+     (scrolled)="onScroll()">
+  <div *ngFor="let question of listQuestionsService.questions">
     <app-question-preview [question]="question"></app-question-preview>
   </div>
 </div>
+

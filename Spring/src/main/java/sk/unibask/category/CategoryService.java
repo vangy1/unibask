@@ -4,12 +4,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import sk.unibask.authentication.AuthenticationService;
-import sk.unibask.data.model.*;
+import sk.unibask.data.model.Account;
+import sk.unibask.data.model.Category;
 import sk.unibask.data.repository.AccountRepository;
 import sk.unibask.data.repository.CategoryRepository;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 @Service
@@ -17,7 +17,6 @@ public class CategoryService {
 
     @Autowired
     private CategoryService categoryService;
-
 
     private final CategoryRepository categoryRepository;
     private final AuthenticationService authenticationService;
@@ -47,27 +46,43 @@ public class CategoryService {
         return newCategory;
     }
 
+    public void changeFollowStatus(String categoryId, boolean followed) {
+        if (followed) {
+            categoryService.followCategory(categoryId);
+        } else {
+            categoryService.unfollowCategory(categoryId);
+        }
+    }
+
     @Transactional
-    public void makeCategoryFavorite(String id) {
+    public void followCategory(String categoryId) {
         var account = authenticationService.getLoggedAccount();
-        account.getFavoriteCategories().add(categoryRepository.findById(Long.valueOf(id)).get());
+        Category category = categoryRepository.findById(Long.valueOf(categoryId)).get();
+        account.getFollowingCategories().add(category);
         accountRepository.save(account);
     }
 
+    @Transactional
+    public void unfollowCategory(String categoryId) {
+        var account = authenticationService.getLoggedAccount();
+        Category category = categoryRepository.findById(Long.valueOf(categoryId)).get();
+        account.getFollowingCategories().remove(category);
+        accountRepository.save(account);
+    }
 
     @Transactional
     public List<CategoryDto> getCategories() {
         List<CategoryDto> rootCategoryDtos = new ArrayList<>();
         var account = authenticationService.getLoggedAccount();
         for (Category rootCategory : categoryRepository.findRoots()) {
-            var rootCategoryDto = new CategoryDto(rootCategory.getId(), rootCategory.getTitle(), account.getFavoriteCategories().contains(rootCategory));
+            var rootCategoryDto = new CategoryDto(rootCategory.getId(), rootCategory.getTitle(), account.getFollowingCategories().contains(rootCategory));
             rootCategoryDtos.add(rootCategoryDto);
             setChildrenCategories(rootCategory, rootCategoryDto, account);
         }
 
         for (CategoryDto rootCategoryDto : rootCategoryDtos) {
             recountQuestions(rootCategoryDto);
-            setFavorites(rootCategoryDto);
+//            setFavorites(rootCategoryDto);
             setPaths(rootCategoryDto, new ArrayList<>());
         }
 
@@ -104,7 +119,7 @@ public class CategoryService {
 
         List<CategoryDto> childrenCategoryDtos = new ArrayList<>();
         for (Category childrenCategory : childrenCategories) {
-            childrenCategoryDtos.add(new CategoryDto(childrenCategory.getId(), childrenCategory.getTitle(), account.getFavoriteCategories().contains(childrenCategory)));
+            childrenCategoryDtos.add(new CategoryDto(childrenCategory.getId(), childrenCategory.getTitle(), account.getFollowingCategories().contains(childrenCategory)));
         }
 
         parentCategoryDto.setChildrenCategories(childrenCategoryDtos);
@@ -124,11 +139,11 @@ public class CategoryService {
                                 .reduce(0L, Long::sum));
     }
 
-    private void setFavorites(CategoryDto root) {
-        if (root.getChildrenCategories() == null) return;
-        root.getChildrenCategories().forEach(this::setFavorites);
-        root.setFavorite(root.getChildrenCategories().stream().allMatch(CategoryDto::isFavorite));
-    }
+//    private void setFavorites(CategoryDto root) {
+//        if (root.getChildrenCategories() == null) return;
+//        root.getChildrenCategories().forEach(this::setFavorites);
+//        root.setFavorite(root.getChildrenCategories().stream().allMatch(CategoryDto::isFavorite));
+//    }
 
     private void setPaths(CategoryDto root, List<String> path) {
         root.getPath().addAll(path);
@@ -141,32 +156,32 @@ public class CategoryService {
         }
     }
 
-    @Transactional
-    public Date getLastActivity(Category category) {
-        Date lastActivity = null;
-//        for (Entry entry : categoryRepository.findAllEntries(category)) {
-        for (Entry entry : categoryService.getEntriesOfCategory(category)) {
-            if (lastActivity == null || entry.getCreationDate().after(lastActivity)) {
-                lastActivity = entry.getCreationDate();
-            }
-        }
-        return lastActivity;
-    }
-
-    @Transactional
-    public List<Entry> getEntriesOfCategory(Category category) {
-        List<Entry> entries = new ArrayList<>();
-        List<Question> questions = category.getQuestions();
-        for (Question question : questions) {
-            List<Answer> answers = question.getAnswers();
-            for (Answer answer : answers) {
-                entries.addAll(answer.getComments());
-            }
-            entries.addAll(answers);
-        }
-        entries.addAll(questions);
-        return entries;
-    }
+//    @Transactional
+//    public Date getLastActivity(Category category) {
+//        Date lastActivity = null;
+////        for (Entry entry : categoryRepository.findAllEntries(category)) {
+//        for (Entry entry : categoryService.getEntriesOfCategory(category)) {
+//            if (lastActivity == null || entry.getCreationDate().after(lastActivity)) {
+//                lastActivity = entry.getCreationDate();
+//            }
+//        }
+//        return lastActivity;
+//    }
+//
+//    @Transactional
+//    public List<Entry> getEntriesOfCategory(Category category) {
+//        List<Entry> entries = new ArrayList<>();
+//        List<Question> questions = category.getQuestions();
+//        for (Question question : questions) {
+//            List<Answer> answers = question.getAnswers();
+//            for (Answer answer : answers) {
+//                entries.addAll(answer.getComments());
+//            }
+//            entries.addAll(answers);
+//        }
+//        entries.addAll(questions);
+//        return entries;
+//    }
 
     public CategoryDto getCategory() {
         return null;

@@ -1,60 +1,64 @@
 <div class="profile">
   <div class="public-info">
-    <img class="avatar" [src]="authenticationService.user.avatar" alt="avatar"/>
+    <img class="avatar" [src]="user?.avatar" alt="avatar"/>
     <div class="user-info">
-      <div class="username">Robert Vangor</div>
-      <div class="study-program">AIN - Aplikovana informatika</div>
-      <div class="join-date">Clenom od 2.10.2021</div>
+      <div class="username">{{user?.username}}</div>
+      <div class="study-program" *ngIf="user?.studyProgram">{{user?.studyProgram.longName}}
+        ({{user?.studyProgram.shortName}})
+      </div>
+      <div class="join-date">Členom od {{user?.creationDate | date:'d. MMMM y'  }}</div>
     </div>
   </div>
-  <div class="change-info">
+  <div class="change-info" *ngIf="user?.id == authenticationService?.user.id">
     <div class="card change-user-info" style="flex: 1">
-      <h2>Zmena údajov</h2>
+      <h2 class="subsection-title">Zmena údajov</h2>
       <mat-form-field appearance="outline" class="study-program-input">
         <mat-label>Študijný program</mat-label>
-        <mat-select>
-          <mat-option>
-            Test 1
+        <mat-select [(value)]="selectedStudyProgram">
+          <mat-option value="not-set">
+            Bez zmeny
           </mat-option>
-          <mat-option>
-            Test 2
+          <mat-option *ngFor="let studyProgram of getStudyPrograms()" [value]="studyProgram.id">
+            {{studyProgram.longName}} ({{studyProgram.shortName}})
           </mat-option>
         </mat-select>
       </mat-form-field>
       <mat-form-field appearance="outline" class="notifications-input">
         <mat-label>Emailové notifikácie</mat-label>
-        <mat-select>
-          <mat-option>
+        <mat-select [(value)]="selectedMailNotifications">
+          <mat-option value="not-set">
+            Bez zmeny
+          </mat-option>
+          <mat-option value="turned-off">
             Vypnuté
           </mat-option>
-          <mat-option>
+          <mat-option value="enabled-new-answers">
             Zapnuté pre nové odpovede
           </mat-option>
-          <mat-option>
+          <mat-option value="enabled-new-answers-and-comments">
             Zapnuté pre nové odpovede a komentáre
           </mat-option>
         </mat-select>
       </mat-form-field>
 
-      <button mat-flat-button color="accent">Uložiť zmeny</button>
+      <button mat-flat-button color="accent" (click)="saveProfileDetails()">Uložiť zmeny</button>
     </div>
 
-
     <div class="card change-password" style="flex: 1">
-      <h2>Zmena hesla</h2>
+      <h2 class="subsection-title">Zmena hesla</h2>
       <mat-form-field appearance="outline" class="old-password-input">
         <mat-label>Staré heslo</mat-label>
-        <input matInput>
+        <input matInput [(ngModel)]="oldPassword">
       </mat-form-field>
       <mat-form-field appearance="outline" class="new-password-input">
         <mat-label>Nové heslo</mat-label>
-        <input matInput>
+        <input matInput [(ngModel)]="newPassword">
       </mat-form-field>
-      <button mat-flat-button color="accent">Zmeniť heslo</button>
+      <button mat-flat-button color="accent" (click)="changePassword()">Zmeniť heslo</button>
     </div>
 
     <div class="card change-avatar" style="flex: 1">
-      <h2>Zmena avataru</h2>
+      <h2 class="subsection-title">Zmena avataru</h2>
       <div class="change-avatar-container">
         <img class="avatar" [src]="newAvatar" alt="avatar"/>
 
@@ -67,9 +71,12 @@
         </div>
       </div>
       <button mat-flat-button color="accent" class="save-avatar-button" (click)="saveImage()">Ulož avatar</button>
-
     </div>
-
   </div>
-  <div class="activity"></div>
+
+  <h1 class="section-title" *ngIf="profileEntries.length > 0">Používateľove príspevky</h1>
+
+  <div class="entry" *ngFor="let profileEntry of profileEntries" (click)="openEntry(profileEntry)">
+    <app-entry-preview [profileEntry]="profileEntry"></app-entry-preview>
+  </div>
 </div>

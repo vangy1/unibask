@@ -23,20 +23,21 @@ export class CategoryComponent implements OnInit {
     this.categoryService.getCategories().subscribe((next) => {
       this.categories = next;
       this.dataSource.data = this.categories;
-
+      this.treeControl.expand(this.categories[0]);
+      this.treeControl.expand(this.categories[1]);
     })
   }
 
   hasChild = (_: number, node: Category) => !!node.childrenCategories && node.childrenCategories.length > 0;
 
 
-  favoriteCategory(id: number) {
-    console.log(id)
-    this.categoryService.favoriteCategory(id).subscribe()
+  changeFollowStatus(category: Category) {
+    category.followed = !category.followed
+    this.categoryService.changeFollowStatus(category.id, category.followed).subscribe()
   }
 
   goToCategory(category: Category) {
-    this.router.navigate(['/list'], {queryParams: {categoryId: category.id}})
+    this.router.navigate(['/list'], {queryParams: {category: category.id}})
 
   }
 }

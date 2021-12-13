@@ -34,6 +34,7 @@ $lg: "(min-width: 1001px)";
       margin-top: 4px;
 
       .author-name {
+        cursor: pointer;
         font-weight: bold;
         color: $color-primary;
       }

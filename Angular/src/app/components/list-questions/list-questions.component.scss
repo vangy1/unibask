@@ -4,29 +4,12 @@
   max-width: 1200px;
   margin-left: auto;
   margin-right: auto;
-  padding-top: 16px;
   padding-bottom: 32px;
-}
+  width: 90%;
 
-.card {
-  @media #{$sm} {
-    padding: 32px 16px;
-  }
 
-  @media #{$md}{
-    padding: 0px 24px;
-  }
-
-  @media #{$lg}{
-    padding: 0 48px;
-  }
-
-  @media #{$md},#{$lg} {
-    margin: 16px 24px;
-    background: white;
-    border: 1px solid rgba(0, 0, 0, 0.12);
-    display: block;
-    position: relative;
-    border-radius: 4px;
+  div {
+    margin: 16px 0;
   }
 }
+

@@ -1,4 +1,4 @@
-package sk.unibask.avatar;
+package sk.unibask.user.avatar;
 
 import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -63,7 +63,6 @@ public class AvatarService {
         }
     }
 
-    @Transactional
     public String getAvatarUrl(Account account) {
         if (account.getAvatarFilename() == null) {
             return AVATAR_API_URL + account.getAvatarSeed() + ".svg";

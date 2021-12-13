@@ -43,9 +43,9 @@ export class AuthenticationService {
     }).pipe(map((user: User) => this.user = user))
   }
 
-  public generateVerificationCode(registrationMail: string): Observable<any> {
+  public generateVerificationCode(mail: string): Observable<any> {
     return this.http.post(environment.apiUrl + '/authentication/code', {
-      'mail': registrationMail
+      'mail': mail
     }, {
       headers: new HttpHeaders({'Content-Type': 'application/json', 'ngsw-bypass': 'true'}),
       withCredentials: true,
@@ -53,6 +53,7 @@ export class AuthenticationService {
   }
 
   public checkAgainstVerificationCode(mail: string, codeInput: string): Observable<any> {
+    console.log(mail)
     let params = new HttpParams();
     params = params.append('mail', mail).append('codeInput', codeInput);
 
@@ -76,13 +77,13 @@ export class AuthenticationService {
   }
 
   completePasswordChange(loginMail: string, newPassword: string, verificationCode: string) {
-    return this.http.post(environment.apiUrl + '/authentication/password-change', {
+    return this.http.post<User>(environment.apiUrl + '/authentication/password-new', {
       'mail': loginMail,
       'password': newPassword,
       'verificationCode': verificationCode
     }, {
       headers: new HttpHeaders({'Content-Type': 'application/json', 'ngsw-bypass': 'true'}),
       withCredentials: true,
-    })
+    }).pipe(map((user: User) => this.user = user))
   }
 }

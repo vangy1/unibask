@@ -31,9 +31,9 @@ public class CategoryController {
         return categoryService.getCategory();
     }
 
-    @PostMapping("/category/favorite")
-    public void makeCategoryFavorite(@RequestBody Map<String, String> body) {
-        categoryService.makeCategoryFavorite(body.get("id"));
+    @PostMapping("/category/follow")
+    public void changeFollowStatus(@RequestBody Map<String, String> body) {
+        categoryService.changeFollowStatus(body.get("id"), Boolean.valueOf(body.get("followed")));
     }
 
     @PostMapping("/category")

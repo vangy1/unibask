@@ -1,15 +1,15 @@
-<div class="question">
+<section class="question">
   <div class="header">
-    <h1>{{question.title}}</h1>
+    <h1 class="question-title">{{question.title}}</h1>
     <h2>{{question.categoryName}}</h2>
   </div>
   <div class="divider"></div>
-  <div class="voting" *ngIf="allowVoting">
-    <button mat-icon-button class="large">
+  <div class="voting" *ngIf="showVoting">
+    <button mat-icon-button class="large" (click)="upvote()" [color]="question.myVote > 0 ? 'primary' : ''">
       <mat-icon class="large">keyboard_arrow_up</mat-icon>
     </button>
     <span class="voting-summary">{{question.reputation}}</span>
-    <button mat-icon-button class="large">
+    <button mat-icon-button class="large" (click)="downvote()" [color]="question.myVote < 0 ? 'primary' : ''">
       <mat-icon>keyboard_arrow_down</mat-icon>
     </button>
   </div>
@@ -17,11 +17,11 @@
     <quill-view class="no-padding-ql-editor" [content]="question.text"></quill-view>
   </div>
   <div class="meta-author">
-    <div class="author">
+    <div class="author" (click)="goToProfile(question.author.id)">
       <img class="avatar" [src]="question.author.avatar"/>
       <div class="name-reputation">
-        <span class="name">vangy</span>
-        <span class="reputation">130 reputácie</span>
+        <span class="name">{{question.author.username}}</span>
+        <span class="reputation">42 reputácie</span>
       </div>
     </div>
     <div class="meta">
@@ -40,8 +40,8 @@
         <!--        <button mat-stroked-button color="accent">Sledovať</button>-->
         <!--        <button mat-stroked-button color="accent">Nahlásiť</button>-->
       </div>
-      <span class="date">Pridané {{question.creationDate | date:'d. MMMM y, HH:mm:ss '  }}</span>
+      <span class="date">Pridané {{question.creationDate | date:'d. MMMM y, HH:mm:ss '}}</span>
     </div>
   </div>
-</div>
+</section>
 

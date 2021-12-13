@@ -29,9 +29,10 @@ export class CategoryService {
     })
   }
 
-  favoriteCategory(id: number) {
-    return this.http.post(environment.apiUrl + '/api/category/favorite', {
+  changeFollowStatus(id: number, status: boolean) {
+    return this.http.post(environment.apiUrl + '/api/category/follow', {
       'id': id,
+      'followed': status,
     }, {
       headers: new HttpHeaders({'Content-Type': 'application/json', 'ngsw-bypass': 'true'}),
       withCredentials: true,

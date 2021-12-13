@@ -10,10 +10,11 @@
     grid-row: 1 / span 1;
     align-self: center;
 
-    h1 {
+    .question-title {
       color: $color-primary;
       margin: 0;
       font-size: 30px;
+      word-break: break-all;
       @media #{$sm} {
         font-size: 24px;
       }
@@ -83,6 +84,8 @@
   .content {
     margin-top: 8px;
     grid-row: 3 / span 1;
+    word-break: break-all;
+    font-size: 12px;
 
     @media #{$sm} {
       grid-column: 1 / span 2;
@@ -147,6 +150,7 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
+      cursor: pointer;
 
 
       .avatar {
@@ -161,6 +165,7 @@
 
         .name {
           font-weight: bold;
+          color: $color-primary;
         }
       }
     }

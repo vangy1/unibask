@@ -1,6 +1,7 @@
 package sk.unibask.data.model;
 
 import javax.persistence.*;
+import java.util.Date;
 import java.util.Set;
 
 @Entity(name = "accounts")
@@ -8,13 +9,14 @@ public class Account {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+    private Date creationDate;
     private String email;
     private String username;
     private String password;
     private String avatarSeed;
     private String avatarFilename;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn
     private StudyProgram studyProgram;
 
@@ -25,16 +27,16 @@ public class Account {
     private Set<Vote> votes;
 
     @OneToMany(mappedBy = "account")
-    private Set<Follow> follows;
-
-    @OneToMany(mappedBy = "account")
     private Set<Notification> notifications;
 
     @ManyToMany
     private Set<Authority> authorities;
 
+    @ManyToMany(mappedBy = "viewers")
+    private Set<Question> viewedQuestions;
+
     @ManyToMany
-    private Set<Category> favoriteCategories;
+    private Set<Category> followingCategories;
 
     public Long getId() {
         return id;
@@ -116,20 +118,12 @@ public class Account {
         this.votes = votes;
     }
 
-    public Set<Category> getFavoriteCategories() {
-        return favoriteCategories;
+    public Set<Category> getFollowingCategories() {
+        return followingCategories;
     }
 
-    public void setFavoriteCategories(Set<Category> favoriteCategories) {
-        this.favoriteCategories = favoriteCategories;
-    }
-
-    public Set<Follow> getFollows() {
-        return follows;
-    }
-
-    public void setFollows(Set<Follow> follows) {
-        this.follows = follows;
+    public void setFollowingCategories(Set<Category> followingCategories) {
+        this.followingCategories = followingCategories;
     }
 
     public Set<Notification> getNotifications() {
@@ -138,5 +132,13 @@ public class Account {
 
     public void setNotifications(Set<Notification> notifications) {
         this.notifications = notifications;
+    }
+
+    public Date getCreationDate() {
+        return creationDate;
+    }
+
+    public void setCreationDate(Date creationDate) {
+        this.creationDate = creationDate;
     }
 }

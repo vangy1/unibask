@@ -5,38 +5,20 @@
   margin-left: auto;
   margin-right: auto;
   padding-bottom: 32px;
+  width: 90%;
 }
+
+.card {
+  margin: 16px 0;
+}
+
 
 .divider {
   margin-top: 36px;
 }
 
-.card {
-  @media #{$sm} {
-    padding: 32px 16px;
-  }
-
-  @media #{$md}{
-    padding: 32px 24px;
-  }
-
-  @media #{$lg}{
-    padding: 32px 48px;
-  }
-
-  @media #{$md},#{$lg} {
-    margin: 32px 24px;
-    background: white;
-    border: 1px solid rgba(0, 0, 0, 0.12);
-    display: block;
-    position: relative;
-    border-radius: 4px;
-  }
-}
-
 .solves-question {
   background-color: rgb(144, 238, 144, 0.1);
-
 }
 
 .entry-divider {

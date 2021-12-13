@@ -15,11 +15,16 @@ public class QuestionController {
 
     // will need limit for pagination
     @GetMapping("/questions")
-    public List<QuestionDto> getQuestions(@RequestParam(value = "categoryId", required = false) Long categoryId) {
-        if (categoryId != null) {
-            return questionService.getQuestions(categoryId);
+    public List<QuestionDto> getQuestions(@RequestParam(value = "followed", required = false) boolean followed,
+                                          @RequestParam(value = "category", required = false) Long category,
+                                          @RequestParam(value = "page", required = false, defaultValue = "0") int page,
+                                          @RequestParam(value = "limit", required = false, defaultValue = "50") int limit) {
+        if (followed) {
+            return questionService.getFollowedQuestions(page, limit);
+        } else if (category != null) {
+            return questionService.getQuestionsByCategory(category, page, limit);
         } else {
-            return questionService.getQuestions();
+            return questionService.getQuestions(page, limit);
         }
     }
 

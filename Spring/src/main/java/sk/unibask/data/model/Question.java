@@ -2,15 +2,15 @@ package sk.unibask.data.model;
 
 
 import javax.persistence.*;
-import java.util.List;
+import java.util.Date;
+import java.util.Set;
 
 @Entity
 public class Question extends Entry {
     @Column(columnDefinition = "varchar(1000)")
     private String title;
     private boolean isAnonymous;
-    @Column(columnDefinition = "varchar(1000)")
-    private Long views;
+    private Date lastActivity;
 
     @ManyToOne
     private Category category;
@@ -18,8 +18,12 @@ public class Question extends Entry {
     @OneToOne
     private Answer solvedAnswer;
 
+    @ManyToMany
+    private Set<Account> viewers;
+
     @OneToMany(mappedBy = "question")
-    private List<Answer> answers;
+    private Set<Answer> answers;
+
 
     public String getTitle() {
         return title;
@@ -53,19 +57,27 @@ public class Question extends Entry {
         this.solvedAnswer = solvedAnswer;
     }
 
-    public List<Answer> getAnswers() {
+    public Set<Answer> getAnswers() {
         return answers;
     }
 
-    public Long getViews() {
-        return views;
-    }
-
-    public void setViews(Long views) {
-        this.views = views;
-    }
-
-    public void setAnswers(List<Answer> answers) {
+    public void setAnswers(Set<Answer> answers) {
         this.answers = answers;
+    }
+
+    public Set<Account> getViewers() {
+        return viewers;
+    }
+
+    public void setViewers(Set<Account> viewers) {
+        this.viewers = viewers;
+    }
+
+    public Date getLastActivity() {
+        return lastActivity;
+    }
+
+    public void setLastActivity(Date lastActivity) {
+        this.lastActivity = lastActivity;
     }
 }

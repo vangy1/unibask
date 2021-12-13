@@ -1,23 +1,29 @@
 <mat-sidenav-container class="sidenav-container">
   <mat-sidenav class="mobile-navigation" fixedInViewport="false">
-    <mat-toolbar color="primary">Menu</mat-toolbar>
+    <mat-toolbar color="primary">Navigácia</mat-toolbar>
     <mat-nav-list>
-      <a mat-list-item [class.selected-navbar-item]="this.router.url.startsWith('/upload')"
-         (click)="router.navigate(['/list'])">
-        {{authenticationService.user?.mail}}
-      </a>
-      <a mat-list-item [class.selected-navbar-item]="this.router.url.startsWith('/upload')"
-         (click)="router.navigate(['/categories'])">
+      <a mat-list-item [class.selected-navbar-item]="this.router.url.startsWith('/ask')"
+         (click)="goToRoute('/ask', null)">
         Opýtaj sa
       </a>
-      <a mat-list-item [class.selected-navbar-item]="this.router.url.startsWith('/upload')">
+      <a mat-list-item [class.selected-navbar-item]="this.router.url.endsWith('/list')"
+         (click)="goToRoute('/list',null)">
         Otázky
       </a>
-      <a mat-list-item [class.selected-navbar-item]="this.router.url.startsWith('/upload')">
+      <a mat-list-item [class.selected-navbar-item]="this.router.url.startsWith('/list?followed=true')"
+         (click)="goToRoute('/list', {followed: true})">
+        Sledované
+      </a>
+      <a mat-list-item [class.selected-navbar-item]="this.router.url.startsWith('/categories')"
+         (click)="goToRoute('/categories', null)">
         Kategórie
       </a>
-      <a mat-list-item [class.selected-navbar-item]="this.router.url.startsWith('/upload')">
-        Rebríček
+      <a mat-list-item [class.selected-navbar-item]="this.router.url.startsWith('/profile')"
+         (click)="goToRoute('/profile', {id: authenticationService.user.id})">
+        Profil
+      </a>
+      <a mat-list-item (click)="logout()">
+        Odhlásiť
       </a>
     </mat-nav-list>
   </mat-sidenav>
@@ -28,34 +34,38 @@
               (click)="drawer.toggle()">
         <img src="/assets/menu.svg" alt="Menu"/>
       </button>
-      <span class="unibask-title" (click)="goToRoute('')">
+      <span class="unibask-title" (click)="goToRoute('', null)">
         <span>UnibASK</span>
       </span>
       <div></div>
       <div class="desktop-navigation">
         <button class="button-text" mat-button [class.selected-navbar-item]="this.router.url.startsWith('/profile')"
-                (click)="router.navigate(['/profile'])">
-          {{mail}}
+                (click)="goToRoute('/profile', {id: authenticationService.user.id})">
+          Profil
         </button>
         <button class="button-text" mat-button [class.selected-navbar-item]="this.router.url.startsWith('/categories')"
-                (click)="router.navigate(['/categories'])">
+                (click)="goToRoute('/categories', null)">
           Kategórie
         </button>
         <button class="button-text" mat-button
-                [class.selected-navbar-item]="this.router.url.startsWith('/list?favorites=true')">
+                [class.selected-navbar-item]="this.router.url.startsWith('/list?followed=true')"
+                (click)="goToRoute('/list', {followed: true})">
           Sledované
         </button>
-        <button class="button-text" mat-button [class.selected-navbar-item]="this.router.url.startsWith('/list')"
-                (click)="router.navigate(['/list'])">
+        <button class="button-text" mat-button [class.selected-navbar-item]="this.router.url.endsWith('/list')"
+                (click)="goToRoute('/list',null)">
           Otázky
         </button>
-        <button mat-icon-button>
-          <mat-icon>notifications</mat-icon>
-        </button>
+        <!--        <button mat-icon-button>-->
+        <!--          <mat-icon>notifications</mat-icon>-->
+        <!--        </button>-->
         <button class="button-text" mat-flat-button color="accent" *ngIf="!this.router.url.startsWith('/ask')"
-                style="color: white"
-                (click)="router.navigate(['/ask'])">
+                style="color: white; margin-right: 12px"
+                (click)="goToRoute('/ask', null)">
           Opýtaj sa
+        </button>
+        <button mat-icon-button (click)="logout()">
+          <mat-icon>logout</mat-icon>
         </button>
       </div>
     </mat-toolbar>

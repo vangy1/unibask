@@ -4,6 +4,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import sk.unibask.data.repository.AccountRepository;
+import sk.unibask.user.UserDto;
+import sk.unibask.user.UserService;
 
 import java.util.Map;
 
@@ -42,9 +44,14 @@ public class AuthenticationController {
         return userService.getUser(authenticationService.register(body.get("mail"), body.get("password"), body.get("username"), body.get("verificationCode")));
     }
 
+    @PostMapping("/password-new")
+    public UserDto passwordNew(@RequestBody Map<String, String> body) {
+        return userService.getUser(authenticationService.passwordNew(body.get("mail"), body.get("password"), body.get("verificationCode")));
+    }
+
     @PostMapping("/password-change")
     public void passwordChange(@RequestBody Map<String, String> body) {
-        authenticationService.passwordChange(body.get("mail"), body.get("password"), body.get("verificationCode"));
+        authenticationService.passwordChange(body.get("oldPassword"), body.get("newPassword"));
     }
 
     @GetMapping("/code")
@@ -54,7 +61,7 @@ public class AuthenticationController {
 
 
     @PostMapping("/code")
-    public String generateCode(@RequestBody Map<String, String> body) {
-        return verificationCodeService.createVerificationCode(body.get("mail"));
+    public void generateCode(@RequestBody Map<String, String> body) {
+        verificationCodeService.createVerificationCode(body.get("mail"));
     }
 }

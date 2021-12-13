@@ -1,11 +1,14 @@
+<h1 class="section-title">Kategórie otázok</h1>
 <div class="question-list">
   <div class="card">
     <mat-tree [dataSource]="dataSource" [treeControl]="treeControl" class="example-tree">
       <mat-tree-node *matTreeNodeDef="let node" matTreeNodeToggle>
-        <button mat-button color="primary" (click)="goToCategory(node)">{{node.title}} [{{node.questionCount}}]</button>
-        <button mat-icon-button>
-          <mat-icon color="accent" (click)="favoriteCategory(node.id)">
-            {{node.isFavorite ? 'star' : 'star_outlined'}}
+        <button mat-button color="primary" (click)="goToCategory(node)"
+                class="go-to-category-button">{{node.title}} [{{node.questionCount}}]
+        </button>
+        <button mat-icon-button (click)="changeFollowStatus(node)">
+          <mat-icon color="accent">
+            {{node.followed ? 'star' : 'star_outlined'}}
           </mat-icon>
         </button>
       </mat-tree-node>
@@ -20,7 +23,6 @@
             </button>
             <span style="font-weight: bold">{{node.title}} </span>
           </div>
-
         </div>
         <div [class.example-tree-invisible]="!treeControl.isExpanded(node)"
              role="group">

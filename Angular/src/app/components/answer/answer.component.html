@@ -1,10 +1,10 @@
 <div class="question">
   <div class="voting">
-    <button mat-icon-button class="large upvote-button">
+    <button mat-icon-button class="large" (click)="upvote()" [color]="answer.myVote > 0 ? 'primary' : ''">
       <mat-icon class="large">keyboard_arrow_up</mat-icon>
     </button>
     <span class="voting-summary">{{answer.reputation}}</span>
-    <button mat-icon-button class="large downvote-button">
+    <button mat-icon-button class="large" (click)="downvote()" [color]="answer.myVote < 0 ? 'primary' : ''">
       <mat-icon>keyboard_arrow_down</mat-icon>
     </button>
   </div>
@@ -12,11 +12,11 @@
     <quill-view class="no-padding-ql-editor" [content]="answer.text"></quill-view>
   </div>
   <div class="meta-author">
-    <div class="author">
+    <div class="author" (click)="goToProfile(answer.author.id)">
       <img class="avatar" [src]="answer.author.avatar"/>
       <div class="name-reputation">
-        <span class="name">vangy</span>
-        <span class="reputation">130 reputácie</span>
+        <span class="name">{{answer.author.username}}</span>
+        <span class="reputation">42 reputácie</span>
       </div>
     </div>
     <div class="meta">

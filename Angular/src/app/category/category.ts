@@ -4,6 +4,6 @@ export interface Category {
   childrenCategories: Category[];
   questionCount: number;
   path: string[]
-  isFavorite: boolean;
+  followed: boolean;
 }
 

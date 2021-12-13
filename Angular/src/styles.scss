@@ -2,6 +2,7 @@
 // For more information: https://material.angular.io/guide/theming
 @use '~@angular/material' as mat;
 // Plus imports for other components in your app.
+@import "variables";
 
 $mat-primary: (
   50 : #f3e6e6,
@@ -152,8 +153,23 @@ body {
   padding-bottom: 0 !important;
 }
 
-.ql-editor {
-  font-size: 20px !important;
+@media #{$sm} {
+  .ql-editor {
+    font-size: 16px !important;
+  }
+
+}
+
+@media #{$md} {
+  .ql-editor {
+    font-size: 16px !important;
+  }
+}
+
+@media #{$lg} {
+  .ql-editor {
+    font-size: 20px !important;
+  }
 }
 
 .no-padding-ql-editor .ql-editor {
@@ -170,3 +186,47 @@ button {
   background-color: rgba(0, 0, 0, 0.12);
 }
 
+h1 {
+  font-size: 36px;
+  margin: 0;
+}
+
+h2 {
+  margin: 0;
+}
+
+.section-title {
+  margin-top: 24px;
+  margin-bottom: 24px;
+  text-align: center;
+}
+
+.card {
+  background: white;
+  border: 1px solid rgba(0, 0, 0, 0.12);
+  display: block;
+  position: relative;
+  border-radius: 4px;
+
+  @media #{$sm} {
+    padding: 16px;
+  }
+
+  @media #{$md}{
+    padding: 16px 24px;
+  }
+
+  @media #{$lg}{
+    padding: 24px 32px;
+  }
+
+}
+
+.ql-fix-height .ql-container {
+  @media (max-width: 538px) {
+    height: calc(100% - 66px); /* 100% - height of 'ql-toolbar' */
+  }
+  @media (min-width: 539px) {
+    height: calc(100% - 42px); /* 100% - height of 'ql-toolbar' */
+  }
+}

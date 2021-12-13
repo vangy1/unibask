@@ -1,21 +1,22 @@
-<div class="question" (click)="goToQuestion()">
+<div class="question card" (click)="goToQuestion()">
   <div class="boxes">
     <div class="box">
-      <span class="top">10</span>
-      <span class="bottom">hlasov</span>
+      <span class="top">{{question.reputation}}</span>
+      <span class="bottom">hodnotenie</span>
     </div>
     <div class="box">
-      <span class="top">4</span>
+      <span class="top">{{question.answers.length}}</span>
       <span class="bottom">odpovede</span>
     </div>
     <div class="box">
-      <span class="top">400</span>
+      <span class="top">{{question.views}}</span>
       <span class="bottom">zobrazení</span>
     </div>
   </div>
   <h2 class="title">{{question.title}}</h2>
   <h3 class="category">{{question.categoryName}}</h3>
-  <span class="activity">{{question.lastActivity}}</span>
+  <p class="activity" *ngIf="question.lastActivity">
+    <span>Posledná aktivita</span><br>{{question.lastActivity | date:'d. MMM y, HH:mm:ss '  }}</p>
   <button *ngIf="allowPreview" class="expand-button" mat-stroked-button color="primary">
     <mat-icon>expand_more</mat-icon>
     Náhľad

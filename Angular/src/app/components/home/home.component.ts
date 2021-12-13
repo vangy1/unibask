@@ -18,7 +18,7 @@ export class HomeComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.questionService.getQuestions(undefined).subscribe(next => this.recentQuestions = next.slice(0, this.RECENT_QUESTIONS_TO_DISPLAY))
+    this.questionService.getQuestions(0, this.RECENT_QUESTIONS_TO_DISPLAY).subscribe(next => this.recentQuestions = next.slice(0, this.RECENT_QUESTIONS_TO_DISPLAY))
   }
 
   signout() {
@@ -27,6 +27,13 @@ export class HomeComponent implements OnInit {
 
   askQuestion() {
     this.router.navigate(['/ask'])
+  }
 
+  goToAllQuestion() {
+    this.router.navigate(['/list'])
+  }
+
+  goToCategories() {
+    this.router.navigate(['/categories'])
   }
 }

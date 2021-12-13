@@ -11,7 +11,6 @@ public class Answer extends Entry {
     private Question question;
     private boolean isAnonymous;
 
-
     public Question getQuestion() {
         return question;
     }

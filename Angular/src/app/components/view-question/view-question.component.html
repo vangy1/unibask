@@ -1,13 +1,11 @@
 <div class="question-view">
   <section>
     <div class="card">
-      <app-question [question]="question" [allowVoting]="true"></app-question>
+      <app-question [question]="question" [showVoting]="true"></app-question>
       <div class="divider"></div>
       <app-comment-section [entry]="question"></app-comment-section>
     </div>
   </section>
-
-  <div class="entry-divider"></div>
 
   <section *ngFor="let answer of question.answers">
     <div class="card" [ngClass]="{'solves-question': answer.solvesQuestion}">
@@ -15,7 +13,6 @@
       <div class="divider"></div>
       <app-comment-section [entry]="answer"></app-comment-section>
     </div>
-    <div class="entry-divider"></div>
   </section>
 
   <section>

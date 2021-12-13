@@ -7,4 +7,6 @@ import java.util.Optional;
 
 public interface EntryRepository extends JpaRepository<Entry, Integer> {
     Optional<Entry> findById(long id);
+
+
 }

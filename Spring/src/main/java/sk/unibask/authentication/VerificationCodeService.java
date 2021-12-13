@@ -34,11 +34,10 @@ public class VerificationCodeService {
 
     }
 
-    public String createVerificationCode(String mail) {
-        if (!mail.endsWith("@uniba.sk")) return null;
+    public void createVerificationCode(String mail) {
+        if (!mail.endsWith("uniba.sk")) return;
 
         String generatedCode = generateVerificationCode();
-
         var verificationCode = new VerificationCode();
         verificationCode.setCode(generatedCode);
         verificationCode.setEmail(mail);
@@ -46,8 +45,6 @@ public class VerificationCodeService {
 
         verificationCodeRepository.save(verificationCode);
         mailService.sendVerificationCode(mail, generatedCode);
-
-        return generatedCode;
     }
 
     public boolean isVerificationCodeValid(String mail, String codeInput) {

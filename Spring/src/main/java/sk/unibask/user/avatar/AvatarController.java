@@ -1,4 +1,4 @@
-package sk.unibask.avatar;
+package sk.unibask.user.avatar;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -9,7 +9,7 @@ import java.io.IOException;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/avatar")
+@RequestMapping("/api/avatar")
 
 public class AvatarController {
 

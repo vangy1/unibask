@@ -8,8 +8,14 @@ import sk.unibask.data.model.Entry;
 import sk.unibask.data.model.Vote;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface VoteRepository extends JpaRepository<Vote, Integer> {
+    Optional<Vote> findByEntryId(Long entryId);
+
+    @Query("SELECT v FROM Vote v WHERE v.account.id = :accountId and v.entry.id = :entryId")
+    Optional<Vote> findByAccountAndEntry(@Param("accountId") Long accountId, @Param("entryId") Long entryId);
+
     @Query("SELECT v FROM Vote v WHERE v.entry = :entry and v.value > 0")
     List<Vote> findAllUpvotes(@Param("entry") Entry entry);
 

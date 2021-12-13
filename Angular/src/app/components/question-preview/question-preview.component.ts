@@ -22,5 +22,4 @@ export class QuestionPreviewComponent implements OnInit {
   goToQuestion() {
     this.router.navigate(['/question'], {queryParams: {id: this.question.id}})
   }
-
 }

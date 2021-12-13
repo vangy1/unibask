@@ -1,18 +1,18 @@
 package sk.unibask.data.model;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.OneToOne;
+import javax.persistence.*;
+import java.util.Set;
 
 @Entity
 public class StudyProgram {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String shortName;
     private String longName;
 
-    @OneToOne(mappedBy = "studyProgram")
-    private Account account;
+    @OneToMany(mappedBy = "studyProgram")
+    private Set<Account> accounts;
 
     public Long getId() {
         return id;
@@ -38,11 +38,11 @@ public class StudyProgram {
         this.longName = longName;
     }
 
-    public Account getAccount() {
-        return account;
+    public Set<Account> getAccounts() {
+        return accounts;
     }
 
-    public void setAccount(Account account) {
-        this.account = account;
+    public void setAccounts(Set<Account> accounts) {
+        this.accounts = accounts;
     }
 }

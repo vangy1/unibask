@@ -24,11 +24,14 @@ export class AuthenticationPageComponent {
   verificationCode: string = "";
 
 
+  isRegisterButtonDisabled = false
+
+
   constructor(private authenticationService: AuthenticationService, private snackBar: MatSnackBar, private router: Router) {
   }
 
   login() {
-    this.authenticationService.login(this.getLoginMail(), this.loginPassword).subscribe(() => {
+    this.authenticationService.login(this.getFormattedMail(this.loginMail), this.loginPassword).subscribe(() => {
       this.authenticationService.checkIfSignedInRequest = this.authenticationService.createCheckIfSignedInRequest()
       this.router.navigate(['/']);
     }, error => {
@@ -42,54 +45,54 @@ export class AuthenticationPageComponent {
 
   continueToPasswordChangeVerification() {
     this.state = AuthenticationState.VERIFY_PASSWORD_CHANGE
-    this.authenticationService.generateVerificationCode(this.getLoginMail()).subscribe()
+    this.authenticationService.generateVerificationCode(this.getFormattedMail(this.loginMail)).subscribe()
   }
 
   continueToPasswordChangeFinish() {
-    this.authenticationService.checkAgainstVerificationCode(this.getLoginMail(), this.verificationCode).subscribe((response) => {
+    this.authenticationService.checkAgainstVerificationCode(this.getFormattedMail(this.loginMail), this.verificationCode).subscribe((response) => {
       if (response) {
         this.state = AuthenticationState.FINISH_PASSWORD_CHANGE
       } else {
-        this.snackBar.open("Zadaní overovací kód nie je totožný kódu poslanému na mail " + this.getLoginMail(), undefined, {duration: 3000});
+        this.snackBar.open("Zadaní overovací kód nie je totožný kódu poslanému na mail " + this.getFormattedMail(this.loginMail), undefined, {duration: 3000});
       }
     })
   }
 
   continueToRegisterVerification() {
     this.state = AuthenticationState.VERIFY_REGISTRATION
-    this.authenticationService.generateVerificationCode(this.getRegisterMail()).subscribe()
+    this.authenticationService.generateVerificationCode(this.getFormattedMail(this.registerMail)).subscribe()
   }
 
   continueToRegistrationFinish() {
-    this.authenticationService.checkAgainstVerificationCode(this.getRegisterMail(), this.verificationCode).subscribe((response) => {
+    this.authenticationService.checkAgainstVerificationCode(this.getFormattedMail(this.registerMail), this.verificationCode).subscribe((response) => {
       if (response) {
         this.state = AuthenticationState.FINISH_REGISTRATION
       } else {
-        this.snackBar.open("Zadaní overovací kód nie je totožný kódu poslanému na mail " + this.getRegisterMail(), undefined, {duration: 3000});
+        this.snackBar.open("Zadaní overovací kód nie je totožný kódu poslanému na mail " + this.getFormattedMail(this.registerMail), undefined, {duration: 3000});
       }
     })
   }
 
   register() {
-    this.authenticationService.register(this.getRegisterMail(), this.registerPassword, this.username, this.verificationCode).subscribe(() => {
+    this.isRegisterButtonDisabled = true;
+    this.authenticationService.register(this.getFormattedMail(this.registerMail), this.registerPassword, this.username, this.verificationCode).subscribe(() => {
       this.router.navigate(['/']);
     })
   }
 
   completePasswordChange() {
-    this.authenticationService.completePasswordChange(this.getLoginMail(), this.newPassword, this.verificationCode).subscribe();
+    this.authenticationService.completePasswordChange(this.getFormattedMail(this.loginMail), this.newPassword, this.verificationCode).subscribe(() => {
+      this.router.navigate(['/']);
+    })
   }
 
-  getLoginMail() {
-    if (this.loginMail.endsWith("@uniba.sk")) return this.registerMail
-    return this.loginMail + "@uniba.sk";
+  getFormattedMail(mail: string) {
+    if (mail.indexOf('@') < 0) mail += '@';
+    if (mail.endsWith("uniba.sk")) {
+      return mail
+    }
+    return mail + "uniba.sk";
   }
-
-  getRegisterMail() {
-    if (this.registerMail.endsWith("@uniba.sk")) return this.registerMail
-    return this.registerMail + "@uniba.sk";
-  }
-
 
 }
 

@@ -4,30 +4,38 @@
   max-width: 1200px;
   margin-left: auto;
   margin-right: auto;
-  padding-top: 16px;
   padding-bottom: 32px;
+  width: 90%;
 }
 
-.card {
+.go-to-category-button {
+  white-space: pre-wrap !important;
+  overflow-x: hidden !important;
+
   @media #{$sm} {
-    padding: 32px 16px;
+    text-align: left;
+    font-size: 14px;
+    width: 100%;
   }
-
-  @media #{$md}{
-    padding: 0px 24px;
+  @media #{$md} {
+    font-size: 16px;
   }
-
-  @media #{$lg}{
-    padding: 0 48px;
+  @media #{$lg} {
+    font-size: 19px;
   }
+}
 
-  @media #{$md},#{$lg} {
-    margin: 16px 24px;
-    background: white;
-    border: 1px solid rgba(0, 0, 0, 0.12);
-    display: block;
-    position: relative;
-    border-radius: 4px;
+.mat-tree-node {
+  padding: 6px 0;
+
+  @media #{$sm} {
+    font-size: 14px;
+  }
+  @media #{$md} {
+    font-size: 16px;
+  }
+  @media #{$lg} {
+    font-size: 19px;
   }
 }
 
@@ -55,10 +63,17 @@ button {
 }
 
 .example-tree .mat-nested-tree-node div[role=group] {
-  padding-left: 40px;
+
+  @media #{$sm} {
+    padding-left: 10px;
+  }
+
+  @media #{$md},#{$lg} {
+    padding-left: 40px;
+  }
+
 }
 
 .example-tree div[role=group] > .mat-tree-node {
-  //padding-left: 40px;
 }
 
