@@ -1,0 +1,158 @@
+@import "src/variables";
+
+$sm: "(max-width: 519px)";
+$md: "(min-width: 520px) and (max-width: 899px)";
+$lg: "(min-width: 900px)";
+
+
+.public-info {
+  display: flex;
+  align-items: center;
+
+  .avatar {
+    height: 128px;
+    width: 128px;
+    border-radius: 4px;
+  }
+
+  .user-info {
+    margin-left: 32px;
+
+    mat-icon {
+      margin-right: 8px;
+    }
+
+    .username {
+      font-size: 32px;
+    }
+
+    .study-program {
+      font-size: 24px;
+      color: #000000AA;
+      margin-top: 16px;
+    }
+
+    .join-date {
+      color: #000000AA;
+      margin-top: 4px;
+    }
+  }
+
+  .reputation {
+    margin-left: auto;
+    display: flex;
+    flex-direction: column;
+
+    span {
+      text-align: center;
+      font-weight: bold;
+    }
+
+    .reputation-value {
+      font-weight: bold;
+      font-size: 42px;
+    }
+  }
+}
+
+.change-info {
+  display: flex;
+  margin-top: 16px;
+
+  .card {
+    margin: 8px 0;
+  }
+
+  @media #{$sm},#{$md} {
+    flex-direction: column;
+  }
+
+  @media #{$lg}{
+
+    .change-password {
+      margin-left: 16px;
+      margin-right: 16px;
+    }
+
+  }
+
+  .subsection-title {
+    text-align: center;
+    margin-bottom: 16px;
+  }
+
+  .change-user-info {
+    .study-program-input {
+      width: 100%;
+    }
+
+    .notifications-input {
+      margin-top: 12px;
+      width: 100%;
+    }
+
+    button {
+      margin-top: 24px;
+      width: 100%;
+      color: white;
+    }
+
+  }
+
+  .change-password {
+    .old-password-input {
+      width: 100%;
+    }
+
+    .new-password-input {
+      margin-top: 12px;
+      width: 100%;
+    }
+
+    button {
+      margin-top: 24px;
+      width: 100%;
+      color: white;
+    }
+  }
+
+  .change-avatar {
+    display: flex;
+    flex-direction: column;
+
+
+    .change-avatar-container {
+      display: flex;
+      margin-top: auto;
+      margin-bottom: auto;
+      padding-bottom: 18px;
+
+      img {
+        height: 84px;
+        width: 84px;
+      }
+
+      .change-avatar-buttons {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        width: 100%;
+        margin-left: 16px;
+      }
+    }
+
+    .save-avatar-button {
+      color: white;
+    }
+  }
+}
+
+.section-title {
+  margin-top: 32px;
+}
+
+.entry {
+  margin: 8px 0;
+}
+
+

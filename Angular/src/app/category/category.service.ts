@@ -11,10 +11,6 @@ export class CategoryService {
   constructor(private http: HttpClient) {
   }
 
-  getAllCategories() {
-
-  }
-
   getLeafCategories() {
     return this.http.get<Category[]>(environment.apiUrl + '/categories?leaf=true', {
       headers: new HttpHeaders({'Content-Type': 'application/json', 'ngsw-bypass': 'true'}),

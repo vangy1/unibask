@@ -1,4 +1,4 @@
-import {StudyProgram} from "../components/profile/study-program";
+import {StudyProgram} from "../profile/study-program";
 
 export interface User {
   id: number

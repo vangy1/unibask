@@ -8,69 +8,75 @@ import {QuillModule} from "ngx-quill";
 import {MatFormFieldModule} from "@angular/material/form-field";
 import {MatInputModule} from "@angular/material/input";
 import {AuthenticationPageComponent} from "./authentication/page/authentication-page.component";
-import {QuestionPreviewComponent} from './components/question-preview/question-preview.component';
+import {QuestionPreviewComponent} from './question-list/question-preview/question-preview.component';
 import {MatIconModule} from "@angular/material/icon";
 import {AppComponent} from './app.component';
 import {MatSidenavModule} from "@angular/material/sidenav";
-import {NavigationComponent} from './components/navigation/navigation.component';
+import {NavigationComponent} from './navigation/navigation.component';
 import {MatListModule} from "@angular/material/list";
 import {MatToolbarModule} from "@angular/material/toolbar";
-import {AskQuestionComponent} from './components/ask-question/ask-question.component';
+import {QuestionAskComponent} from './question-ask/question-ask.component';
 import {MatSelectModule} from "@angular/material/select";
 import {MatOptionModule} from "@angular/material/core";
 import {MatCheckboxModule} from "@angular/material/checkbox";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {HttpClient, HttpClientModule} from "@angular/common/http";
 import {MatSnackBarModule} from "@angular/material/snack-bar";
-import {ViewQuestionComponent} from './components/view-question/view-question.component';
-import {QuestionComponent} from './components/question/question.component';
+import {ViewQuestionComponent} from './question/view-question/view-question.component';
+import {QuestionComponent} from './question/question/question.component';
 import {MatCardModule} from "@angular/material/card";
 import localeSk from '@angular/common/locales/sk';
 import {registerLocaleData} from "@angular/common";
-import {CommentSectionComponent} from './components/comment-section/comment-section.component';
-import {AnswerComponent} from './components/answer/answer.component';
-import {AnswerQuestionComponent} from './components/answer-question/answer-question.component';
-import {ListQuestionsComponent} from './components/list-questions/list-questions.component';
-import {CategoryComponent} from './components/category/category.component';
+import {CommentSectionComponent} from './question/comment/comment-section/comment-section.component';
+import {AnswerComponent} from './question/answer/answer.component';
+import {AnswerQuestionComponent} from './question/answer-question/answer-question.component';
+import {QuestionListComponent} from './question-list/question-list.component';
+import {CategoryComponent} from './category/category.component';
 import {MatTreeModule} from "@angular/material/tree";
 import {AuthenticationService} from "./authentication/authentication.service";
 import {NgxMatSelectSearchModule} from "ngx-mat-select-search";
-import {ProfileComponent} from './components/profile/profile.component';
+import {ProfileComponent} from './profile/profile.component';
 import {MatPaginatorModule} from "@angular/material/paginator";
 import {InfiniteScrollModule} from "ngx-infinite-scroll";
-import {EntryPreviewComponent} from './components/profile/entry-preview/entry-preview.component';
-import {ReportDialogComponent} from './components/report-dialog/report-dialog.component';
+import {EntryPreviewComponent} from './profile/entry-preview/entry-preview.component';
+import {ReportDialogComponent} from './question/report-dialog/report-dialog.component';
 import {MatDialogModule} from "@angular/material/dialog";
-import {LeaderboardComponent} from './components/leaderboard/leaderboard.component';
-import {FeedbackComponent} from './components/feedback/feedback.component';
+import {LeaderboardComponent} from './leaderboard/leaderboard.component';
+import {FeedbackComponent} from './feedback/feedback.component';
 import {MatMenuModule} from "@angular/material/menu";
 import {NotificationComponent} from './notification/notification.component';
-import {EditEntryComponent} from './components/edit-entry/edit-entry.component';
+import {EditEntryComponent} from './question/edit-entry/edit-entry.component';
 import {MatTooltipModule} from "@angular/material/tooltip";
 
 registerLocaleData(localeSk);
 
 @NgModule({
   declarations: [
-    AuthenticationPageComponent,
-    QuestionPreviewComponent,
     AppComponent,
+
+    AuthenticationPageComponent,
     NavigationComponent,
-    AskQuestionComponent,
+
+
+    QuestionAskComponent,
     ViewQuestionComponent,
     QuestionComponent,
     CommentSectionComponent,
     AnswerComponent,
     AnswerQuestionComponent,
-    ListQuestionsComponent,
+    QuestionListComponent,
+    EditEntryComponent,
+    EntryPreviewComponent,
+    QuestionPreviewComponent,
+
+
     CategoryComponent,
     ProfileComponent,
-    EntryPreviewComponent,
     ReportDialogComponent,
     LeaderboardComponent,
     FeedbackComponent,
     NotificationComponent,
-    EditEntryComponent],
+  ],
   imports: [
     BrowserModule,
     HttpClientModule,
