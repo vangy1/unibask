@@ -30,22 +30,6 @@ public class CategoryService {
         this.accountRepository = accountRepository;
     }
 
-    @Transactional
-    public Category createNewCategory(String parentCategoryId, String title) {
-        var parentCategory = categoryRepository.findById(Long.valueOf(parentCategoryId)).orElseThrow();
-
-        var newCategory = new Category();
-        newCategory.setTitle(title);
-        categoryRepository.save(newCategory);
-
-        List<Category> childrenCategoriesOfParent = parentCategory.getChildrenCategories();
-        childrenCategoriesOfParent.add(newCategory);
-        parentCategory.setChildrenCategories(childrenCategoriesOfParent);
-        categoryRepository.save(parentCategory);
-
-        return newCategory;
-    }
-
     public void changeFollowStatus(String categoryId, boolean followed) {
         if (followed) {
             categoryService.followCategory(categoryId);
@@ -72,6 +56,7 @@ public class CategoryService {
 
     @Transactional
     public List<CategoryDto> getCategories() {
+        authenticationService.getLoggedAccount();
         List<CategoryDto> rootCategoryDtos = new ArrayList<>();
         var account = authenticationService.getLoggedAccount();
         for (Category rootCategory : categoryRepository.findRoots()) {
@@ -82,7 +67,6 @@ public class CategoryService {
 
         for (CategoryDto rootCategoryDto : rootCategoryDtos) {
             recountQuestions(rootCategoryDto);
-//            setFavorites(rootCategoryDto);
             setPaths(rootCategoryDto, new ArrayList<>());
         }
 
@@ -90,9 +74,10 @@ public class CategoryService {
     }
 
 
+    @Transactional
     public List<CategoryDto> getLeafCategories() {
+        authenticationService.getLoggedAccount();
         List<CategoryDto> categories = categoryService.getCategories();
-
         List<CategoryDto> leafCategories = new ArrayList<>();
         for (CategoryDto category : categories) {
             filterLeafCategories(category, leafCategories);
@@ -139,12 +124,6 @@ public class CategoryService {
                                 .reduce(0L, Long::sum));
     }
 
-//    private void setFavorites(CategoryDto root) {
-//        if (root.getChildrenCategories() == null) return;
-//        root.getChildrenCategories().forEach(this::setFavorites);
-//        root.setFavorite(root.getChildrenCategories().stream().allMatch(CategoryDto::isFavorite));
-//    }
-
     private void setPaths(CategoryDto root, List<String> path) {
         root.getPath().addAll(path);
 
@@ -156,35 +135,9 @@ public class CategoryService {
         }
     }
 
-//    @Transactional
-//    public Date getLastActivity(Category category) {
-//        Date lastActivity = null;
-////        for (Entry entry : categoryRepository.findAllEntries(category)) {
-//        for (Entry entry : categoryService.getEntriesOfCategory(category)) {
-//            if (lastActivity == null || entry.getCreationDate().after(lastActivity)) {
-//                lastActivity = entry.getCreationDate();
-//            }
-//        }
-//        return lastActivity;
-//    }
-//
-//    @Transactional
-//    public List<Entry> getEntriesOfCategory(Category category) {
-//        List<Entry> entries = new ArrayList<>();
-//        List<Question> questions = category.getQuestions();
-//        for (Question question : questions) {
-//            List<Answer> answers = question.getAnswers();
-//            for (Answer answer : answers) {
-//                entries.addAll(answer.getComments());
-//            }
-//            entries.addAll(answers);
-//        }
-//        entries.addAll(questions);
-//        return entries;
-//    }
-
-    public CategoryDto getCategory() {
-        return null;
+    public CategoryDto getCategory(Long id) {
+        authenticationService.getLoggedAccount();
+        return categoryRepository.findById(id).map(category -> new CategoryDto(category.getId(), category.getTitle(), false)).orElse(null);
     }
 
 

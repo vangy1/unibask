@@ -1,15 +1,22 @@
-<div class="profile">
-  <div class="public-info">
+<div class="full-page-component" *ngIf="user">
+  <div class="public-info card">
     <img class="avatar" [src]="user?.avatar" alt="avatar"/>
     <div class="user-info">
-      <div class="username">{{user?.username}}</div>
+      <div>
+        <mat-icon *ngIf="user?.mail.endsWith('fmph.uniba.sk')">school</mat-icon>
+        <span class="username">{{user?.username}}</span>
+      </div>
       <div class="study-program" *ngIf="user?.studyProgram">{{user?.studyProgram.longName}}
         ({{user?.studyProgram.shortName}})
       </div>
-      <div class="join-date">Členom od {{user?.creationDate | date:'d. MMMM y'  }}</div>
+      <div class="join-date">Členom od {{user?.creationDate | date:'d. MMMM y'}}</div>
+    </div>
+    <div class="reputation">
+      <span class="reputation-value">{{user?.reputation}}</span>
+      <span>REPUTÁCIA</span>
     </div>
   </div>
-  <div class="change-info" *ngIf="user?.id == authenticationService?.user.id">
+  <div class="change-info" *ngIf="user?.id == (authenticationService?.user | async)?.id">
     <div class="card change-user-info" style="flex: 1">
       <h2 class="subsection-title">Zmena údajov</h2>
       <mat-form-field appearance="outline" class="study-program-input">
@@ -26,21 +33,14 @@
       <mat-form-field appearance="outline" class="notifications-input">
         <mat-label>Emailové notifikácie</mat-label>
         <mat-select [(value)]="selectedMailNotifications">
-          <mat-option value="not-set">
-            Bez zmeny
-          </mat-option>
-          <mat-option value="turned-off">
+          <mat-option value="enabled-new-answers">
             Vypnuté
           </mat-option>
-          <mat-option value="enabled-new-answers">
-            Zapnuté pre nové odpovede
-          </mat-option>
           <mat-option value="enabled-new-answers-and-comments">
-            Zapnuté pre nové odpovede a komentáre
+            Zapnuté
           </mat-option>
         </mat-select>
       </mat-form-field>
-
       <button mat-flat-button color="accent" (click)="saveProfileDetails()">Uložiť zmeny</button>
     </div>
 
@@ -73,10 +73,11 @@
       <button mat-flat-button color="accent" class="save-avatar-button" (click)="saveImage()">Ulož avatar</button>
     </div>
   </div>
-
-  <h1 class="section-title" *ngIf="profileEntries.length > 0">Používateľove príspevky</h1>
-
-  <div class="entry" *ngFor="let profileEntry of profileEntries" (click)="openEntry(profileEntry)">
-    <app-entry-preview [profileEntry]="profileEntry"></app-entry-preview>
+  <div *ngIf="profileEntries.length > 0">
+    <h1 class="section-title">Používateľove príspevky</h1>
+    <div class="entry" *ngFor="let profileEntry of profileEntries" (click)="openEntry(profileEntry)">
+      <app-entry-preview [profileEntry]="profileEntry"></app-entry-preview>
+    </div>
   </div>
+
 </div>

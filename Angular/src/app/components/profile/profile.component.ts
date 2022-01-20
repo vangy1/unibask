@@ -6,6 +6,8 @@ import {ProfileEntry} from "./profile-entry";
 import {StudyProgramService} from "./study-program.service";
 import {ActivatedRoute, Router} from "@angular/router";
 import {User} from "../../authentication/user";
+import {Observable, Observer} from "rxjs";
+import {shareReplay} from "rxjs/operators";
 
 @Component({
   selector: 'app-profile',
@@ -35,12 +37,19 @@ export class ProfileComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.newAvatar = this.authenticationService.user.avatar;
+    this.authenticationService.user.subscribe(user => {
+      this.newAvatar = user.avatar;
+    })
   }
 
   saveImage() {
     this.profileService.saveImageRequest(this.newAvatar).subscribe(() => {
-      this.authenticationService.user.avatar = this.newAvatar
+      this.authenticationService.user.subscribe(user => {
+        user.avatar = this.newAvatar
+        this.authenticationService.user = new Observable<User>((observer: Observer<User>) => {
+          observer.next(user)
+        }).pipe(shareReplay(1))
+      })
       this.user.avatar = this.newAvatar
     })
   }
@@ -78,7 +87,14 @@ export class ProfileComponent implements OnInit {
     if (studyProgramId != 'not-set') {
       this.profileService.setStudyProgram(studyProgramId).subscribe(() => {
         let newStudyProgram = this.studyProgramService.studyPrograms.find((program) => String(program.id) == studyProgramId)
-        this.authenticationService.user.studyProgram = newStudyProgram;
+
+        this.authenticationService.user.subscribe(user => {
+          user.studyProgram = newStudyProgram;
+          this.authenticationService.user = new Observable<User>((observer: Observer<User>) => {
+            observer.next(user)
+          }).pipe(shareReplay(1))
+        })
+
         this.user.studyProgram = newStudyProgram;
         this.selectedStudyProgram = 'not-set'
       })

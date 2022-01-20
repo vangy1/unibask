@@ -1,7 +1,7 @@
-<app-navigation style="height: 100%" *ngIf="showNavigation | async">
+<app-navigation style="height: 100%" *ngIf="(showNavigation | async) == true">
   <div style="height: 100%">
     <router-outlet></router-outlet>
   </div>
 </app-navigation>
 
-<app-authentication-page *ngIf="!(showNavigation | async)"></app-authentication-page>
+<app-authentication-page *ngIf="(showNavigation | async) == false"></app-authentication-page>

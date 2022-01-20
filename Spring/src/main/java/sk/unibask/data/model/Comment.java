@@ -4,7 +4,7 @@ import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
-@Entity
+@Entity(name = "comments")
 public class Comment extends Entry {
     @ManyToOne
     @JoinColumn(nullable = false)

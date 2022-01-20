@@ -4,15 +4,21 @@ import javax.persistence.*;
 import java.util.Date;
 import java.util.Set;
 
-@Entity
+import static javax.persistence.FetchType.LAZY;
+
+@Entity(name = "entries")
 @Inheritance(strategy = InheritanceType.JOINED)
 public class Entry {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private Date creationDate;
+
+    @Basic(fetch = LAZY)
     @Column(columnDefinition = "TEXT")
     private String entryText;
+    @Column(columnDefinition = "TEXT")
+    private String entryTextUnformatted;
 
     @ManyToOne
     @JoinColumn(nullable = false)
@@ -25,7 +31,7 @@ public class Entry {
     private Set<Vote> votes;
 
     @OneToMany(mappedBy = "entry")
-    private Set<Notification> notifications;
+    private Set<Report> reports;
 
     public Long getId() {
         return id;
@@ -73,5 +79,21 @@ public class Entry {
 
     public void setVotes(Set<Vote> votes) {
         this.votes = votes;
+    }
+
+    public String getEntryTextUnformatted() {
+        return entryTextUnformatted;
+    }
+
+    public void setEntryTextUnformatted(String entryTextUnformatted) {
+        this.entryTextUnformatted = entryTextUnformatted;
+    }
+
+    public Set<Report> getReports() {
+        return reports;
+    }
+
+    public void setReports(Set<Report> reports) {
+        this.reports = reports;
     }
 }

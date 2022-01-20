@@ -12,6 +12,7 @@ export class AppComponent {
   route: string;
   showNavigation: Observable<boolean>
 
+
   constructor(public router: Router) {
     this.showNavigation = this.router.events
       .pipe(filter(event => event instanceof NavigationEnd),

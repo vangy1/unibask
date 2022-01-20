@@ -15,8 +15,8 @@ export class GuestGuard implements CanActivate {
   canActivate(
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
-    if (this.authenticationService.user) return false;
-    return this.authenticationService.checkIfSignedInRequest.pipe(map(value => value == null), tap(value => {
+
+    return this.authenticationService.user.pipe(map(value => value == null), tap(value => {
       if (!value) this.router.navigate([''])
     }));
   }

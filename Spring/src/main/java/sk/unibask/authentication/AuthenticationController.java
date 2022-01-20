@@ -10,7 +10,7 @@ import sk.unibask.user.UserService;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/authentication")
+@RequestMapping("/api/authentication")
 public class AuthenticationController {
     private final AuthenticationService authenticationService;
     private final UserService userService;
@@ -29,7 +29,7 @@ public class AuthenticationController {
     @ResponseBody
     @Transactional
     public UserDto status() {
-        return userService.getUser(authenticationService.getLoggedAccount());
+        return userService.getUser(authenticationService.getLoggedAccountOrNull());
     }
 
     @PostMapping("/login")
@@ -54,14 +54,13 @@ public class AuthenticationController {
         authenticationService.passwordChange(body.get("oldPassword"), body.get("newPassword"));
     }
 
-    @GetMapping("/code")
-    public boolean checkVerificationCode(@RequestParam("mail") String mail, @RequestParam("codeInput") String codeInput) {
-        return verificationCodeService.isVerificationCodeValid(mail, codeInput);
-    }
-
-
     @PostMapping("/code")
     public void generateCode(@RequestBody Map<String, String> body) {
         verificationCodeService.createVerificationCode(body.get("mail"));
+    }
+
+    @GetMapping("/code")
+    public boolean checkVerificationCode(@RequestParam("mail") String mail, @RequestParam("codeInput") String codeInput) {
+        return verificationCodeService.isVerificationCodeValid(mail, codeInput);
     }
 }

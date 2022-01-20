@@ -15,7 +15,7 @@ public class UserDto {
     private StudyProgramDto studyProgram;
     private Long reputation;
 
-    public UserDto(Long id, String mail, String username, String avatar, Date registrationDate, List<String> roles, StudyProgramDto studyProgramDto) {
+    public UserDto(Long id, String mail, String username, String avatar, Date registrationDate, List<String> roles, StudyProgramDto studyProgramDto, Long reputation) {
         this.id = id;
         this.mail = mail;
         this.username = username;
@@ -23,6 +23,7 @@ public class UserDto {
         this.creationDate = registrationDate;
         this.roles = roles;
         this.studyProgram = studyProgramDto;
+        this.reputation = reputation;
     }
 
     public Long getId() {
@@ -81,5 +82,13 @@ public class UserDto {
 
     public void setStudyProgram(StudyProgramDto studyProgram) {
         this.studyProgram = studyProgram;
+    }
+
+    public Long getReputation() {
+        return reputation;
+    }
+
+    public void setReputation(Long reputation) {
+        this.reputation = reputation;
     }
 }

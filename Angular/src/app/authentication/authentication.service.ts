@@ -1,34 +1,46 @@
 import {Injectable} from '@angular/core';
 import {HttpClient, HttpHeaders, HttpParams} from "@angular/common/http";
 import {environment} from "../../environments/environment";
-import {Observable} from "rxjs";
-import {map, shareReplay, tap} from "rxjs/operators";
+import {Observable, Observer} from "rxjs";
+import {shareReplay, tap} from "rxjs/operators";
 import {User} from "./user";
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthenticationService {
-  user?: User;
-  checkIfSignedInRequest: Observable<User>;
+
+  user: Observable<User>;
 
   constructor(private http: HttpClient) {
-    this.checkIfSignedInRequest = this.createCheckIfSignedInRequest();
-    this.checkIfSignedInRequest.pipe(tap(user => this.user = user)).subscribe();
+    this.recheckStatus()
   }
 
-  createCheckIfSignedInRequest(): Observable<User> {
+  getStatus(): Observable<User> {
     return this.http.get<User>(environment.apiUrl + '/authentication/status', {
       withCredentials: true
     }).pipe(shareReplay(1));
   }
 
+
+  recheckStatus() {
+    this.user = this.getStatus();
+    this.user.subscribe()
+  }
+
+
+  // createCheckIfSignedInRequest(): Observable<User> {
+  //   return this.http.get<User>(environment.apiUrl + '/authentication/status', {
+  //     withCredentials: true
+  //   }).pipe(shareReplay(1));
+  // }
+
   logout() {
     this.http.post(environment.apiUrl + '/authentication/logout', null, {
       withCredentials: true
     }).subscribe((response) => {
-      this.user = undefined;
       window.location.href = environment.appUrl;
+      this.user = undefined;
     });
   }
 
@@ -40,7 +52,9 @@ export class AuthenticationService {
     }, {
       headers: new HttpHeaders({'Content-Type': 'application/json', 'ngsw-bypass': 'true'}),
       withCredentials: true,
-    }).pipe(map((user: User) => this.user = user))
+    }).pipe(tap((loggedUser) => this.user = new Observable<User>((observer: Observer<User>) => {
+      observer.next(loggedUser)
+    }).pipe(shareReplay(1))))
   }
 
   public generateVerificationCode(mail: string): Observable<any> {
@@ -53,7 +67,6 @@ export class AuthenticationService {
   }
 
   public checkAgainstVerificationCode(mail: string, codeInput: string): Observable<any> {
-    console.log(mail)
     let params = new HttpParams();
     params = params.append('mail', mail).append('codeInput', codeInput);
 
@@ -73,7 +86,9 @@ export class AuthenticationService {
     }, {
       headers: new HttpHeaders({'Content-Type': 'application/json', 'ngsw-bypass': 'true'}),
       withCredentials: true,
-    }).pipe(map((user: User) => this.user = user))
+    }).pipe(tap((loggedUser) => this.user = new Observable<User>((observer: Observer<User>) => {
+      observer.next(loggedUser)
+    }).pipe(shareReplay(1))))
   }
 
   completePasswordChange(loginMail: string, newPassword: string, verificationCode: string) {
@@ -84,6 +99,8 @@ export class AuthenticationService {
     }, {
       headers: new HttpHeaders({'Content-Type': 'application/json', 'ngsw-bypass': 'true'}),
       withCredentials: true,
-    }).pipe(map((user: User) => this.user = user))
+    }).pipe(tap((loggedUser) => this.user = new Observable<User>((observer: Observer<User>) => {
+      observer.next(loggedUser)
+    }).pipe(shareReplay(1))))
   }
 }

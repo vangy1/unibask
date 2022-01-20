@@ -6,33 +6,38 @@ import {QuestionService} from "../../entry/question/question.service";
   providedIn: 'root'
 })
 export class ListQuestionsService {
-  questions: Question[] = []
+  questions: Question[];
   page = 0;
   limit = 10;
 
   constructor(private questionService: QuestionService) {
   }
 
-  loadMore(followed: any, category: any): void {
-    let request;
-    if (followed) {
-      request = this.questionService.getFollowedQuestions(this.page, this.limit)
-    } else if (category) {
-      request = this.questionService.getQuestionsByCategory(category, this.page, this.limit)
-    } else {
-      request = this.questionService.getQuestions(this.page, this.limit)
-    }
+  loadInitial(followed: any, category: any, searchPhrase: string) {
+    this.questions = undefined;
+    this.page = 0;
+    this.getRequest(followed, category, searchPhrase).subscribe(questions => {
+      this.questions = []
+      this.questions.push(...questions)
+    })
+    this.page += 1;
+  }
 
-    request.subscribe(questions => {
+  loadMore(followed: any, category: any, searchPhrase: string): void {
+    this.getRequest(followed, category, searchPhrase).subscribe(questions => {
       this.questions.push(...questions)
     })
 
     this.page += 1;
   }
 
-
-  clearQuestions() {
-    this.questions = [];
-    this.page = 0
+  getRequest(followed: any, category: any, searchPhrase: string) {
+    if (followed) {
+      return this.questionService.getFollowedQuestions(searchPhrase, this.page, this.limit)
+    } else if (category) {
+      return this.questionService.getQuestionsByCategory(searchPhrase, category, this.page, this.limit)
+    } else {
+      return this.questionService.getQuestions(searchPhrase, this.page, this.limit)
+    }
   }
 }

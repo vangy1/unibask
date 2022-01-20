@@ -3,10 +3,10 @@ package sk.unibask.data.model;
 import javax.persistence.*;
 import java.util.Date;
 
-@Entity
+@Entity(name = "votes")
 public class Vote {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private Date creationDate;
     private int value;

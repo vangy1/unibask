@@ -1,0 +1,12 @@
+<section class="full-page-component">
+  <h1 class="section-title">Spätná väzba</h1>
+  <div class="card">
+    <mat-form-field appearance="outline" style="width: 100%" class="form-field-less-padding">
+      <textarea cdkTextareaAutosize
+                cdkAutosizeMinRows="15"
+                placeholder="Problém, nápad, otázka, ..."
+                matInput [(ngModel)]="feedbackText"></textarea>
+    </mat-form-field>
+    <button mat-flat-button color="accent" (click)="sendFeedback(feedbackText)">Odoslať spätnú väzbu</button>
+  </div>
+</section>

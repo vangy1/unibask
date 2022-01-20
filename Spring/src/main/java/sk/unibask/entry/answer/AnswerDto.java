@@ -3,7 +3,7 @@ package sk.unibask.entry.answer;
 import sk.unibask.entry.EntryDto;
 
 
-public class AnswerDto extends EntryDto {
+public class AnswerDto extends EntryDto implements Comparable<AnswerDto> {
     private Boolean solvesQuestion;
 
     public AnswerDto(AnswerDto.Builder builder) {
@@ -39,5 +39,14 @@ public class AnswerDto extends EntryDto {
 
     public void setSolvesQuestion(Boolean solvesQuestion) {
         this.solvesQuestion = solvesQuestion;
+    }
+
+    @Override
+    public int compareTo(AnswerDto o) {
+        int i = o.solvesQuestion.compareTo(this.solvesQuestion);
+        if (i != 0) return i;
+        i = o.getReputation().compareTo(this.getReputation());
+        if (i != 0) return i;
+        return o.getCreationDate().compareTo(this.getCreationDate());
     }
 }

@@ -29,14 +29,26 @@ $lg: "(min-width: 1001px)";
     }
 
     .author-name-and-comment-date {
+      display: flex;
+      align-items: center;
       grid-row: 1;
       grid-column: 3;
       margin-top: 4px;
+
+      mat-icon {
+        margin-right: 6px;
+      }
 
       .author-name {
         cursor: pointer;
         font-weight: bold;
         color: $color-primary;
+        margin-right: 4px;
+      }
+
+      .author-reputation {
+        font-weight: bold;
+        margin-right: 4px;
       }
 
       .comment-date {

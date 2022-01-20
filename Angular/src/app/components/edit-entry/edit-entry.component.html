@@ -1,0 +1,17 @@
+<section class="full-page-component">
+  <h1 class="section-title">Editácia príspevku</h1>
+
+  <div class="card">
+
+    <div class="editor ql-fix-height">
+      <quill-editor #editor [(ngModel)]="entry.text" [modules]="quillService.modules"
+                    placeholder="Text tvojej otázky *"></quill-editor>
+    </div>
+
+    <div class="action">
+      <button mat-flat-button color="accent" class="submit-button" (click)="editEntry()" [disabled]="!entry.text">
+        Dokončiť editáciu
+      </button>
+    </div>
+  </div>
+</section>

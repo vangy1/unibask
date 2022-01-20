@@ -5,7 +5,7 @@ import javax.persistence.*;
 import java.util.Date;
 import java.util.Set;
 
-@Entity
+@Entity(name = "questions")
 public class Question extends Entry {
     @Column(columnDefinition = "varchar(1000)")
     private String title;
@@ -23,6 +23,9 @@ public class Question extends Entry {
 
     @OneToMany(mappedBy = "question")
     private Set<Answer> answers;
+
+    @ManyToMany(mappedBy = "followingQuestions")
+    private Set<Account> followerAccounts;
 
 
     public String getTitle() {
@@ -79,5 +82,13 @@ public class Question extends Entry {
 
     public void setLastActivity(Date lastActivity) {
         this.lastActivity = lastActivity;
+    }
+
+    public Set<Account> getFollowerAccounts() {
+        return followerAccounts;
+    }
+
+    public void setFollowerAccounts(Set<Account> followerAccounts) {
+        this.followerAccounts = followerAccounts;
     }
 }

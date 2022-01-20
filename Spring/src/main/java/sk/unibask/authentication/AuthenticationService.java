@@ -1,6 +1,7 @@
 package sk.unibask.authentication;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -8,6 +9,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.server.ResponseStatusException;
 import sk.unibask.data.model.Account;
 import sk.unibask.data.repository.AccountRepository;
 
@@ -34,18 +36,32 @@ public class AuthenticationService {
     }
 
     public Account login(String mail, String password) {
+        checkMail(mail);
         SecurityContextHolder.getContext().setAuthentication(authenticationProvider.authenticate(new UsernamePasswordAuthenticationToken(mail, password)));
         return authenticationService.getLoggedAccount();
     }
 
     public Account register(String mail, String password, String username, String verificationCode) {
-        if (!mail.endsWith("uniba.sk")) return null;
+        checkMail(mail);
+        if (accountRepository.findByEmail(mail).isPresent())
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Účet so zadanou e-mailovou adresou už existuje.");
+        if (accountRepository.findByUsername(username).isPresent())
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Účet so zadaným používateľským menom už existuje.");
+
         if (verificationCodeService.isVerificationCodeValid(mail, verificationCode)) {
             authenticationService.createAccount(mail, password, username);
             SecurityContextHolder.getContext().setAuthentication(authenticationProvider.authenticate(new UsernamePasswordAuthenticationToken(mail, password)));
+        } else {
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Overovací kód je nesprávny.");
         }
 
         return authenticationService.getLoggedAccount();
+    }
+
+    private void checkMail(String mail) {
+        if (!mail.endsWith("@uniba.sk") && !mail.endsWith("@fmph.uniba.sk")) {
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Mail musí byť v uniba.sk doméne.");
+        }
     }
 
     @Transactional(propagation = Propagation.REQUIRES_NEW)
@@ -61,18 +77,28 @@ public class AuthenticationService {
 
     @Transactional
     public Account passwordNew(String mail, String password, String verificationCode) {
-        if (!mail.endsWith("uniba.sk")) return null;
+        checkMail(mail);
         if (verificationCodeService.isVerificationCodeValid(mail, verificationCode)) {
-            Account account = accountRepository.findByEmail(mail).get();
+            Account account = accountRepository.findByEmail(mail).orElseThrow(() -> new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Účet s daným mailom neexistuje."));
             account.setPassword(passwordEncoder.encode(password));
             accountRepository.save(account);
             SecurityContextHolder.getContext().setAuthentication(authenticationProvider.authenticate(new UsernamePasswordAuthenticationToken(mail, password)));
+        } else {
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Overovací kód je nesprávny.");
         }
+
         return authenticationService.getLoggedAccount();
     }
 
     @Transactional
     public Account getLoggedAccount() {
+        Principal principal = SecurityContextHolder.getContext().getAuthentication();
+        if (principal == null) throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Neprihlásený používateľ.");
+        return accountRepository.findByEmail(principal.getName()).orElseThrow(() -> new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Účet prihláseného používateľa neexistuje."));
+    }
+
+    @Transactional
+    public Account getLoggedAccountOrNull() {
         Principal principal = SecurityContextHolder.getContext().getAuthentication();
         if (principal == null) return null;
         return accountRepository.findByEmail(principal.getName()).orElse(null);

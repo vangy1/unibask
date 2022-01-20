@@ -1,13 +1,26 @@
-<h1 class="section-title">{{title}}</h1>
-<div style="text-align: center" *ngIf="listQuestionsService.questions.length < 1">
-  <p>Neboli najdené žiadne dostupné otázky.</p>
-  <p *ngIf="params['followed']">Sledovať kategóriu môžeš v sekcii "Kategórie" pomocou kliknutia
-    na ikonu hviezdičky napravo od názvu kategórie.</p>
-</div>
-<div class="question-list" infiniteScroll
-     (scrolled)="onScroll()">
-  <div *ngFor="let question of listQuestionsService.questions">
-    <app-question-preview [question]="question"></app-question-preview>
+<section class="full-page-component">
+  <h1 class="section-title">{{title}}</h1>
+  <mat-form-field class="input-filter white-background-form-field" color="accent" appearance="outline">
+    <mat-label style="margin-left: 8px">Vyhľadávanie otázok</mat-label>
+    <div matPrefix>
+      <mat-icon>search</mat-icon>
+    </div>
+    <input matInput style="margin-left: 8px" [ngModel]="searchPhrase" (ngModelChange)='searchPhraseChanged($event)'>
+  </mat-form-field>
+
+  <div style="text-align: center" *ngIf="listQuestionsService?.questions?.length == 0">
+    <p>Neboli najdené žiadne otázky.</p>
+    <p *ngIf="params['followed']">Sledovanie kategórie ti umožní rýchly prístup ku otázkam danej kategórie. Taktiež
+      budeš dostávať notifikácie, ak niekto vytvorí novú otázku v tebou sledovanej kategórií.
+      Sledovať kategóriu môžeš v sekcii "Kategórie" kliknutím na ikonu hviezdičky napravo od názvu kategórie.</p>
   </div>
-</div>
+
+  <div class="question-list" infiniteScroll
+       (scrolled)="onScroll()">
+    <div *ngFor="let question of listQuestionsService.questions">
+      <app-question-preview [question]="question"></app-question-preview>
+    </div>
+  </div>
+</section>
+
 

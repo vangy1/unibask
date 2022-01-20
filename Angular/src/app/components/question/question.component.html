@@ -1,46 +1,58 @@
 <section class="question">
   <div class="header">
-    <h1 class="question-title">{{question.title}}</h1>
-    <h2>{{question.categoryName}}</h2>
+    <h1 class="question-title">{{question?.title}}</h1>
+    <h2>{{question?.categoryName}}</h2>
   </div>
   <div class="divider"></div>
   <div class="voting" *ngIf="showVoting">
-    <button mat-icon-button class="large" (click)="upvote()" [color]="question.myVote > 0 ? 'primary' : ''">
+    <button mat-icon-button class="large" (click)="upvote()" [color]="question?.myVote > 0 ? 'accent' : ''">
       <mat-icon class="large">keyboard_arrow_up</mat-icon>
     </button>
-    <span class="voting-summary">{{question.reputation}}</span>
-    <button mat-icon-button class="large" (click)="downvote()" [color]="question.myVote < 0 ? 'primary' : ''">
+    <span class="voting-summary">{{question?.reputation}}</span>
+    <button mat-icon-button class="large" (click)="downvote()" [color]="question?.myVote < 0 ? 'accent' : ''">
       <mat-icon>keyboard_arrow_down</mat-icon>
     </button>
   </div>
   <div class="content">
-    <quill-view class="no-padding-ql-editor" [content]="question.text"></quill-view>
+    <quill-view class="no-padding-ql-editor" [content]="question?.text"></quill-view>
   </div>
   <div class="meta-author">
-    <div class="author" (click)="goToProfile(question.author.id)">
-      <img class="avatar" [src]="question.author.avatar"/>
+    <div class="author" (click)="goToProfile(question?.author?.id)" *ngIf="question?.author; else anonymous">
+      <img class="avatar" [src]="question?.author?.avatar"/>
       <div class="name-reputation">
-        <span class="name">{{question.author.username}}</span>
-        <span class="reputation">42 reputácie</span>
+        <mat-icon *ngIf="question.author.mail.endsWith('fmph.uniba.sk')">school</mat-icon>
+        <span class="name">{{question?.author?.username}}</span>
+        <span class="reputation">({{question?.author?.reputation}})</span>
       </div>
     </div>
+    <ng-template #anonymous>
+      <span class="anonymous">Anonymná otázka</span>
+    </ng-template>
     <div class="meta">
       <div class="buttons">
-        <button mat-icon-button>
-          <mat-icon>edit</mat-icon>
-        </button>
-        <button mat-icon-button class="">
-          <mat-icon>notifications</mat-icon>
-        </button>
-        <button mat-icon-button>
-          <mat-icon>report</mat-icon>
-        </button>
-
-        <!--        <button mat-stroked-button color="accent">Upraviť</button>-->
-        <!--        <button mat-stroked-button color="accent">Sledovať</button>-->
-        <!--        <button mat-stroked-button color="accent">Nahlásiť</button>-->
+        <div class="button-container" *ngIf="(authenticationService?.user | async)?.id == question?.author?.id"
+             (click)="edit()">
+          <button mat-icon-button matTooltip="Upraviť otázku" matTooltipPosition="above">
+            <mat-icon>edit</mat-icon>
+          </button>
+        </div>
+        <div class="button-container">
+          <button *ngIf="question.followed" mat-icon-button (click)="changeFollowStatus()" color="accent"
+                  matTooltip="Vypnúť notifikácie pre otázku" matTooltipPosition="above">
+            <mat-icon>notifications</mat-icon>
+          </button>
+          <button *ngIf="!question.followed" mat-icon-button (click)="changeFollowStatus()"
+                  matTooltip="Zapnúť notifikácie pre otázku" matTooltipPosition="above">
+            <mat-icon>notifications_none</mat-icon>
+          </button>
+        </div>
+        <div class="button-container">
+          <button mat-icon-button (click)="reportEntry()" matTooltip="Nahlásiť otázku" matTooltipPosition="above">
+            <mat-icon>report</mat-icon>
+          </button>
+        </div>
       </div>
-      <span class="date">Pridané {{question.creationDate | date:'d. MMMM y, HH:mm:ss '}}</span>
+      <span class="date">{{question?.creationDate | date:'d. MMMM y, HH:mm:ss '}}</span>
     </div>
   </div>
 </section>

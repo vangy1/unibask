@@ -1,10 +1,13 @@
 <h1>Tvoja odpoveď na otázku</h1>
 <section>
   <div class="editor ql-fix-height">
-    <quill-editor [(ngModel)]="text" placeholder="Text tvojej odpovede"></quill-editor>
+    <quill-editor #editor [(ngModel)]="text" placeholder="Text tvojej odpovede *"
+                  [modules]="quillService.modules"></quill-editor>
   </div>
   <div class="action">
     <mat-checkbox class="example-margin" [(ngModel)]="isAnonymous">Skryť moju identitu</mat-checkbox>
-    <button mat-flat-button color="accent" class="submit-button" (click)="createNewAnswer()">Odoslať</button>
+    <button mat-flat-button color="accent" class="submit-button" (click)="createNewAnswer()" [disabled]="!text">Pridať
+      odpoveď
+    </button>
   </div>
 </section>

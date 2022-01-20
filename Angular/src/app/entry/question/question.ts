@@ -10,4 +10,5 @@ export interface Question extends Entry {
   comments: Comment[];
   solvedAnswerId: number;
   lastActivity: Date;
+  followed: boolean;
 }

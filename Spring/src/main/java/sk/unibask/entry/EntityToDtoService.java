@@ -22,18 +22,20 @@ public class EntityToDtoService {
         this.userService = userService;
     }
 
-
     public QuestionDto questionToQuestionDto(Question question, Long loggedAccountId) {
         QuestionDto.Builder questionDtoBuilder = QuestionDto.builder()
                 .setId(question.getId())
                 .setQuestionId(question.getId())
                 .setText(question.getEntryText())
                 .setCreationDate(question.getCreationDate())
-                .setAuthor(userService.getUserWithoutTransaction(question.getAccount()))
                 .setTitle(question.getTitle())
                 .setCategoryName(question.getCategory().getTitle())
                 .setSolvedAnswerId(question.getSolvedAnswer() != null ? question.getSolvedAnswer().getId() : null)
                 .setLastActivity(question.getLastActivity());
+
+        if (!question.isAnonymous()) {
+            questionDtoBuilder.setAuthor(userService.getUserWithoutTransaction(question.getAccount()));
+        }
 
         setVotes(question, questionDtoBuilder, loggedAccountId);
         setComments(question, questionDtoBuilder, loggedAccountId);
@@ -43,7 +45,7 @@ public class EntityToDtoService {
             questionDtoBuilder.setViews(0L);
         }
         if (Hibernate.isInitialized(question.getAnswers()) && question.getAnswers() != null) {
-            questionDtoBuilder.setAnswers(question.getAnswers().stream().map(answer -> answerToAnswerDto(answer, loggedAccountId)).toList());
+            questionDtoBuilder.setAnswers(question.getAnswers().stream().map(answer -> answerToAnswerDto(answer, loggedAccountId)).sorted().toList());
         }
 
         return questionDtoBuilder.build();
@@ -56,8 +58,10 @@ public class EntityToDtoService {
                 .setQuestionId(answer.getQuestion().getId())
                 .setText(answer.getEntryText())
                 .setCreationDate(answer.getCreationDate())
-                .setAuthor(userService.getUserWithoutTransaction(answer.getAccount()))
                 .setSolvesQuestion(answer == answer.getQuestion().getSolvedAnswer());
+        if (!answer.isAnonymous()) {
+            answerDtoBuilder.setAuthor(userService.getUserWithoutTransaction(answer.getAccount()));
+        }
         setVotes(answer, answerDtoBuilder, loggedAccountId);
         setComments(answer, answerDtoBuilder, loggedAccountId);
         return answerDtoBuilder.build();
@@ -69,6 +73,7 @@ public class EntityToDtoService {
                 .setText(comment.getEntryText())
                 .setCreationDate(comment.getCreationDate())
                 .setAuthor(userService.getUserWithoutTransaction(comment.getAccount()));
+
         setVotes(comment, commentDtoBuilder, loggedAccountId);
         if (comment.getEntry() instanceof Question question) {
             commentDtoBuilder.setQuestionId(question.getId());
@@ -91,7 +96,10 @@ public class EntityToDtoService {
 
     private void setComments(Entry entry, EntryDto.Builder<?> builder, Long loggedAccountId) {
         if (Hibernate.isInitialized(entry.getComments()) && entry.getComments() != null) {
-            builder.setComments(entry.getComments().stream().map(comment -> commentToCommentDto(comment, loggedAccountId)).toList());
+            builder.setComments(entry.getComments().stream().map(comment -> {
+                Hibernate.initialize(comment.getVotes());
+                return commentToCommentDto(comment, loggedAccountId);
+            }).toList());
         } else {
             builder.setComments(new ArrayList<>());
         }

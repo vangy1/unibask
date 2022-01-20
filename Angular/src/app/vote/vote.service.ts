@@ -4,6 +4,7 @@ import {environment} from "../../environments/environment";
 import {Entry} from "../entry/entry";
 import {AuthenticationService} from "../authentication/authentication.service";
 import {MatSnackBar} from "@angular/material/snack-bar";
+import {map} from "rxjs/operators";
 
 @Injectable({
   providedIn: 'root'
@@ -14,42 +15,48 @@ export class VoteService {
   }
 
   upvoteEntry(entry: Entry) {
-    if (this.isVotingOnOwnEntry(entry)) {
-      this.snackBar.open("Nemôžeš hlasovať za príspevok, ktorý bol pridaný tebou.", undefined, {duration: 3000});
-      return
-    }
+    this.isVotingOnOwnEntry(entry).subscribe(ownEntryVoting => {
+      if (ownEntryVoting) {
+        this.snackBar.open("Nemôžeš hlasovať za príspevok, ktorý bol pridaný tebou.", undefined, {duration: 3000});
+        return
+      }
 
-    if (!entry.myVote) { // new vote
-      entry.myVote = 1;
-      entry.reputation += entry.myVote;
-      this.getUpvoteEntryRequest(entry.id).subscribe()
-    } else if (entry.myVote < 0) { // from downvote
-      entry.reputation -= entry.myVote
-      entry.myVote = 1
-      entry.reputation += entry.myVote
-      this.getUpvoteEntryRequest(entry.id).subscribe()
-    } else if (entry.myVote > 0) { // from upvote (same)
-      this.unvoteEntry(entry)
-    }
+      if (!entry.myVote) { // new vote
+        entry.myVote = 1;
+        entry.reputation += entry.myVote;
+        this.getUpvoteEntryRequest(entry.id).subscribe()
+      } else if (entry.myVote < 0) { // from downvote
+        entry.reputation -= entry.myVote
+        entry.myVote = 1
+        entry.reputation += entry.myVote
+        this.getUpvoteEntryRequest(entry.id).subscribe()
+      } else if (entry.myVote > 0) { // from upvote (same)
+        this.unvoteEntry(entry)
+      }
+    })
+
   }
 
   downvoteEntry(entry: Entry) {
-    if (this.isVotingOnOwnEntry(entry)) {
-      this.snackBar.open("Nemôžeš hlasovať za príspevok, ktorý bol pridaný tebou.", undefined, {duration: 3000});
-      return
-    }
-    if (!entry.myVote) {
-      entry.myVote = -1;
-      entry.reputation += entry.myVote;
-      this.getDownvoteEntryRequest(entry.id).subscribe()
-    } else if (entry.myVote > 0) {
-      entry.reputation -= entry.myVote;
-      entry.myVote = -1
-      entry.reputation += entry.myVote
-      this.getDownvoteEntryRequest(entry.id).subscribe()
-    } else if (entry.myVote < 0) {
-      this.unvoteEntry(entry);
-    }
+    this.isVotingOnOwnEntry(entry).subscribe(ownEntryVoting => {
+      if (ownEntryVoting) {
+        this.snackBar.open("Nemôžeš hlasovať za príspevok, ktorý bol pridaný tebou.", undefined, {duration: 3000});
+        return
+      }
+
+      if (!entry.myVote) {
+        entry.myVote = -1;
+        entry.reputation += entry.myVote;
+        this.getDownvoteEntryRequest(entry.id).subscribe()
+      } else if (entry.myVote > 0) {
+        entry.reputation -= entry.myVote;
+        entry.myVote = -1
+        entry.reputation += entry.myVote
+        this.getDownvoteEntryRequest(entry.id).subscribe()
+      } else if (entry.myVote < 0) {
+        this.unvoteEntry(entry);
+      }
+    })
   }
 
   unvoteEntry(entry: Entry) {
@@ -60,11 +67,14 @@ export class VoteService {
   }
 
   isVotingOnOwnEntry(entry: Entry) {
-    return entry.author.mail == this.authenticationService.user.mail;
+    return this.authenticationService.user.pipe(map(user => {
+      if (!entry.author) return false
+      return entry.author.mail == user.mail
+    }))
   }
 
   getUpvoteEntryRequest(entryId: number) {
-    return this.http.post(environment.apiUrl + '/api/votes/entry/upvote', {
+    return this.http.post(environment.apiUrl + '/votes/entry/upvote', {
       entryId: entryId
     }, {
       headers: new HttpHeaders({'Content-Type': 'application/json', 'ngsw-bypass': 'true'}),
@@ -73,7 +83,7 @@ export class VoteService {
   }
 
   getDownvoteEntryRequest(entryId: number) {
-    return this.http.post(environment.apiUrl + '/api/votes/entry/downvote', {
+    return this.http.post(environment.apiUrl + '/votes/entry/downvote', {
       entryId: entryId
     }, {
       headers: new HttpHeaders({'Content-Type': 'application/json', 'ngsw-bypass': 'true'}),
@@ -85,7 +95,7 @@ export class VoteService {
     let params = new HttpParams();
     params = params.append('entryId', entryId);
 
-    return this.http.delete(environment.apiUrl + '/api/votes/entry/unvote', {
+    return this.http.delete(environment.apiUrl + '/votes/entry/unvote', {
       headers: new HttpHeaders({'Content-Type': 'application/json', 'ngsw-bypass': 'true'}),
       withCredentials: true,
       params: params

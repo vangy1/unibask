@@ -10,7 +10,7 @@ import java.util.List;
 public interface CommentRepository extends JpaRepository<Comment, Integer> {
     List<Comment> findAllByEntryId(long id);
 
-    @Query("SELECT c from Comment c " +
+    @Query("SELECT c from comments c " +
             "left join fetch c.votes " +
             "where c.account.id = :accountId " +
             "order by c.creationDate desc nulls last")

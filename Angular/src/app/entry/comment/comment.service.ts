@@ -13,7 +13,7 @@ export class CommentService {
   }
 
   createNewComment(text: string, entry: Entry) {
-    return this.http.post<Comment>(environment.apiUrl + '/api/comment', {
+    return this.http.post<Comment>(environment.apiUrl + '/comment', {
       'text': text,
       'entryId': entry.id
     }, {

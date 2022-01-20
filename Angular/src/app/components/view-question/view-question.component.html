@@ -1,4 +1,4 @@
-<div class="question-view">
+<div class="full-page-component" *ngIf="question">
   <section>
     <div class="card">
       <app-question [question]="question" [showVoting]="true"></app-question>
@@ -9,7 +9,7 @@
 
   <section *ngFor="let answer of question.answers">
     <div class="card" [ngClass]="{'solves-question': answer.solvesQuestion}">
-      <app-answer [answer]="answer"></app-answer>
+      <app-answer [answer]="answer" [question]="question"></app-answer>
       <div class="divider"></div>
       <app-comment-section [entry]="answer"></app-comment-section>
     </div>

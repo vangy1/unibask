@@ -1,20 +1,24 @@
 package sk.unibask.data.model;
 
-import javax.persistence.*;
+import org.hibernate.annotations.CreationTimestamp;
 
-@Entity
+import javax.persistence.*;
+import java.util.Date;
+
+@Entity(name = "notifications")
 public class Notification {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @CreationTimestamp
+    private Date creationDate;
+    private String title;
+    private String url;
+    private boolean viewed;
 
     @ManyToOne
-    @JoinColumn(nullable = false)
     private Account account;
 
-    @ManyToOne
-    @JoinColumn(nullable = false)
-    private Entry entry;
 
     public Long getId() {
         return id;
@@ -22,6 +26,30 @@ public class Notification {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public Date getCreationDate() {
+        return creationDate;
+    }
+
+    public void setCreationDate(Date creationDate) {
+        this.creationDate = creationDate;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
     }
 
     public Account getAccount() {
@@ -32,11 +60,11 @@ public class Notification {
         this.account = account;
     }
 
-    public Entry getEntry() {
-        return entry;
+    public boolean isViewed() {
+        return viewed;
     }
 
-    public void setEntry(Entry entry) {
-        this.entry = entry;
+    public void setViewed(boolean viewed) {
+        this.viewed = viewed;
     }
 }

@@ -15,7 +15,7 @@ export class StudyProgramService {
   }
 
   getStudyPrograms() {
-    return this.http.get<StudyProgram[]>(environment.apiUrl + '/api/study-programs', {
+    return this.http.get<StudyProgram[]>(environment.apiUrl + '/study-programs', {
       headers: new HttpHeaders({'Content-Type': 'application/json', 'ngsw-bypass': 'true'}),
       withCredentials: true
     }).subscribe((programs) => this.studyPrograms = programs);

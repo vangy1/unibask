@@ -11,7 +11,6 @@
       <mat-form-field appearance="outline">
         <mat-label>E-mail</mat-label>
         <input type="email" matInput [(ngModel)]="loginMail">
-        <span matSuffix>uniba.sk</span>
       </mat-form-field>
       <mat-form-field appearance="outline">
         <mat-label>Heslo</mat-label>
@@ -28,7 +27,6 @@
       <mat-form-field appearance="outline">
         <mat-label>E-mail</mat-label>
         <input type="email" matInput [(ngModel)]="registerMail">
-        <span matSuffix>uniba.sk</span>
       </mat-form-field>
       <button color="accent" mat-raised-button [disabled]="isRegisterButtonDisabled"
               (click)="continueToRegisterVerification()">Pokračovať v registrácii
@@ -42,7 +40,6 @@
       <mat-form-field appearance="outline">
         <mat-label>E-mail</mat-label>
         <input type="email" matInput [(ngModel)]="loginMail">
-        <span matSuffix>uniba.sk</span>
       </mat-form-field>
       <button color="accent" mat-raised-button (click)="continueToPasswordChangeVerification()">Pokračovať v zmene
         hesla
@@ -54,7 +51,7 @@
     <div class="register ">
       <h2>Overenie identity</h2>
       <p class="verification-notice">Na adresu <span
-        style="font-weight: bold">{{getFormattedMail(this.loginMail)}}</span> bol zaslaný
+        style="font-weight: bold">{{this.loginMail}}</span> bol zaslaný
         overovací kód pre potvrdenie tvojej identity.</p>
       <p class="verification-notice">V prípade, že mail nevieš nájsť ani v spame, prosím kontaktuj ma na
         vangor2@uniba.sk.</p>
@@ -82,7 +79,7 @@
     <div class="register ">
       <h2>Overenie identity</h2>
       <p class="verification-notice">Na adresu <span
-        style="font-weight: bold">{{getFormattedMail(this.registerMail)}}</span> bol zaslaný
+        style="font-weight: bold">{{this.registerMail}}</span> bol zaslaný
         overovací kód pre potvrdenie tvojej identity.</p>
       <p class="verification-notice">V prípade, že mail nevieš nájsť ani v spame, prosím kontaktuj ma na
         vangor2@uniba.sk.</p>
@@ -112,6 +109,7 @@
   </div>
 
   <div class="info">
+    <img class="logo" src="assets/logo-transparent-white.svg"/>
     <h1>UnibASK je uzavretý systém</h1>
     <h2>
       Vstup je možný iba s platnou uniba.sk e-mailovou adresou

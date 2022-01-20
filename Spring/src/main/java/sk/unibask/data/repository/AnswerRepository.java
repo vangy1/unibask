@@ -7,12 +7,12 @@ import sk.unibask.data.model.Answer;
 
 import java.util.List;
 
-public interface AnswerRepository extends JpaRepository<Answer, Integer> {
+public interface AnswerRepository extends JpaRepository<Answer, Long> {
     List<Answer> findAllByQuestionId(long id);
 
-    @Query("SELECT a from Answer a " +
+    @Query("SELECT a from answers a " +
             "left join fetch a.votes " +
-            "where a.account.id = :accountId " +
+            "where a.isAnonymous = false and a.account.id = :accountId " +
             "order by a.creationDate desc nulls last")
     List<Answer> findAllByAccountWithVotes(@Param("accountId") Long accountId);
 }

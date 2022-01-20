@@ -1,14 +1,21 @@
-<h1 class="section-title">Kategórie otázok</h1>
-<div class="question-list">
+<section class="full-page-component" *ngIf="categories">
+  <h1 class="section-title">Kategórie otázok</h1>
   <div class="card">
     <mat-tree [dataSource]="dataSource" [treeControl]="treeControl" class="example-tree">
       <mat-tree-node *matTreeNodeDef="let node" matTreeNodeToggle>
         <button mat-button color="primary" (click)="goToCategory(node)"
                 class="go-to-category-button">{{node.title}} [{{node.questionCount}}]
         </button>
-        <button mat-icon-button (click)="changeFollowStatus(node)">
+        <button mat-icon-button *ngIf="node.followed" (click)="changeFollowStatus(node)"
+                matTooltip="Prestať sledovať kategóriu">
           <mat-icon color="accent">
-            {{node.followed ? 'star' : 'star_outlined'}}
+            star
+          </mat-icon>
+        </button>
+        <button mat-icon-button *ngIf="!node.followed" (click)="changeFollowStatus(node)"
+                matTooltip="Sledovať kategóriu">
+          <mat-icon color="accent">
+            star_outlined
           </mat-icon>
         </button>
       </mat-tree-node>
@@ -32,7 +39,7 @@
     </mat-tree>
   </div>
 
-</div>
+</section>
 
 
 

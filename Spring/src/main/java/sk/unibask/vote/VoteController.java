@@ -19,8 +19,6 @@ public class VoteController {
 
 
     @PostMapping("/entry/upvote")
-    // returns vote which you will add to votes of entry
-    // two exceptions - failure and cant vote on your post
     public void upvoteEntry(@RequestBody Map<String, String> body) {
         votingService.upvoteEntry(Long.valueOf(body.get("entryId")));
     }
@@ -34,16 +32,4 @@ public class VoteController {
     public void unvoteEntry(@RequestParam(value = "entryId") String entryId) {
         votingService.unvoteEntry(Long.valueOf(entryId));
     }
-
-    @GetMapping("/entry")
-    public void getVotesForEntry(@RequestParam(value = "entryId") String entryId) {
-        votingService.getVotesForEntry(Long.valueOf(entryId));
-
-    }
-
-    @GetMapping("/user")
-    public void getVotesForUser(@RequestParam(value = "userId") String userId) {
-        votingService.getVotesForUser(Long.valueOf(userId));
-    }
-
 }

@@ -3,7 +3,7 @@ package sk.unibask.data.model;
 import javax.persistence.*;
 import java.util.Set;
 
-@Entity
+@Entity(name = "study_programs")
 public class StudyProgram {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

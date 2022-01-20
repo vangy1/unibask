@@ -6,10 +6,6 @@
          (click)="goToRoute('/ask', null)">
         Opýtaj sa
       </a>
-      <a mat-list-item [class.selected-navbar-item]="this.router.url.endsWith('/list')"
-         (click)="goToRoute('/list',null)">
-        Otázky
-      </a>
       <a mat-list-item [class.selected-navbar-item]="this.router.url.startsWith('/list?followed=true')"
          (click)="goToRoute('/list', {followed: true})">
         Sledované
@@ -19,17 +15,24 @@
         Kategórie
       </a>
       <a mat-list-item [class.selected-navbar-item]="this.router.url.startsWith('/profile')"
-         (click)="goToRoute('/profile', {id: authenticationService.user.id})">
+         (click)="goToProfile()">
         Profil
       </a>
+      <a mat-list-item [class.selected-navbar-item]="this.router.url.endsWith('/leaderboard')"
+         (click)="goToRoute('/leaderboard',null)">
+        Rebríček
+      </a>
+      <a mat-list-item [class.selected-navbar-item]="this.router.url.endsWith('/feedback')"
+         (click)="goToRoute('/feedback',null)">
+        Feedback
+      </a>
       <a mat-list-item (click)="logout()">
-        Odhlásiť
+        Odhlásiť sa
       </a>
     </mat-nav-list>
   </mat-sidenav>
-
   <mat-sidenav-content>
-    <mat-toolbar color="primary" #toolbar id="toolbar">
+    <mat-toolbar color="primary" #toolbar id="toolbar" class="fixed-header">
       <button class="toggle-sidenav-button" type="button" aria-label="Toggle sidenav" mat-icon-button
               (click)="drawer.toggle()">
         <img src="/assets/menu.svg" alt="Menu"/>
@@ -37,11 +40,24 @@
       <span class="unibask-title" (click)="goToRoute('', null)">
         <span>UnibASK</span>
       </span>
-      <div></div>
+      <img src="/assets/logo-transparent-white.svg" class="unibask-logo" (click)="goToRoute('', null)"/>
+      <button mat-icon-button [matMenuTriggerFor]="menu" (click)="fetchNotifications()"
+              (onMenuClose)="markNotificationsAsViewed()" class="mobile-notifications">
+        <mat-icon *ngIf="!hasNewNotifications()">notifications_none</mat-icon>
+        <mat-icon *ngIf="hasNewNotifications()" color="accent">notifications</mat-icon>
+      </button>
       <div class="desktop-navigation">
+        <button class="button-text" mat-button [class.selected-navbar-item]="this.router.url.startsWith('/feedback')"
+                (click)="goToRoute('/feedback', null)">
+          Feedback
+        </button>
         <button class="button-text" mat-button [class.selected-navbar-item]="this.router.url.startsWith('/profile')"
-                (click)="goToRoute('/profile', {id: authenticationService.user.id})">
+                (click)="goToProfile()">
           Profil
+        </button>
+        <button class="button-text" mat-button [class.selected-navbar-item]="this.router.url.endsWith('/leaderboard')"
+                (click)="goToRoute('/leaderboard',null)">
+          Rebríček
         </button>
         <button class="button-text" mat-button [class.selected-navbar-item]="this.router.url.startsWith('/categories')"
                 (click)="goToRoute('/categories', null)">
@@ -52,23 +68,35 @@
                 (click)="goToRoute('/list', {followed: true})">
           Sledované
         </button>
-        <button class="button-text" mat-button [class.selected-navbar-item]="this.router.url.endsWith('/list')"
-                (click)="goToRoute('/list',null)">
-          Otázky
-        </button>
-        <!--        <button mat-icon-button>-->
-        <!--          <mat-icon>notifications</mat-icon>-->
-        <!--        </button>-->
-        <button class="button-text" mat-flat-button color="accent" *ngIf="!this.router.url.startsWith('/ask')"
-                style="color: white; margin-right: 12px"
+        <button class="button-text" mat-button color="accent"
+                [class.selected-navbar-item]="this.router.url.startsWith('/ask')"
+                style="color: white; margin-right: 8px"
                 (click)="goToRoute('/ask', null)">
           Opýtaj sa
         </button>
-        <button mat-icon-button (click)="logout()">
+        <button mat-icon-button [matMenuTriggerFor]="menu" (click)="fetchNotifications()"
+                (onMenuClose)="markNotificationsAsViewed()" matTooltip="Notifikácie">
+          <mat-icon *ngIf="!hasNewNotifications()">notifications_none</mat-icon>
+          <mat-icon *ngIf="hasNewNotifications()" color="accent">notifications</mat-icon>
+        </button>
+        <mat-menu #menu="matMenu">
+          <div *ngIf="getNotifications()?.length == 0" class="no-notifications">Žiadne nové notifikácie</div>
+          <div mat-menu-item *ngFor="let notification of getNotifications()" class="notification-menu-item"
+               (click)="goToNotificationUrl(notification)">
+            <span class="dot" *ngIf="!notification.viewed"></span>
+            <div class="notification-info">
+              <span class="notification-title">{{notification?.title}}</span>
+              <span class="notificaiton-date">{{notification?.creationDate | date:'d.MM.y, HH:mm:ss '  }}</span>
+            </div>
+          </div>
+        </mat-menu>
+        <button mat-icon-button (click)="logout()" matTooltip="Odhlásiť sa">
           <mat-icon>logout</mat-icon>
         </button>
       </div>
     </mat-toolbar>
-    <ng-content></ng-content>
+    <div style="margin-top:64px;">
+      <ng-content></ng-content>
+    </div>
   </mat-sidenav-content>
 </mat-sidenav-container>

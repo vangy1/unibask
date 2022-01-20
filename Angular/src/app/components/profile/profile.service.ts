@@ -20,7 +20,7 @@ export class ProfileService {
     let params = new HttpParams();
     params = params.append('userId', userId);
 
-    return this.http.get<User>(environment.apiUrl + '/api/user', {
+    return this.http.get<User>(environment.apiUrl + '/user', {
       headers: new HttpHeaders({'Content-Type': 'application/json', 'ngsw-bypass': 'true'}),
       withCredentials: true,
       params: params
@@ -31,7 +31,7 @@ export class ProfileService {
     const formData = new FormData();
     formData.append('avatar', avatarFile);
 
-    return this.http.post(environment.apiUrl + '/api/avatar/upload', formData, {
+    return this.http.post(environment.apiUrl + '/avatar/upload', formData, {
       responseType: 'text',
       withCredentials: true,
       reportProgress: true,
@@ -47,7 +47,7 @@ export class ProfileService {
     let params = new HttpParams();
     params = params.append('userId', userId);
 
-    return this.http.get(environment.apiUrl + '/api/entries', {
+    return this.http.get(environment.apiUrl + '/entries', {
       headers: new HttpHeaders({'Content-Type': 'application/json', 'ngsw-bypass': 'true'}),
       withCredentials: true,
       params: params
@@ -68,7 +68,7 @@ export class ProfileService {
   }
 
   saveImageRequest(avatarUrl: string) {
-    return this.http.post(environment.apiUrl + '/api/avatar', {
+    return this.http.post(environment.apiUrl + '/avatar', {
       'avatarUrl': avatarUrl,
     }, {
       headers: new HttpHeaders({'Content-Type': 'application/json', 'ngsw-bypass': 'true'}),
@@ -78,7 +78,7 @@ export class ProfileService {
 
 
   setStudyProgram(studyProgramId: string) {
-    return this.http.post(environment.apiUrl + '/api/user/study-program', {
+    return this.http.post(environment.apiUrl + '/user/study-program', {
       'studyProgramId': studyProgramId,
     }, {
       headers: new HttpHeaders({'Content-Type': 'application/json', 'ngsw-bypass': 'true'}),

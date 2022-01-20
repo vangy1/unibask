@@ -31,12 +31,15 @@ export class AuthenticationPageComponent {
   }
 
   login() {
-    this.authenticationService.login(this.getFormattedMail(this.loginMail), this.loginPassword).subscribe(() => {
-      this.authenticationService.checkIfSignedInRequest = this.authenticationService.createCheckIfSignedInRequest()
-      this.router.navigate(['/']);
-    }, error => {
-      this.snackBar.open("Zadané prihlasovacie údaje neprísluchajú žiadnému existujúcemu účtu.", undefined, {duration: 3000});
-    })
+    if (this.isUnibaMail(this.loginMail)) {
+      this.authenticationService.login(this.loginMail, this.loginPassword).subscribe(() => {
+        this.router.navigate(['/']);
+      }, error => {
+        this.snackBar.open("Zadané prihlasovacie údaje neprísluchajú žiadnému existujúcemu účtu.", undefined, {duration: 3000});
+      })
+    } else {
+      this.snackBar.open("Mail nie je z domény uniba.sk", undefined, {duration: 3000});
+    }
   }
 
   continueToPasswordChange() {
@@ -44,56 +47,60 @@ export class AuthenticationPageComponent {
   }
 
   continueToPasswordChangeVerification() {
-    this.state = AuthenticationState.VERIFY_PASSWORD_CHANGE
-    this.authenticationService.generateVerificationCode(this.getFormattedMail(this.loginMail)).subscribe()
+    if (this.isUnibaMail(this.loginMail)) {
+      this.state = AuthenticationState.VERIFY_PASSWORD_CHANGE
+      this.authenticationService.generateVerificationCode(this.loginMail).subscribe()
+    } else {
+      this.snackBar.open("Mail nie je z domény uniba.sk", undefined, {duration: 3000});
+    }
   }
 
   continueToPasswordChangeFinish() {
-    this.authenticationService.checkAgainstVerificationCode(this.getFormattedMail(this.loginMail), this.verificationCode).subscribe((response) => {
+    this.authenticationService.checkAgainstVerificationCode(this.loginMail, this.verificationCode).subscribe((response) => {
       if (response) {
         this.state = AuthenticationState.FINISH_PASSWORD_CHANGE
       } else {
-        this.snackBar.open("Zadaní overovací kód nie je totožný kódu poslanému na mail " + this.getFormattedMail(this.loginMail), undefined, {duration: 3000});
+        this.snackBar.open("Zadaní overovací kód nie je totožný kódu poslanému na mail " + this.loginMail, undefined, {duration: 3000});
       }
     })
   }
 
   continueToRegisterVerification() {
-    this.state = AuthenticationState.VERIFY_REGISTRATION
-    this.authenticationService.generateVerificationCode(this.getFormattedMail(this.registerMail)).subscribe()
+    if (this.isUnibaMail(this.loginMail)) {
+      this.state = AuthenticationState.VERIFY_REGISTRATION
+      this.authenticationService.generateVerificationCode(this.registerMail).subscribe()
+    } else {
+      this.snackBar.open("Mail nie je z domény uniba.sk", undefined, {duration: 3000});
+    }
   }
 
   continueToRegistrationFinish() {
-    this.authenticationService.checkAgainstVerificationCode(this.getFormattedMail(this.registerMail), this.verificationCode).subscribe((response) => {
+    this.authenticationService.checkAgainstVerificationCode(this.registerMail, this.verificationCode).subscribe((response) => {
       if (response) {
         this.state = AuthenticationState.FINISH_REGISTRATION
       } else {
-        this.snackBar.open("Zadaní overovací kód nie je totožný kódu poslanému na mail " + this.getFormattedMail(this.registerMail), undefined, {duration: 3000});
+        this.snackBar.open("Zadaní overovací kód nie je totožný kódu poslanému na mail " + this.registerMail, undefined, {duration: 3000});
       }
     })
   }
 
   register() {
     this.isRegisterButtonDisabled = true;
-    this.authenticationService.register(this.getFormattedMail(this.registerMail), this.registerPassword, this.username, this.verificationCode).subscribe(() => {
-      this.router.navigate(['/']);
+    this.authenticationService.register(this.registerMail, this.registerPassword, this.username, this.verificationCode).subscribe({
+      next: () => this.router.navigate(['/']),
+      error: (error) => this.snackBar.open(error.error.message, undefined, {duration: 3000})
     })
   }
 
   completePasswordChange() {
-    this.authenticationService.completePasswordChange(this.getFormattedMail(this.loginMail), this.newPassword, this.verificationCode).subscribe(() => {
+    this.authenticationService.completePasswordChange(this.loginMail, this.newPassword, this.verificationCode).subscribe(() => {
       this.router.navigate(['/']);
     })
   }
 
-  getFormattedMail(mail: string) {
-    if (mail.indexOf('@') < 0) mail += '@';
-    if (mail.endsWith("uniba.sk")) {
-      return mail
-    }
-    return mail + "uniba.sk";
+  isUnibaMail(mail: string) {
+    return mail.endsWith("@uniba.sk") || mail.endsWith("@fmph.uniba.sk");
   }
-
 }
 
 enum AuthenticationState {

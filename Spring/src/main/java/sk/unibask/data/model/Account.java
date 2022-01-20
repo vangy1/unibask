@@ -7,10 +7,12 @@ import java.util.Set;
 @Entity(name = "accounts")
 public class Account {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private Date creationDate;
+    @Column(unique = true)
     private String email;
+    @Column(unique = true)
     private String username;
     private String password;
     private String avatarSeed;
@@ -26,7 +28,11 @@ public class Account {
     @OneToMany(mappedBy = "account")
     private Set<Vote> votes;
 
+    @OneToMany(mappedBy = "reporter")
+    private Set<Report> reports;
+
     @OneToMany(mappedBy = "account")
+    @OrderBy("creationDate DESC")
     private Set<Notification> notifications;
 
     @ManyToMany
@@ -37,6 +43,10 @@ public class Account {
 
     @ManyToMany
     private Set<Category> followingCategories;
+
+    @ManyToMany
+    private Set<Question> followingQuestions;
+
 
     public Long getId() {
         return id;
@@ -126,19 +136,43 @@ public class Account {
         this.followingCategories = followingCategories;
     }
 
-    public Set<Notification> getNotifications() {
-        return notifications;
-    }
-
-    public void setNotifications(Set<Notification> notifications) {
-        this.notifications = notifications;
-    }
-
     public Date getCreationDate() {
         return creationDate;
     }
 
     public void setCreationDate(Date creationDate) {
         this.creationDate = creationDate;
+    }
+
+    public Set<Report> getReports() {
+        return reports;
+    }
+
+    public void setReports(Set<Report> reports) {
+        this.reports = reports;
+    }
+
+    public Set<Question> getViewedQuestions() {
+        return viewedQuestions;
+    }
+
+    public void setViewedQuestions(Set<Question> viewedQuestions) {
+        this.viewedQuestions = viewedQuestions;
+    }
+
+    public Set<Question> getFollowingQuestions() {
+        return followingQuestions;
+    }
+
+    public void setFollowingQuestions(Set<Question> followingQuestions) {
+        this.followingQuestions = followingQuestions;
+    }
+
+    public Set<Notification> getNotifications() {
+        return notifications;
+    }
+
+    public void setNotifications(Set<Notification> notifications) {
+        this.notifications = notifications;
     }
 }

@@ -35,14 +35,10 @@ public class AvatarService {
 
     @Transactional
     public String uploadAvatar(MultipartFile file) throws IOException {
+        authenticationService.getLoggedAccount();
         String filename = RandomStringUtils.random(24, true, true);
         storeAvatar(file, filename);
         return avatarsPath + filename;
-    }
-
-    private void saveAvatarForAccount(String filename) {
-        Account loggedAccount = authenticationService.getLoggedAccount();
-        loggedAccount.setAvatarFilename(filename);
     }
 
     public void storeAvatar(MultipartFile file, String filename) throws IOException {

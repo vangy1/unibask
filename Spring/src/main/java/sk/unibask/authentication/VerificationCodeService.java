@@ -3,25 +3,30 @@ package sk.unibask.authentication;
 import org.apache.commons.text.CharacterPredicates;
 import org.apache.commons.text.RandomStringGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.server.ResponseStatusException;
 import sk.unibask.data.model.VerificationCode;
+import sk.unibask.data.repository.AccountRepository;
 import sk.unibask.data.repository.VerificationCodeRepository;
 import sk.unibask.mail.MailService;
 
 import java.util.Date;
-import java.util.List;
 import java.util.Objects;
 
 @Service
 public class VerificationCodeService {
     private final VerificationCodeRepository verificationCodeRepository;
+    private final AccountRepository accountRepository;
 
     private RandomStringGenerator randomStringGenerator;
     private final MailService mailService;
 
 
     @Autowired
-    public VerificationCodeService(VerificationCodeRepository verificationCodeRepository, MailService mailService) {
+    public VerificationCodeService(VerificationCodeRepository verificationCodeRepository, AccountRepository accountRepository, MailService mailService) {
+        this.accountRepository = accountRepository;
         this.randomStringGenerator = new RandomStringGenerator.Builder().withinRange('0', 'z')
                 .filteredBy(CharacterPredicates.LETTERS, CharacterPredicates.DIGITS)
                 .build();
@@ -34,8 +39,9 @@ public class VerificationCodeService {
 
     }
 
+    @Transactional
     public void createVerificationCode(String mail) {
-        if (!mail.endsWith("uniba.sk")) return;
+        checkMail(mail);
 
         String generatedCode = generateVerificationCode();
         var verificationCode = new VerificationCode();
@@ -47,8 +53,14 @@ public class VerificationCodeService {
         mailService.sendVerificationCode(mail, generatedCode);
     }
 
+    @Transactional
     public boolean isVerificationCodeValid(String mail, String codeInput) {
-        List<VerificationCode> verificationCodes = verificationCodeRepository.findAllByEmail(mail);
-        return verificationCodes.stream().anyMatch(verificationCode -> Objects.equals(verificationCode.getCode(), codeInput));
+        return verificationCodeRepository.findAllByEmail(mail).stream().anyMatch(verificationCode -> Objects.equals(verificationCode.getCode(), codeInput));
+    }
+
+    private void checkMail(String mail) {
+        if (!mail.endsWith("@uniba.sk") && !mail.endsWith("@fmph.uniba.sk")) {
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Mail musí byť v uniba.sk doméne.");
+        }
     }
 }

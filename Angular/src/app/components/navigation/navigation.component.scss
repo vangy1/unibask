@@ -1,7 +1,7 @@
 @import "src/variables";
 
-$sm: "(max-width: 699px)";
-$md: "(min-width: 700px) and (max-width: 1049px)";
+$sm: "(max-width: 899px)";
+$md: "(min-width: 900px) and (max-width: 1049px)";
 $lg: "(min-width: 1050px)";
 
 .sidenav-container {
@@ -41,8 +41,7 @@ $lg: "(min-width: 1050px)";
 }
 
 .toggle-sidenav-button {
-  margin-right: 6px;
-  margin-bottom: 2px;
+  //margin-right: 6px;
 
   img {
     width: 22px;
@@ -50,12 +49,31 @@ $lg: "(min-width: 1050px)";
 }
 
 .unibask-title {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  margin-right: auto;
+
+  span {
+    margin-left: 8px;
+    font-weight: bold;
+    font-size: 24px;
+  }
+}
+
+.unibask-logo {
+  height: 42px;
+  width: 42px;
   cursor: pointer;
 }
 
 
 @media #{$sm}{
   .desktop-navigation {
+    display: none;
+  }
+
+  .unibask-title {
     display: none;
   }
 
@@ -67,12 +85,12 @@ $lg: "(min-width: 1050px)";
 }
 
 @media #{$md}, #{$lg} {
-  .mobile-navigation {
+  .mobile-navigation, .mobile-notifications {
     display: none;
   }
 
-  mat-toolbar {
-    justify-content: space-between;
+  .unibask-logo {
+    display: none;
   }
 
   .toggle-sidenav-button {
@@ -80,6 +98,52 @@ $lg: "(min-width: 1050px)";
   }
 }
 
+mat-toolbar {
+  justify-content: space-between;
+}
+
 .hidden-toolbar {
   display: none !important;
 }
+
+.no-notifications {
+  font-weight: bold;
+  padding: 16px 16px 0 16px
+
+}
+
+.notification-menu-item {
+  display: flex;
+  align-items: center;
+  max-width: 300px;
+  overflow: auto;
+  padding-top: 6px;
+  padding-bottom: 6px;
+
+  .notification-info {
+    display: flex;
+    flex-direction: column;
+
+    .notification-title {
+      font-weight: bold;
+      white-space: break-spaces;
+      margin-bottom: 2px;
+    }
+
+    .notification-date {
+      color: #000000AA;
+    }
+  }
+
+  .dot {
+    min-height: 10px;
+    min-width: 10px;
+    background-color: $color-accent;
+    border-radius: 50%;
+    display: inline-block;
+    margin-right: 16px;
+  }
+
+
+}
+

@@ -13,6 +13,7 @@ public class QuestionDto extends EntryDto {
     private List<AnswerDto> answers;
     private Long solvedAnswerId;
     private Date lastActivity;
+    private Boolean followed;
 
     public QuestionDto(Builder builder) {
         super(builder);
@@ -22,6 +23,7 @@ public class QuestionDto extends EntryDto {
         this.answers = builder.answers;
         this.solvedAnswerId = builder.solvedAnswerId;
         this.lastActivity = builder.lastActivity;
+        this.followed = builder.followed;
     }
 
     public static Builder builder() {
@@ -35,6 +37,7 @@ public class QuestionDto extends EntryDto {
         private List<AnswerDto> answers;
         private Long solvedAnswerId;
         private Date lastActivity;
+        private Boolean followed;
 
         @Override
         public Builder getThis() {
@@ -68,6 +71,11 @@ public class QuestionDto extends EntryDto {
 
         public Builder setLastActivity(Date lastActivity) {
             this.lastActivity = lastActivity;
+            return this;
+        }
+
+        public Builder setFollowed(Boolean followed) {
+            this.followed = followed;
             return this;
         }
 
@@ -122,5 +130,13 @@ public class QuestionDto extends EntryDto {
 
     public void setLastActivity(Date lastActivity) {
         this.lastActivity = lastActivity;
+    }
+
+    public Boolean getFollowed() {
+        return followed;
+    }
+
+    public void setFollowed(Boolean followed) {
+        this.followed = followed;
     }
 }

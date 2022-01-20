@@ -27,18 +27,12 @@ public class CategoryController {
     }
 
     @GetMapping("/category")
-    public CategoryDto getCategory(@RequestParam("id") String id) {
-        return categoryService.getCategory();
+    public CategoryDto getCategory(@RequestParam("id") Long id) {
+        return categoryService.getCategory(id);
     }
 
     @PostMapping("/category/follow")
     public void changeFollowStatus(@RequestBody Map<String, String> body) {
         categoryService.changeFollowStatus(body.get("id"), Boolean.valueOf(body.get("followed")));
-    }
-
-    @PostMapping("/category")
-    public String createNewCategory(@RequestBody Map<String, String> body) {
-        var newCategory = categoryService.createNewCategory(body.get("parentCategoryId"), body.get("title"));
-        return String.valueOf(newCategory.getId());
     }
 }

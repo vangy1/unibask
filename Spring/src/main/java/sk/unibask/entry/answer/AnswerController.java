@@ -16,7 +16,6 @@ public class AnswerController {
     private final AnswerService answerService;
     private final EntityToDtoService entityToDtoService;
 
-
     @Autowired
     public AnswerController(AnswerService answerService, EntityToDtoService entityToDtoService) {
         this.answerService = answerService;
@@ -26,6 +25,12 @@ public class AnswerController {
     @PostMapping
     @Transactional
     public AnswerDto createNewAnswer(@RequestBody Map<String, String> body) {
-        return entityToDtoService.answerToAnswerDto(answerService.createNewAnswer(body.get("text"), Boolean.parseBoolean(body.get("isAnonymous")), Long.valueOf(body.get("questionId"))), null);
+        return entityToDtoService.answerToAnswerDto(answerService.createNewAnswer(body.get("text"), body.get("unformattedText"), Boolean.parseBoolean(body.get("isAnonymous")), Long.valueOf(body.get("questionId"))), null);
+    }
+
+    @PostMapping("/mark-solved")
+    @Transactional
+    public void markSolved(@RequestBody Map<String, String> body) {
+        answerService.markSolved(Long.valueOf(body.get("answerId")), Boolean.parseBoolean(body.get("isSolved")));
     }
 }

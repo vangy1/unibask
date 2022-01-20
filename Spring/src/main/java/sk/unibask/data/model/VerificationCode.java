@@ -9,7 +9,7 @@ import java.util.Date;
 @Entity(name = "verification_codes")
 public class VerificationCode {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private Date creationDate;
     private String email;

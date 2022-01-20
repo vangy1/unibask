@@ -12,9 +12,10 @@ export class AnswerService {
   constructor(private http: HttpClient) {
   }
 
-  createNewAnswer(text: string, isAnonymous: boolean, question: Question) {
-    return this.http.post<Answer>(environment.apiUrl + '/api/answer', {
+  createNewAnswer(text: string, unformattedText: string, isAnonymous: boolean, question: Question) {
+    return this.http.post<Answer>(environment.apiUrl + '/answer', {
       'text': text,
+      'unformattedText': unformattedText,
       'isAnonymous': isAnonymous,
       'questionId': question.id
     }, {

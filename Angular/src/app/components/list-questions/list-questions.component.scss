@@ -1,13 +1,12 @@
 @import "src/variables.scss";
 
+.input-filter {
+  width: 100%;
+  //background-color: white;
+}
+
+
 .question-list {
-  max-width: 1200px;
-  margin-left: auto;
-  margin-right: auto;
-  padding-bottom: 32px;
-  width: 90%;
-
-
   div {
     margin: 16px 0;
   }

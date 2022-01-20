@@ -16,14 +16,11 @@ export class ViewQuestionComponent implements OnInit {
   }
 
   ngOnInit(): void {
-
     this.route.queryParams.subscribe(params => {
       this.questionService.getQuestionWithAnswers(params['id']).subscribe(question => {
         console.log(question)
         this.question = question;
       })
     });
-
-
   }
 }

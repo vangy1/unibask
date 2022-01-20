@@ -1,6 +1,5 @@
 import {NgModule} from '@angular/core';
 import {RouterModule, Routes} from '@angular/router';
-import {HomeComponent} from "./components/home/home.component";
 import {AuthenticationPageComponent} from "./authentication/page/authentication-page.component";
 import {AskQuestionComponent} from "./components/ask-question/ask-question.component";
 import {UserGuard} from "./authentication/guards/user-guard.service";
@@ -9,15 +8,21 @@ import {ViewQuestionComponent} from "./components/view-question/view-question.co
 import {ListQuestionsComponent} from "./components/list-questions/list-questions.component";
 import {CategoryComponent} from "./components/category/category.component";
 import {ProfileComponent} from "./components/profile/profile.component";
+import {LeaderboardComponent} from "./components/leaderboard/leaderboard.component";
+import {FeedbackComponent} from "./components/feedback/feedback.component";
+import {EditEntryComponent} from "./components/edit-entry/edit-entry.component";
 
 const routes: Routes = [
-  {path: '', component: HomeComponent, canActivate: [UserGuard]},
+  {path: '', component: ListQuestionsComponent, canActivate: [UserGuard]},
   {path: 'authentication', component: AuthenticationPageComponent, canActivate: [GuestGuard]},
   {path: 'ask', component: AskQuestionComponent, canActivate: [UserGuard]},
   {path: 'question', component: ViewQuestionComponent, canActivate: [UserGuard]},
   {path: 'categories', component: CategoryComponent, canActivate: [UserGuard]},
   {path: 'list', component: ListQuestionsComponent, canActivate: [UserGuard]},
-  {path: 'profile', component: ProfileComponent, canActivate: [UserGuard]}
+  {path: 'leaderboard', component: LeaderboardComponent, canActivate: [UserGuard]},
+  {path: 'profile', component: ProfileComponent, canActivate: [UserGuard]},
+  {path: 'feedback', component: FeedbackComponent, canActivate: [UserGuard]},
+  {path: 'edit', component: EditEntryComponent, canActivate: [UserGuard]}
 ];
 
 @NgModule({

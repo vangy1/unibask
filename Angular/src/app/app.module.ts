@@ -8,7 +8,6 @@ import {QuillModule} from "ngx-quill";
 import {MatFormFieldModule} from "@angular/material/form-field";
 import {MatInputModule} from "@angular/material/input";
 import {AuthenticationPageComponent} from "./authentication/page/authentication-page.component";
-import {HomeComponent} from './components/home/home.component';
 import {QuestionPreviewComponent} from './components/question-preview/question-preview.component';
 import {MatIconModule} from "@angular/material/icon";
 import {AppComponent} from './app.component';
@@ -21,7 +20,7 @@ import {MatSelectModule} from "@angular/material/select";
 import {MatOptionModule} from "@angular/material/core";
 import {MatCheckboxModule} from "@angular/material/checkbox";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
-import {HttpClientModule} from "@angular/common/http";
+import {HttpClient, HttpClientModule} from "@angular/common/http";
 import {MatSnackBarModule} from "@angular/material/snack-bar";
 import {ViewQuestionComponent} from './components/view-question/view-question.component';
 import {QuestionComponent} from './components/question/question.component';
@@ -40,13 +39,20 @@ import {ProfileComponent} from './components/profile/profile.component';
 import {MatPaginatorModule} from "@angular/material/paginator";
 import {InfiniteScrollModule} from "ngx-infinite-scroll";
 import {EntryPreviewComponent} from './components/profile/entry-preview/entry-preview.component';
+import {ReportDialogComponent} from './components/report-dialog/report-dialog.component';
+import {MatDialogModule} from "@angular/material/dialog";
+import {LeaderboardComponent} from './components/leaderboard/leaderboard.component';
+import {FeedbackComponent} from './components/feedback/feedback.component';
+import {MatMenuModule} from "@angular/material/menu";
+import {NotificationComponent} from './notification/notification.component';
+import {EditEntryComponent} from './components/edit-entry/edit-entry.component';
+import {MatTooltipModule} from "@angular/material/tooltip";
 
 registerLocaleData(localeSk);
 
 @NgModule({
   declarations: [
     AuthenticationPageComponent,
-    HomeComponent,
     QuestionPreviewComponent,
     AppComponent,
     NavigationComponent,
@@ -59,25 +65,19 @@ registerLocaleData(localeSk);
     ListQuestionsComponent,
     CategoryComponent,
     ProfileComponent,
-    EntryPreviewComponent],
+    EntryPreviewComponent,
+    ReportDialogComponent,
+    LeaderboardComponent,
+    FeedbackComponent,
+    NotificationComponent,
+    EditEntryComponent],
   imports: [
     BrowserModule,
     HttpClientModule,
     AppRoutingModule,
     BrowserAnimationsModule,
     MatButtonModule,
-    QuillModule.forRoot({
-      modules: {
-        formula: true,
-        syntax: true,
-        toolbar: [['formula', 'code-block'],
-          ['bold', 'italic', 'underline', 'strike'],
-          [{'header': 1}, {'header': 2}],
-          ['link', 'image', 'video'],
-          [{'list': 'ordered'}, {'list': 'bullet'}]
-        ],
-      }
-    }),
+    QuillModule.forRoot(),
     MatFormFieldModule,
     MatToolbarModule,
     MatInputModule,
@@ -94,11 +94,18 @@ registerLocaleData(localeSk);
     NgxMatSelectSearchModule,
     ReactiveFormsModule,
     MatPaginatorModule,
-    InfiniteScrollModule
+    InfiniteScrollModule,
+    MatDialogModule,
+    MatMenuModule,
+    MatTooltipModule
   ],
   providers: [AuthenticationService, {provide: LOCALE_ID, useValue: 'sk-SK'},
   ],
   bootstrap: [AppComponent]
 })
 export class AppModule {
+  constructor(private http: HttpClient) {
+
+
+  }
 }

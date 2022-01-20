@@ -1,10 +1,10 @@
 <div class="question">
   <div class="voting">
-    <button mat-icon-button class="large" (click)="upvote()" [color]="answer.myVote > 0 ? 'primary' : ''">
+    <button mat-icon-button class="large" (click)="upvote()" [color]="answer.myVote > 0 ? 'accent' : ''">
       <mat-icon class="large">keyboard_arrow_up</mat-icon>
     </button>
     <span class="voting-summary">{{answer.reputation}}</span>
-    <button mat-icon-button class="large" (click)="downvote()" [color]="answer.myVote < 0 ? 'primary' : ''">
+    <button mat-icon-button class="large" (click)="downvote()" [color]="answer.myVote < 0 ? 'accent' : ''">
       <mat-icon>keyboard_arrow_down</mat-icon>
     </button>
   </div>
@@ -12,29 +12,41 @@
     <quill-view class="no-padding-ql-editor" [content]="answer.text"></quill-view>
   </div>
   <div class="meta-author">
-    <div class="author" (click)="goToProfile(answer.author.id)">
-      <img class="avatar" [src]="answer.author.avatar"/>
+    <div class="author" (click)="goToProfile(answer?.author?.id)" *ngIf="answer?.author; else anonymous">
+      <img class="avatar" [src]="answer?.author?.avatar"/>
       <div class="name-reputation">
-        <span class="name">{{answer.author.username}}</span>
-        <span class="reputation">42 reputácie</span>
+        <mat-icon *ngIf="answer.author.mail.endsWith('fmph.uniba.sk')">school</mat-icon>
+        <span class="name">{{answer?.author?.username}}</span>
+        <span class="reputation">({{answer?.author?.reputation}})</span>
       </div>
     </div>
+    <ng-template #anonymous>
+      <span class="anonymous">Anonymná odpoveď</span>
+    </ng-template>
     <div class="meta">
       <div class="buttons">
-        <button mat-icon-button>
-          <mat-icon>verified</mat-icon>
-        </button>
-        <button mat-icon-button>
-          <mat-icon>edit</mat-icon>
-        </button>
-        <button mat-icon-button class="">
-          <mat-icon>notifications</mat-icon>
-        </button>
-        <button mat-icon-button>
-          <mat-icon>report</mat-icon>
-        </button>
+        <div class="button-container" *ngIf="(authenticationService?.user | async)?.id == answer?.author?.id">
+          <button mat-icon-button (click)="edit()" matTooltip="Upraviť odpoveď" matTooltipPosition="above">
+            <mat-icon>edit</mat-icon>
+          </button>
+        </div>
+        <div class="button-container" *ngIf="(authenticationService?.user | async)?.id == question?.author?.id">
+          <button mat-icon-button *ngIf="!answer.solvesQuestion" (click)="markSolved()"
+                  matTooltip="Označiť odpoveď ako riešenie otázky" matTooltipPosition="above">
+            <mat-icon>verified</mat-icon>
+          </button>
+          <button mat-icon-button *ngIf="answer.solvesQuestion" (click)="markSolved()"
+                  matTooltip="Odznačiť odpoveď ako riešenie otázky" matTooltipPosition="above" color="accent">
+            <mat-icon>verified</mat-icon>
+          </button>
+        </div>
+        <div class="button-container">
+          <button mat-icon-button (click)="reportEntry()" matTooltip="Nahlásiť odpoveď" matTooltipPosition="above">
+            <mat-icon>report</mat-icon>
+          </button>
+        </div>
       </div>
-      <span class="date">Pridané {{answer.creationDate | date:'d. MMMM y, HH:mm:ss '  }}</span>
+      <span class="date">{{answer?.creationDate | date:'d. MMMM y, HH:mm:ss '  }}</span>
     </div>
   </div>
 </div>

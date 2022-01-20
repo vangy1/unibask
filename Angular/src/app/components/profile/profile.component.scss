@@ -4,15 +4,6 @@ $sm: "(max-width: 519px)";
 $md: "(min-width: 520px) and (max-width: 899px)";
 $lg: "(min-width: 900px)";
 
-.profile {
-  max-width: 1200px;
-  margin-left: auto;
-  margin-right: auto;
-  padding-top: 16px;
-  padding-bottom: 32px;
-  width: 90%;
-
-}
 
 .public-info {
   display: flex;
@@ -26,6 +17,10 @@ $lg: "(min-width: 900px)";
 
   .user-info {
     margin-left: 32px;
+
+    mat-icon {
+      margin-right: 8px;
+    }
 
     .username {
       font-size: 32px;
@@ -42,12 +37,27 @@ $lg: "(min-width: 900px)";
       margin-top: 4px;
     }
   }
+
+  .reputation {
+    margin-left: auto;
+    display: flex;
+    flex-direction: column;
+
+    span {
+      text-align: center;
+      font-weight: bold;
+    }
+
+    .reputation-value {
+      font-weight: bold;
+      font-size: 42px;
+    }
+  }
 }
 
 .change-info {
   display: flex;
   margin-top: 16px;
-  margin-bottom: 16px;
 
   .card {
     margin: 8px 0;
@@ -104,8 +114,6 @@ $lg: "(min-width: 900px)";
       width: 100%;
       color: white;
     }
-
-
   }
 
   .change-avatar {
@@ -137,6 +145,10 @@ $lg: "(min-width: 900px)";
       color: white;
     }
   }
+}
+
+.section-title {
+  margin-top: 32px;
 }
 
 .entry {

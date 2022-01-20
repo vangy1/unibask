@@ -3,6 +3,11 @@ import {Answer} from "../../entry/answer/answer";
 import {VoteService} from "../../vote/vote.service";
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {Router} from "@angular/router";
+import {AuthenticationService} from "../../authentication/authentication.service";
+import {Question} from "../../entry/question/question";
+import {AnswerService} from "./answer.service";
+import {ReportDialogComponent} from "../report-dialog/report-dialog.component";
+import {MatDialog} from "@angular/material/dialog";
 
 @Component({
   selector: 'app-answer',
@@ -10,9 +15,10 @@ import {Router} from "@angular/router";
   styleUrls: ['./answer.component.scss']
 })
 export class AnswerComponent implements OnInit {
+  @Input() question: Question;
   @Input() answer: Answer;
 
-  constructor(private voteService: VoteService, private snackBar: MatSnackBar, private router: Router) {
+  constructor(private answerService: AnswerService, private voteService: VoteService, private snackBar: MatSnackBar, private router: Router, public authenticationService: AuthenticationService, private dialog: MatDialog) {
   }
 
   ngOnInit(): void {
@@ -26,7 +32,22 @@ export class AnswerComponent implements OnInit {
     this.voteService.downvoteEntry(this.answer)
   }
 
+  markSolved() {
+    this.answerService.markSolved(this.answer.id, !this.answer.solvesQuestion).subscribe(() => this.answer.solvesQuestion = !this.answer.solvesQuestion)
+  }
+
   goToProfile(userId: number) {
     this.router.navigate(['/profile'], {queryParams: {id: userId}})
+  }
+
+  edit() {
+    this.router.navigate(['/edit'], {queryParams: {id: this.answer.id}})
+  }
+
+  reportEntry() {
+    const dialogRef = this.dialog.open(ReportDialogComponent, {
+      maxWidth: "400px",
+      data: {entryId: this.answer.id}
+    });
   }
 }

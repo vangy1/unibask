@@ -7,6 +7,8 @@ import {FormControl} from "@angular/forms";
 import {ReplaySubject, Subject} from "rxjs";
 import {takeUntil} from "rxjs/operators";
 import {Category} from "../../category/category";
+import {HttpClient} from "@angular/common/http";
+import {QuillModulesService} from "../../quill-modules.service";
 
 @Component({
   selector: 'app-question-ask',
@@ -14,11 +16,12 @@ import {Category} from "../../category/category";
   styleUrls: ['./ask-question.component.scss']
 })
 export class AskQuestionComponent implements OnDestroy {
+
+
   @ViewChild('editor', {static: false}) quillEditorBase: QuillEditorBase;
   title: string;
   text: string;
   isAnonymous: boolean;
-
 
   public categoryFilterCtrl: FormControl = new FormControl();
   public filteredCategories: ReplaySubject<Category[]> = new ReplaySubject<Category[]>(1);
@@ -29,7 +32,7 @@ export class AskQuestionComponent implements OnDestroy {
   protected _onDestroy = new Subject<void>();
 
 
-  constructor(private router: Router, private questionService: QuestionService, private categoryService: CategoryService) {
+  constructor(private http: HttpClient, private router: Router, private questionService: QuestionService, private categoryService: CategoryService, public quillService: QuillModulesService) {
     this.categoryService.getLeafCategories().subscribe((categories) => {
       this.categories = categories;
 
@@ -42,9 +45,8 @@ export class AskQuestionComponent implements OnDestroy {
           this.filterCategories();
         });
     })
-
-
   }
+
 
   filterCategories() {
     if (!this.categories) {
@@ -74,7 +76,7 @@ export class AskQuestionComponent implements OnDestroy {
   }
 
   createNewQuestion() {
-    this.questionService.createNewQuestion(this.title, this.text, this.selectedCategory.id, this.isAnonymous).subscribe(id => {
+    this.questionService.createNewQuestion(this.title, this.text, this.quillEditorBase.editorElem.innerText, this.selectedCategory.id, this.isAnonymous).subscribe(id => {
       this.router.navigate(['/question'], {queryParams: {id: id}})
     });
   }
