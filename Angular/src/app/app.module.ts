@@ -1,117 +1,35 @@
 import {LOCALE_ID, NgModule} from '@angular/core';
-import {BrowserModule} from '@angular/platform-browser';
 
-import {AppRoutingModule} from './app-routing.module';
-import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
-import {MatButtonModule} from "@angular/material/button";
-import {QuillModule} from "ngx-quill";
-import {MatFormFieldModule} from "@angular/material/form-field";
-import {MatInputModule} from "@angular/material/input";
-import {AuthenticationPageComponent} from "./authentication/page/authentication-page.component";
-import {QuestionPreviewComponent} from './question-list/question-preview/question-preview.component';
-import {MatIconModule} from "@angular/material/icon";
 import {AppComponent} from './app.component';
-import {MatSidenavModule} from "@angular/material/sidenav";
-import {NavigationComponent} from './navigation/navigation.component';
-import {MatListModule} from "@angular/material/list";
-import {MatToolbarModule} from "@angular/material/toolbar";
-import {QuestionAskComponent} from './question-ask/question-ask.component';
-import {MatSelectModule} from "@angular/material/select";
-import {MatOptionModule} from "@angular/material/core";
-import {MatCheckboxModule} from "@angular/material/checkbox";
-import {FormsModule, ReactiveFormsModule} from "@angular/forms";
-import {HttpClient, HttpClientModule} from "@angular/common/http";
-import {MatSnackBarModule} from "@angular/material/snack-bar";
-import {ViewQuestionComponent} from './question/view-question/view-question.component';
-import {QuestionComponent} from './question/question/question.component';
-import {MatCardModule} from "@angular/material/card";
+import {HttpClientModule} from "@angular/common/http";
 import localeSk from '@angular/common/locales/sk';
 import {registerLocaleData} from "@angular/common";
-import {CommentSectionComponent} from './question/comment/comment-section/comment-section.component';
-import {AnswerComponent} from './question/answer/answer.component';
-import {AnswerQuestionComponent} from './question/answer-question/answer-question.component';
-import {QuestionListComponent} from './question-list/question-list.component';
-import {CategoryComponent} from './category/category.component';
-import {MatTreeModule} from "@angular/material/tree";
 import {AuthenticationService} from "./authentication/authentication.service";
-import {NgxMatSelectSearchModule} from "ngx-mat-select-search";
-import {ProfileComponent} from './profile/profile.component';
-import {MatPaginatorModule} from "@angular/material/paginator";
-import {InfiniteScrollModule} from "ngx-infinite-scroll";
-import {EntryPreviewComponent} from './profile/entry-preview/entry-preview.component';
-import {ReportDialogComponent} from './question/report-dialog/report-dialog.component';
-import {MatDialogModule} from "@angular/material/dialog";
-import {LeaderboardComponent} from './leaderboard/leaderboard.component';
-import {FeedbackComponent} from './feedback/feedback.component';
-import {MatMenuModule} from "@angular/material/menu";
-import {NotificationComponent} from './notification/notification.component';
-import {EditEntryComponent} from './question/edit-entry/edit-entry.component';
-import {MatTooltipModule} from "@angular/material/tooltip";
+import {SharedModule} from "./shared.module";
+import {NotificationModule} from "./notification/notification.module";
+import {RoutingModule} from "./routing/routing.module";
+import {BrowserModule} from "@angular/platform-browser";
+import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
+import {NavigationComponent} from "./navigation/navigation.component";
 
 registerLocaleData(localeSk);
 
 @NgModule({
   declarations: [
     AppComponent,
-
-    AuthenticationPageComponent,
-    NavigationComponent,
-
-
-    QuestionAskComponent,
-    ViewQuestionComponent,
-    QuestionComponent,
-    CommentSectionComponent,
-    AnswerComponent,
-    AnswerQuestionComponent,
-    QuestionListComponent,
-    EditEntryComponent,
-    EntryPreviewComponent,
-    QuestionPreviewComponent,
-
-
-    CategoryComponent,
-    ProfileComponent,
-    ReportDialogComponent,
-    LeaderboardComponent,
-    FeedbackComponent,
-    NotificationComponent,
+    NavigationComponent
   ],
   imports: [
     BrowserModule,
     HttpClientModule,
-    AppRoutingModule,
     BrowserAnimationsModule,
-    MatButtonModule,
-    QuillModule.forRoot(),
-    MatFormFieldModule,
-    MatToolbarModule,
-    MatInputModule,
-    MatListModule,
-    MatIconModule,
-    MatSidenavModule,
-    MatSelectModule,
-    MatOptionModule,
-    MatCheckboxModule,
-    MatSnackBarModule,
-    FormsModule,
-    MatCardModule,
-    MatTreeModule,
-    NgxMatSelectSearchModule,
-    ReactiveFormsModule,
-    MatPaginatorModule,
-    InfiniteScrollModule,
-    MatDialogModule,
-    MatMenuModule,
-    MatTooltipModule
+    RoutingModule,
+    SharedModule,
+    NotificationModule
   ],
   providers: [AuthenticationService, {provide: LOCALE_ID, useValue: 'sk-SK'},
   ],
   bootstrap: [AppComponent]
 })
 export class AppModule {
-  constructor(private http: HttpClient) {
-
-
-  }
 }

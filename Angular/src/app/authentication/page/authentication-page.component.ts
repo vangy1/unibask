@@ -4,7 +4,7 @@ import {MatSnackBar} from "@angular/material/snack-bar";
 import {Router} from "@angular/router";
 
 @Component({
-  selector: 'app-authentication-page',
+  selector: 'authentication-page',
   templateUrl: './authentication-page.component.html',
   styleUrls: ['./authentication-page.component.scss']
 })
@@ -33,7 +33,7 @@ export class AuthenticationPageComponent {
   login() {
     if (this.isUnibaMail(this.loginMail)) {
       this.authenticationService.login(this.loginMail, this.loginPassword).subscribe(() => {
-        this.router.navigate(['/']);
+        this.router.navigate(['/list']);
       }, error => {
         this.snackBar.open("Zadané prihlasovacie údaje neprísluchajú žiadnému existujúcemu účtu.", undefined, {duration: 3000});
       })
@@ -87,14 +87,14 @@ export class AuthenticationPageComponent {
   register() {
     this.isRegisterButtonDisabled = true;
     this.authenticationService.register(this.registerMail, this.registerPassword, this.username, this.verificationCode).subscribe({
-      next: () => this.router.navigate(['/']),
+      next: () => this.router.navigate(['/list']),
       error: (error) => this.snackBar.open(error.error.message, undefined, {duration: 3000})
     })
   }
 
   completePasswordChange() {
     this.authenticationService.completePasswordChange(this.loginMail, this.newPassword, this.verificationCode).subscribe(() => {
-      this.router.navigate(['/']);
+      this.router.navigate(['/list']);
     })
   }
 

@@ -37,10 +37,10 @@
               (click)="drawer.toggle()">
         <img src="/src/assets/menu.svg" alt="Menu"/>
       </button>
-      <span class="unibask-title" (click)="goToRoute('', null)">
+      <span class="unibask-title" (click)="goToRoute('/list', null)">
         <span>UnibASK</span>
       </span>
-      <img src="/src/assets/logo-transparent-white.svg" class="unibask-logo" (click)="goToRoute('', null)"/>
+      <img src="/src/assets/logo-transparent-white.svg" class="unibask-logo" (click)="goToRoute('/list', null)"/>
       <button mat-icon-button [matMenuTriggerFor]="menu" (click)="fetchNotifications()"
               (onMenuClose)="markNotificationsAsViewed()" class="mobile-notifications">
         <mat-icon *ngIf="!hasNewNotifications()">notifications_none</mat-icon>

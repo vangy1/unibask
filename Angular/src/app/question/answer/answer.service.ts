@@ -4,9 +4,7 @@ import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {Question} from "../question";
 import {Answer} from "./answer";
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable()
 export class AnswerService {
 
   constructor(private http: HttpClient) {

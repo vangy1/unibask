@@ -18,7 +18,10 @@ export class QuestionListComponent implements OnInit {
   searchPhrase: string;
   questionSearchChanged: Subject<string> = new Subject<string>();
 
-  constructor(private questionService: QuestionService, private route: ActivatedRoute, public listQuestionsService: QuestionListService, private categoryService: CategoryService) {
+  constructor(private questionService: QuestionService,
+              private route: ActivatedRoute,
+              public listQuestionsService: QuestionListService,
+              private categoryService: CategoryService) {
     this.questionSearchChanged
       .pipe(
         debounceTime(700),

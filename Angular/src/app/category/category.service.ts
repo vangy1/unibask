@@ -3,9 +3,7 @@ import {environment} from "../../environments/environment";
 import {HttpClient, HttpHeaders, HttpParams} from "@angular/common/http";
 import {Category} from "./category";
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable()
 export class CategoryService {
 
   constructor(private http: HttpClient) {

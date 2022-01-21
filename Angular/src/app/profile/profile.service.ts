@@ -2,15 +2,13 @@ import {Injectable} from '@angular/core';
 import {HttpClient, HttpHeaders, HttpParams} from "@angular/common/http";
 import {Question} from "../question/question";
 import {environment} from "../../environments/environment";
-import {ProfileEntry} from "./profile-entry";
 import {Answer} from "../question/answer/answer";
 import {Comment} from "../question/comment/comment";
 import {map} from "rxjs/operators";
 import {User} from "../authentication/user";
+import {EntryProfile} from "./entry-preview/entry-profile";
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable()
 export class ProfileService {
 
   constructor(private http: HttpClient) {
@@ -57,9 +55,9 @@ export class ProfileService {
       let comments: Comment[] = respone['comments']
 
       return [
-        ...questions.map(value => <ProfileEntry>{entryName: "Otázka", title: value.title, entry: value}),
-        ...answers.map(value => <ProfileEntry>{entryName: "Odpoveď", title: null, entry: value}),
-        ...comments.map(value => <ProfileEntry>{
+        ...questions.map(value => <EntryProfile>{entryName: "Otázka", title: value.title, entry: value}),
+        ...answers.map(value => <EntryProfile>{entryName: "Odpoveď", title: null, entry: value}),
+        ...comments.map(value => <EntryProfile>{
           entryName: "Komentár",
           title: null,
           entry: value

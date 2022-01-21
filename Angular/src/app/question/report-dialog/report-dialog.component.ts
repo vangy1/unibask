@@ -1,17 +1,17 @@
 import {Component, Inject, OnInit} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
-import {HttpClient, HttpHeaders} from "@angular/common/http";
-import {environment} from "../../../environments/environment";
+import {HttpClient} from "@angular/common/http";
+import {ReportService} from "./report.service";
 
 @Component({
-  selector: 'app-report-dialog',
+  selector: 'report-dialog',
   templateUrl: './report-dialog.component.html',
   styleUrls: ['./report-dialog.component.scss']
 })
 export class ReportDialogComponent implements OnInit {
   reportReason: string;
 
-  constructor(private http: HttpClient, public dialogRef: MatDialogRef<ReportDialogComponent>,
+  constructor(private http: HttpClient, private reportService: ReportService, public dialogRef: MatDialogRef<ReportDialogComponent>,
               @Inject(MAT_DIALOG_DATA) public data: any) {
   }
 
@@ -19,13 +19,7 @@ export class ReportDialogComponent implements OnInit {
   }
 
   onConfirm(): void {
-    this.http.post(environment.apiUrl + '/report', {
-      entryId: this.data.entryId,
-      reportReason: this.reportReason
-    }, {
-      headers: new HttpHeaders({'Content-Type': 'application/json', 'ngsw-bypass': 'true'}),
-      withCredentials: true,
-    }).subscribe()
+    this.reportService.reportEntry(this.data.entryId, this.reportReason).subscribe()
     this.dialogRef.close();
   }
 

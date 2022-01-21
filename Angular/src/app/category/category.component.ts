@@ -6,7 +6,7 @@ import {MatTreeNestedDataSource} from "@angular/material/tree";
 import {Router} from "@angular/router";
 
 @Component({
-  selector: 'app-category',
+  selector: 'category',
   templateUrl: './category.component.html',
   styleUrls: ['./category.component.scss'],
 })

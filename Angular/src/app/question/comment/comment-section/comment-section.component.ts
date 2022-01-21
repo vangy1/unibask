@@ -7,7 +7,7 @@ import {Comment} from "../comment";
 import {Router} from "@angular/router";
 
 @Component({
-  selector: 'app-comment-section',
+  selector: 'comment-section',
   templateUrl: './comment-section.component.html',
   styleUrls: ['./comment-section.component.scss']
 })

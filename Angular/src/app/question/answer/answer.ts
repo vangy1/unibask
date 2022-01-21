@@ -1,4 +1,4 @@
-import {Entry} from "../../entry/entry";
+import {Entry} from "../entry";
 import {Comment} from "../comment/comment";
 
 export interface Answer extends Entry {

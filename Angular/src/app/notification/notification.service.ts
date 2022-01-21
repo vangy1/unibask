@@ -4,9 +4,7 @@ import {environment} from "../../environments/environment";
 import {map, tap} from "rxjs/operators";
 import {Notification} from "./notification";
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable()
 export class NotificationService {
   notifications: Notification[]
 

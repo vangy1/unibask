@@ -1,4 +1,4 @@
-import {ChangeDetectorRef, Component, Renderer2, ViewChild} from '@angular/core';
+import {Component, ViewChild} from '@angular/core';
 import {MatSidenav} from "@angular/material/sidenav";
 import {AuthenticationService} from "../authentication/authentication.service";
 import {Router} from "@angular/router";
@@ -6,7 +6,7 @@ import {NotificationService} from "../notification/notification.service";
 import {Notification} from "../notification/notification";
 
 @Component({
-  selector: 'app-navigation',
+  selector: 'navigation',
   templateUrl: './navigation.component.html',
   styleUrls: ['./navigation.component.scss'],
 })
@@ -15,26 +15,9 @@ export class NavigationComponent {
   @ViewChild('toolbar', {static: false}) toolbar: any;
   mail: string
 
-  constructor(public router: Router, public authenticationService: AuthenticationService, private notificationService: NotificationService, private renderer: Renderer2, private cd: ChangeDetectorRef) {
+  constructor(public router: Router, public authenticationService: AuthenticationService, private notificationService: NotificationService) {
     this.notificationService.getNotification().subscribe()
-    // this.router.events
-    //   .pipe(filter(event => event instanceof NavigationEnd))
-    //   .subscribe((event) => {
-    //     if (this.router.url === '/authentication') {
-    //       this.renderer.addClass(this.toolbar._elementRef.nativeElement, 'hidden-toolbar');
-    //     } else {
-    //       this.renderer.removeClass(this.toolbar._elementRef.nativeElement, 'hidden-toolbar');
-    //       this.recheckUser()
-    //     }
-    //   });
   }
-
-  // recheckUser() {
-  //   this.authenticationService.checkIfSignedInRequest.pipe(tap(user => {
-  //     this.mail = user.mail.replace("uniba.sk", "")
-  //     this.cd.detectChanges()
-  //   })).subscribe();
-  // }
 
   goToRoute(route: string, params: any) {
     this.router.navigate([route], {queryParams: params})
@@ -72,6 +55,4 @@ export class NavigationComponent {
   logout() {
     this.authenticationService.logout()
   }
-
-
 }

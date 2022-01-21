@@ -1,4 +1,4 @@
-import {Entry} from "../../entry/entry";
+import {Entry} from "../entry";
 
 export interface Comment extends Entry {
 

@@ -6,10 +6,8 @@ import Quill from "quill";
 
 Quill.register('modules/imageHandler', ImageHandler);
 
-@Injectable({
-  providedIn: 'root'
-})
-export class QuillModulesService {
+@Injectable()
+export class EditorService {
   modules = {
     formula: true,
     syntax: true,

@@ -1,11 +1,9 @@
 import {Injectable} from '@angular/core';
-import {environment} from "../../environments/environment";
+import {environment} from "../../../environments/environment";
 import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {StudyProgram} from "./study-program";
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable()
 export class StudyProgramService {
   studyPrograms: StudyProgram[];
 

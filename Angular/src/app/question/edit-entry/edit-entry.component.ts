@@ -2,11 +2,11 @@ import {Component, OnInit, ViewChild} from '@angular/core';
 import {QuillEditorBase} from "ngx-quill";
 import {ActivatedRoute, Router} from "@angular/router";
 import {EditEntryService} from "./edit-entry.service";
-import {Entry} from "../../entry/entry";
-import {QuillModulesService} from "../../editor/quill-modules.service";
+import {Entry} from "../entry";
+import {EditorService} from "../../editor/editor.service";
 
 @Component({
-  selector: 'app-edit-entry',
+  selector: 'edit-entry',
   templateUrl: './edit-entry.component.html',
   styleUrls: ['./edit-entry.component.scss']
 })
@@ -17,7 +17,7 @@ export class EditEntryComponent implements OnInit {
   entry: Entry
 
 
-  constructor(private editEntryService: EditEntryService, private route: ActivatedRoute, private router: Router, public quillService: QuillModulesService) {
+  constructor(private editEntryService: EditEntryService, private route: ActivatedRoute, private router: Router, public quillService: EditorService) {
   }
 
   ngOnInit(): void {
@@ -27,10 +27,10 @@ export class EditEntryComponent implements OnInit {
           if (response) {
             this.entry = response
           } else {
-            this.router.navigate([''])
+            this.router.navigate(['/list'])
           }
         },
-        error: () => this.router.navigate([''])
+        error: () => this.router.navigate(['/list'])
       })
     });
   }

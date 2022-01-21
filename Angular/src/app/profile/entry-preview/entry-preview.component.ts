@@ -1,14 +1,14 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {ProfileEntry} from "../profile-entry";
+import {EntryProfile} from "./entry-profile";
 
 @Component({
-  selector: 'app-entry-preview',
+  selector: 'entry-preview',
   templateUrl: './entry-preview.component.html',
   styleUrls: ['./entry-preview.component.scss']
 })
 export class EntryPreviewComponent implements OnInit {
 
-  @Input('profileEntry') profileEntry: ProfileEntry
+  @Input('profileEntry') profileEntry: EntryProfile
 
   constructor() {
   }

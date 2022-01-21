@@ -3,9 +3,7 @@ import {environment} from "../../environments/environment";
 import {HttpClient, HttpHeaders, HttpParams} from "@angular/common/http";
 import {Question} from "./question";
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable()
 export class QuestionService {
 
   constructor(private http: HttpClient) {

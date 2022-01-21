@@ -4,11 +4,11 @@ import {Question} from "../question";
 import {ActivatedRoute} from "@angular/router";
 
 @Component({
-  selector: 'app-question-view',
-  templateUrl: './view-question.component.html',
-  styleUrls: ['./view-question.component.scss']
+  selector: 'question-view',
+  templateUrl: './question-page.component.html',
+  styleUrls: ['./question-page.component.scss']
 })
-export class ViewQuestionComponent implements OnInit {
+export class QuestionPageComponent implements OnInit {
   @Input() questionId: string;
   question: Question;
 
@@ -18,7 +18,6 @@ export class ViewQuestionComponent implements OnInit {
   ngOnInit(): void {
     this.route.queryParams.subscribe(params => {
       this.questionService.getQuestionWithAnswers(params['id']).subscribe(question => {
-        console.log(question)
         this.question = question;
       })
     });

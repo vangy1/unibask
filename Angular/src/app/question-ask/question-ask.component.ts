@@ -8,7 +8,7 @@ import {ReplaySubject, Subject} from "rxjs";
 import {takeUntil} from "rxjs/operators";
 import {Category} from "../category/category";
 import {HttpClient} from "@angular/common/http";
-import {QuillModulesService} from "../editor/quill-modules.service";
+import {EditorService} from "../editor/editor.service";
 
 @Component({
   selector: 'question-ask',
@@ -30,7 +30,7 @@ export class QuestionAskComponent implements OnDestroy {
   protected _onDestroy = new Subject<void>();
 
 
-  constructor(private http: HttpClient, private router: Router, private questionService: QuestionService, private categoryService: CategoryService, public quillService: QuillModulesService) {
+  constructor(private http: HttpClient, private router: Router, private questionService: QuestionService, private categoryService: CategoryService, public quillService: EditorService) {
     this.categoryService.getLeafCategories().subscribe((categories) => {
       this.categories = categories;
 
@@ -82,5 +82,4 @@ export class QuestionAskComponent implements OnDestroy {
     this._onDestroy.next();
     this._onDestroy.complete();
   }
-
 }

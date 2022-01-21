@@ -10,7 +10,7 @@ import {ReportDialogComponent} from "../report-dialog/report-dialog.component";
 import {MatDialog} from "@angular/material/dialog";
 
 @Component({
-  selector: 'app-answer',
+  selector: 'answer',
   templateUrl: './answer.component.html',
   styleUrls: ['./answer.component.scss']
 })
@@ -34,7 +34,9 @@ export class AnswerComponent implements OnInit {
 
   markSolved() {
     this.answerService.markSolved(this.answer.id, !this.answer.solvesQuestion).subscribe(() => {
-      this.question.answers.forEach(answer => answer.solvesQuestion = false);
+      this.question.answers.forEach(answer => {
+        if (this.answer != answer) answer.solvesQuestion = false
+      });
       this.answer.solvesQuestion = !this.answer.solvesQuestion
     })
   }
@@ -44,7 +46,7 @@ export class AnswerComponent implements OnInit {
   }
 
   edit() {
-    this.router.navigate(['/edit'], {queryParams: {id: this.answer.id}})
+    this.router.navigate(['/question/edit'], {queryParams: {id: this.answer.id}})
   }
 
   reportEntry() {

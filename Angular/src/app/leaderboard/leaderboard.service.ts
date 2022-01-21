@@ -3,9 +3,7 @@ import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {environment} from "../../environments/environment";
 import {LeaderboardItem} from "./leaderboard-item";
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable()
 export class LeaderboardService {
   leaderboard: LeaderboardItem[]
 

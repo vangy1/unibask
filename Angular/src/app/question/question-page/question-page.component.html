@@ -3,21 +3,21 @@
     <div class="card">
       <app-question [question]="question" [showVoting]="true"></app-question>
       <div class="divider"></div>
-      <app-comment-section [entry]="question"></app-comment-section>
+      <comment-section [entry]="question"></comment-section>
     </div>
   </section>
 
   <section *ngFor="let answer of question.answers">
     <div class="card" [ngClass]="{'solves-question': answer.solvesQuestion}">
-      <app-answer [answer]="answer" [question]="question"></app-answer>
+      <answer [answer]="answer" [question]="question"></answer>
       <div class="divider"></div>
-      <app-comment-section [entry]="answer"></app-comment-section>
+      <comment-section [entry]="answer"></comment-section>
     </div>
   </section>
 
   <section>
     <div class="card">
-      <app-answer-to-question [question]="question"></app-answer-to-question>
+      <answer-to-question [question]="question"></answer-to-question>
     </div>
   </section>
 </div>

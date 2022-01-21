@@ -1,12 +1,12 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {Question} from "../question";
-import {VoteService} from "../vote.service";
+import {Question} from "./question";
+import {VoteService} from "./vote.service";
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {Router} from "@angular/router";
-import {AuthenticationService} from "../../authentication/authentication.service";
+import {AuthenticationService} from "../authentication/authentication.service";
 import {MatDialog} from "@angular/material/dialog";
-import {ReportDialogComponent} from "../report-dialog/report-dialog.component";
-import {QuestionService} from "../question.service";
+import {ReportDialogComponent} from "./report-dialog/report-dialog.component";
+import {QuestionService} from "./question.service";
 
 @Component({
   selector: 'app-question',
@@ -49,6 +49,6 @@ export class QuestionComponent implements OnInit {
   }
 
   edit() {
-    this.router.navigate(['/edit'], {queryParams: {id: this.question.id}})
+    this.router.navigate(['/question/edit'], {queryParams: {id: this.question.id}})
   }
 }

@@ -1,14 +1,12 @@
 import {Injectable} from '@angular/core';
 import {HttpClient, HttpHeaders, HttpParams} from "@angular/common/http";
 import {environment} from "../../environments/environment";
-import {Entry} from "../entry/entry";
+import {Entry} from "./entry";
 import {AuthenticationService} from "../authentication/authentication.service";
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {map} from "rxjs/operators";
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable()
 export class VoteService {
 
   constructor(private http: HttpClient, private authenticationService: AuthenticationService, private snackBar: MatSnackBar) {

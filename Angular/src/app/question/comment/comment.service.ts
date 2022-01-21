@@ -2,11 +2,9 @@ import {Injectable} from '@angular/core';
 import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {environment} from "../../../environments/environment";
 import {Comment} from "./comment";
-import {Entry} from "../../entry/entry";
+import {Entry} from "../entry";
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable()
 export class CommentService {
 
   constructor(private http: HttpClient) {

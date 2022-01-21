@@ -2,15 +2,15 @@ import {Component, OnInit, ViewChild} from '@angular/core';
 import {AuthenticationService} from "../authentication/authentication.service";
 import {HttpClient, HttpEventType} from "@angular/common/http";
 import {ProfileService} from "./profile.service";
-import {ProfileEntry} from "./profile-entry";
-import {StudyProgramService} from "./study-program.service";
+import {StudyProgramService} from "./study-program/study-program.service";
 import {ActivatedRoute, Router} from "@angular/router";
 import {User} from "../authentication/user";
 import {Observable, Observer} from "rxjs";
 import {shareReplay} from "rxjs/operators";
+import {EntryProfile} from "./entry-preview/entry-profile";
 
 @Component({
-  selector: 'app-profile',
+  selector: 'profile',
   templateUrl: './profile.component.html',
   styleUrls: ['./profile.component.scss']
 })
@@ -20,7 +20,7 @@ export class ProfileComponent implements OnInit {
   newAvatar: string;
   uploadProgress = -1;
   uploadPictureButtonText = "Nahraj avatar"
-  profileEntries: ProfileEntry[] = []
+  profileEntries: EntryProfile[] = []
   user: User
 
   selectedStudyProgram = 'not-set';
@@ -32,7 +32,7 @@ export class ProfileComponent implements OnInit {
   constructor(public authenticationService: AuthenticationService, private router: Router, private http: HttpClient, private profileService: ProfileService, private studyProgramService: StudyProgramService, private route: ActivatedRoute) {
     this.route.queryParams.subscribe(params => {
       this.profileService.getUser(params['id']).subscribe((user) => this.user = user);
-      this.profileService.getProfileEntries(params['id']).subscribe((profileEntries: ProfileEntry[]) => this.profileEntries = profileEntries)
+      this.profileService.getProfileEntries(params['id']).subscribe((profileEntries: EntryProfile[]) => this.profileEntries = profileEntries)
     });
   }
 
@@ -108,7 +108,7 @@ export class ProfileComponent implements OnInit {
     this.profileService.changePassword(this.oldPassword, this.newPassword).subscribe()
   }
 
-  openEntry(profileEntry: ProfileEntry) {
+  openEntry(profileEntry: EntryProfile) {
     this.router.navigate(['/question'], {queryParams: {id: profileEntry.entry.questionId}})
   }
 }

@@ -3,7 +3,7 @@ import {LeaderboardService} from "./leaderboard.service";
 import {Router} from "@angular/router";
 
 @Component({
-  selector: 'app-leaderboard',
+  selector: 'leaderboard',
   templateUrl: './leaderboard.component.html',
   styleUrls: ['./leaderboard.component.scss']
 })

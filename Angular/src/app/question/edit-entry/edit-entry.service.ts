@@ -1,11 +1,9 @@
 import {Injectable} from '@angular/core';
 import {environment} from "../../../environments/environment";
 import {HttpClient, HttpHeaders, HttpParams} from "@angular/common/http";
-import {Entry} from "../../entry/entry";
+import {Entry} from "../entry";
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable()
 export class EditEntryService {
 
   constructor(private http: HttpClient) {

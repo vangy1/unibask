@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component} from '@angular/core';
 import {NotificationService} from "./notification.service";
 import {Router} from "@angular/router";
 
@@ -7,14 +7,11 @@ import {Router} from "@angular/router";
   templateUrl: './notification.component.html',
   styleUrls: ['./notification.component.scss']
 })
-export class NotificationComponent implements OnInit {
+export class NotificationComponent {
 
   constructor(private notificationService: NotificationService, private router: Router) {
   }
 
-  ngOnInit(): void {
-    console.log("aaa")
-  }
 
   refreshNotifications() {
     this.notificationService.getNotification().subscribe()

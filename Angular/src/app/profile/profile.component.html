@@ -76,7 +76,7 @@
   <div *ngIf="profileEntries.length > 0">
     <h1 class="section-title">Používateľove príspevky</h1>
     <div class="entry" *ngFor="let profileEntry of profileEntries" (click)="openEntry(profileEntry)">
-      <app-entry-preview [profileEntry]="profileEntry"></app-entry-preview>
+      <entry-preview [profileEntry]="profileEntry"></entry-preview>
     </div>
   </div>
 
