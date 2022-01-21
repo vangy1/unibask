@@ -29,7 +29,7 @@ export class QuestionListService {
     this.page += 1;
   }
 
-  getRequest(followed: any, category: any, searchPhrase: string) {
+  private getRequest(followed: any, category: any, searchPhrase: string) {
     if (followed) {
       return this.questionService.getFollowedQuestions(searchPhrase, this.page, this.limit)
     } else if (category) {

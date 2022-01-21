@@ -22,17 +22,19 @@ public class AuthenticationService {
     private final AccountRepository accountRepository;
 
     @Autowired
-    private AuthenticationProvider authenticationProvider;
+    private final AuthenticationProvider authenticationProvider;
     @Autowired
-    private VerificationCodeService verificationCodeService;
+    private final VerificationCodeService verificationCodeService;
     @Autowired
     private AuthenticationService authenticationService;
 
 
     @Autowired
-    public AuthenticationService(PasswordEncoder passwordEncoder, AccountRepository accountRepository) {
+    public AuthenticationService(PasswordEncoder passwordEncoder, AccountRepository accountRepository, AuthenticationProvider authenticationProvider, VerificationCodeService verificationCodeService) {
         this.passwordEncoder = passwordEncoder;
         this.accountRepository = accountRepository;
+        this.authenticationProvider = authenticationProvider;
+        this.verificationCodeService = verificationCodeService;
     }
 
     public Account login(String mail, String password) {

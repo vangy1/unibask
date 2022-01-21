@@ -15,7 +15,7 @@ export class NavigationComponent {
   @ViewChild('toolbar', {static: false}) toolbar: any;
   mail: string
 
-  constructor(public router: Router, public authenticationService: AuthenticationService, private notificationService: NotificationService) {
+  constructor(private router: Router, private authenticationService: AuthenticationService, private notificationService: NotificationService) {
     this.notificationService.getNotification().subscribe()
   }
 
@@ -33,7 +33,6 @@ export class NavigationComponent {
 
   fetchNotifications() {
     this.notificationService.getNotification().subscribe()
-
   }
 
   hasNewNotifications() {
@@ -50,6 +49,10 @@ export class NavigationComponent {
 
   markNotificationsAsViewed() {
     this.notificationService.markNotificationsAsViewed().subscribe()
+  }
+
+  currentUrlStartsWith(value: string) {
+    return this.router.url.startsWith(value)
   }
 
   logout() {

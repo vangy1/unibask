@@ -12,7 +12,6 @@ import java.util.Date;
 
 @Service
 public class VoteService {
-
     @Autowired
     private VoteService voteService;
 
@@ -79,6 +78,4 @@ public class VoteService {
             voteRepository.delete(vote);
         }
     }
-
-
 }

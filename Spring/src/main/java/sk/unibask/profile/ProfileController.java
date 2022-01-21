@@ -1,18 +1,19 @@
-package sk.unibask.user;
+package sk.unibask.profile;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import sk.unibask.authentication.UserDto;
 
 import java.util.Map;
 
 
 @RestController
-@RequestMapping("/api/user")
-public class UserController {
-    private final UserService userService;
+@RequestMapping("/api/profile")
+public class ProfileController {
+    private final ProfileService userService;
 
     @Autowired
-    public UserController(UserService userService) {
+    public ProfileController(ProfileService userService) {
         this.userService = userService;
     }
 

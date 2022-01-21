@@ -30,5 +30,4 @@ public class EntryController {
     public void editEntry(@RequestBody Map<String, String> body) {
         entryService.editEntry(Long.parseLong(body.get("id")), body.get("text"), body.get("unformattedText"));
     }
-
 }

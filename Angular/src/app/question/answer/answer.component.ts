@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, Input} from '@angular/core';
 import {Answer} from "./answer";
 import {VoteService} from "../vote.service";
 import {MatSnackBar} from "@angular/material/snack-bar";
@@ -14,14 +14,16 @@ import {MatDialog} from "@angular/material/dialog";
   templateUrl: './answer.component.html',
   styleUrls: ['./answer.component.scss']
 })
-export class AnswerComponent implements OnInit {
+export class AnswerComponent {
   @Input() question: Question;
   @Input() answer: Answer;
 
-  constructor(private answerService: AnswerService, private voteService: VoteService, private snackBar: MatSnackBar, private router: Router, public authenticationService: AuthenticationService, private dialog: MatDialog) {
-  }
-
-  ngOnInit(): void {
+  constructor(private answerService: AnswerService,
+              private voteService: VoteService,
+              private snackBar: MatSnackBar,
+              private router: Router,
+              private authenticationService: AuthenticationService,
+              private dialog: MatDialog) {
   }
 
   upvote() {
@@ -54,5 +56,9 @@ export class AnswerComponent implements OnInit {
       maxWidth: "400px",
       data: {entryId: this.answer.id}
     });
+  }
+
+  getAuthenticatedUser() {
+    return this.authenticationService?.user
   }
 }

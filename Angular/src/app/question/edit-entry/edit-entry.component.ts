@@ -16,8 +16,7 @@ export class EditEntryComponent implements OnInit {
   text: string;
   entry: Entry
 
-
-  constructor(private editEntryService: EditEntryService, private route: ActivatedRoute, private router: Router, public quillService: EditorService) {
+  constructor(private editEntryService: EditEntryService, private route: ActivatedRoute, private router: Router, private quillService: EditorService) {
   }
 
   ngOnInit(): void {
@@ -37,5 +36,9 @@ export class EditEntryComponent implements OnInit {
 
   editEntry() {
     this.editEntryService.editEntry(this.entry.id, this.entry.text, this.quillEditorBase.editorElem.innerText).subscribe(() => this.router.navigate(['/question'], {queryParams: {id: this.entry.questionId}}));
+  }
+
+  getQuillModules() {
+    return this.quillService.modules
   }
 }

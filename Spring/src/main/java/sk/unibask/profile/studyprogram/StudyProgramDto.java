@@ -1,4 +1,4 @@
-package sk.unibask.user.studyprogram;
+package sk.unibask.profile.studyprogram;
 
 public class StudyProgramDto {
     private Long id;

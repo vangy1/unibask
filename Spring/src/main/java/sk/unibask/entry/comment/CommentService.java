@@ -6,10 +6,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 import sk.unibask.authentication.AuthenticationService;
-import sk.unibask.data.model.Account;
-import sk.unibask.data.model.Answer;
-import sk.unibask.data.model.Comment;
-import sk.unibask.data.model.Question;
+import sk.unibask.data.model.*;
 import sk.unibask.data.repository.CommentRepository;
 import sk.unibask.data.repository.EntryRepository;
 import sk.unibask.notification.NotificationService;
@@ -18,7 +15,6 @@ import java.util.Date;
 
 @Service
 public class CommentService {
-
     private final CommentRepository commentRepository;
     private final EntryRepository entryRepository;
     private final AuthenticationService authenticationService;
@@ -39,13 +35,16 @@ public class CommentService {
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Komentár musí mať text.");
         if (entryId == null)
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Komentár musí byť priradený ku nejakému záznamu.");
+        Entry entry = entryRepository.findById(entryId)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Komentovaný záznam neexistuje."));
+
 
         var comment = new Comment();
         comment.setEntryText(text);
         comment.setEntryTextUnformatted(text);
         comment.setCreationDate(new Date());
         comment.setAccount(loggedAccount);
-        comment.setEntry(entryRepository.findById(entryId).get());
+        comment.setEntry(entry);
 
         if (comment.getEntry() instanceof Question question) {
             question.setLastActivity(comment.getCreationDate());

@@ -8,7 +8,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 import sk.unibask.data.model.VerificationCode;
-import sk.unibask.data.repository.AccountRepository;
 import sk.unibask.data.repository.VerificationCodeRepository;
 import sk.unibask.mail.MailService;
 
@@ -18,15 +17,12 @@ import java.util.Objects;
 @Service
 public class VerificationCodeService {
     private final VerificationCodeRepository verificationCodeRepository;
-    private final AccountRepository accountRepository;
-
-    private RandomStringGenerator randomStringGenerator;
+    private final RandomStringGenerator randomStringGenerator;
     private final MailService mailService;
 
 
     @Autowired
-    public VerificationCodeService(VerificationCodeRepository verificationCodeRepository, AccountRepository accountRepository, MailService mailService) {
-        this.accountRepository = accountRepository;
+    public VerificationCodeService(VerificationCodeRepository verificationCodeRepository, MailService mailService) {
         this.randomStringGenerator = new RandomStringGenerator.Builder().withinRange('0', 'z')
                 .filteredBy(CharacterPredicates.LETTERS, CharacterPredicates.DIGITS)
                 .build();
@@ -34,10 +30,6 @@ public class VerificationCodeService {
         this.mailService = mailService;
     }
 
-    public String generateVerificationCode() {
-        return randomStringGenerator.generate(8);
-
-    }
 
     @Transactional
     public void createVerificationCode(String mail) {
@@ -56,6 +48,10 @@ public class VerificationCodeService {
     @Transactional
     public boolean isVerificationCodeValid(String mail, String codeInput) {
         return verificationCodeRepository.findAllByEmail(mail).stream().anyMatch(verificationCode -> Objects.equals(verificationCode.getCode(), codeInput));
+    }
+
+    private String generateVerificationCode() {
+        return randomStringGenerator.generate(8);
     }
 
     private void checkMail(String mail) {

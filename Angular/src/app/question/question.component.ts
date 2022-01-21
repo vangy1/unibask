@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, Input} from '@angular/core';
 import {Question} from "./question";
 import {VoteService} from "./vote.service";
 import {MatSnackBar} from "@angular/material/snack-bar";
@@ -13,16 +13,19 @@ import {QuestionService} from "./question.service";
   templateUrl: './question.component.html',
   styleUrls: ['./question.component.scss']
 })
-export class QuestionComponent implements OnInit {
+export class QuestionComponent {
 
   @Input() question: Question;
   @Input() showVoting: boolean;
 
-  constructor(private questionService: QuestionService, private voteService: VoteService, private snackBar: MatSnackBar, private router: Router, public authenticationService: AuthenticationService, private dialog: MatDialog) {
+  constructor(private questionService: QuestionService,
+              private voteService: VoteService,
+              private snackBar: MatSnackBar,
+              private router: Router,
+              private authenticationService: AuthenticationService,
+              private dialog: MatDialog) {
   }
 
-  ngOnInit(): void {
-  }
 
   upvote() {
     this.voteService.upvoteEntry(this.question)
@@ -50,5 +53,9 @@ export class QuestionComponent implements OnInit {
 
   edit() {
     this.router.navigate(['/question/edit'], {queryParams: {id: this.question.id}})
+  }
+
+  getAuthenticatedUser() {
+    return this.authenticationService?.user
   }
 }

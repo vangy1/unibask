@@ -6,13 +6,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 import sk.unibask.authentication.AuthenticationService;
+import sk.unibask.storage.StorageService;
 
 import java.io.IOException;
-import java.io.InputStream;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.nio.file.StandardCopyOption;
 
 @Service
 public class PictureService {
@@ -22,35 +18,18 @@ public class PictureService {
     private String picturePath;
 
     private final AuthenticationService authenticationService;
+    private final StorageService storageService;
 
-    public PictureService(AuthenticationService authenticationService) {
+    public PictureService(AuthenticationService authenticationService, StorageService storageService) {
         this.authenticationService = authenticationService;
+        this.storageService = storageService;
     }
 
     @Transactional
     public String uploadPicture(MultipartFile file) throws IOException {
         authenticationService.getLoggedAccount();
         String filename = RandomStringUtils.random(24, true, true);
-        storePicture(file, filename);
+        storageService.storeFile(file, filename, pictureFolder);
         return picturePath + filename;
     }
-
-    public void storePicture(MultipartFile file, String filename) throws IOException {
-        Path pictureFolderPath = Paths.get(pictureFolder);
-        if (file.isEmpty()) {
-            throw new RuntimeException("Failed to store empty file.");
-        }
-
-        Path destinationFile = pictureFolderPath.resolve(Paths.get(filename)).normalize().toAbsolutePath();
-
-        if (!destinationFile.getParent().equals(pictureFolderPath.toAbsolutePath())) {
-            throw new RuntimeException("Cannot store file outside current directory.");
-        }
-
-        try (InputStream inputStream = file.getInputStream()) {
-            Files.copy(inputStream, destinationFile,
-                    StandardCopyOption.REPLACE_EXISTING);
-        }
-    }
-
 }

@@ -8,7 +8,7 @@
     <input matInput style="margin-left: 8px" [ngModel]="searchPhrase" (ngModelChange)='searchPhraseChanged($event)'>
   </mat-form-field>
 
-  <div style="text-align: center" *ngIf="listQuestionsService?.questions?.length == 0">
+  <div style="text-align: center" *ngIf="getQuestions()?.length == 0">
     <p>Neboli najdené žiadne otázky.</p>
     <p *ngIf="params['followed']">Sledovanie kategórie ti umožní rýchly prístup ku otázkam danej kategórie. Taktiež
       budeš dostávať notifikácie, ak niekto vytvorí novú otázku v tebou sledovanej kategórií.
@@ -17,7 +17,7 @@
 
   <div class="question-list" infiniteScroll
        (scrolled)="onScroll()">
-    <div *ngFor="let question of listQuestionsService.questions">
+    <div *ngFor="let question of getQuestions()">
       <app-question-preview [question]="question"></app-question-preview>
     </div>
   </div>

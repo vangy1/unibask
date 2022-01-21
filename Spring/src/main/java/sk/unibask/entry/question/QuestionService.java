@@ -7,6 +7,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 import sk.unibask.authentication.AuthenticationService;
 import sk.unibask.data.model.Account;
+import sk.unibask.data.model.Category;
 import sk.unibask.data.model.Question;
 import sk.unibask.data.repository.AccountRepository;
 import sk.unibask.data.repository.CategoryRepository;
@@ -48,6 +49,8 @@ public class QuestionService {
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Otázka musí mať text.");
         if (categoryId == null)
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Otázka musí mať kategóriu.");
+        Category category = categoryRepository.findById(categoryId)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Kategória neexistuje."));
 
         var loggedAccount = authenticationService.getLoggedAccount();
 
@@ -57,7 +60,7 @@ public class QuestionService {
         question.setEntryTextUnformatted(unformattedText);
         question.setCreationDate(new Date());
         question.setLastActivity(question.getCreationDate());
-        question.setCategory(categoryRepository.findById(categoryId).get());
+        question.setCategory(category);
         question.setAnonymous(isAnonymous);
         question.setAccount(loggedAccount);
 
@@ -71,8 +74,10 @@ public class QuestionService {
 
     @Transactional
     public QuestionDto getQuestion(long id) {
-        var question = questionRepository.findOneWithAllData(id).get();
         Account loggedAccount = authenticationService.getLoggedAccount();
+        var question = questionRepository.findOneWithAllData(id).orElse(null);
+        if (question == null) return null;
+
         question.getViewers().add(loggedAccount);
         QuestionDto questionDto = entityToDtoService.questionToQuestionDto(question, loggedAccount.getId());
         questionDto.setFollowed(question.getFollowerAccounts().contains(loggedAccount));
@@ -91,7 +96,6 @@ public class QuestionService {
             return questionService.getAllQuestions(phrase, page, limit);
         }
     }
-
 
     @Transactional
     public List<QuestionDto> getAllQuestions(String phrase, int page, int limit) {
@@ -123,7 +127,8 @@ public class QuestionService {
     @Transactional
     public void followQuestion(String questionId) {
         var account = authenticationService.getLoggedAccount();
-        Question question = questionRepository.findById(Long.valueOf(questionId)).get();
+        Question question = questionRepository.findById(Long.valueOf(questionId))
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Otázka neexistuje"));
         account.getFollowingQuestions().add(question);
         accountRepository.save(account);
     }
@@ -131,7 +136,8 @@ public class QuestionService {
     @Transactional
     public void unfollowQuestion(String questionId) {
         var account = authenticationService.getLoggedAccount();
-        Question question = questionRepository.findById(Long.valueOf(questionId)).get();
+        Question question = questionRepository.findById(Long.valueOf(questionId))
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Otázka neexistuje"));
         account.getFollowingQuestions().remove(question);
         accountRepository.save(account);
     }

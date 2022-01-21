@@ -1,20 +1,15 @@
-package sk.unibask.user.avatar;
+package sk.unibask.profile.avatar;
 
 import org.apache.commons.lang3.RandomStringUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 import sk.unibask.authentication.AuthenticationService;
 import sk.unibask.data.model.Account;
+import sk.unibask.storage.StorageService;
 
 import java.io.IOException;
-import java.io.InputStream;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.nio.file.StandardCopyOption;
 
 @Service
 public class AvatarService {
@@ -27,37 +22,21 @@ public class AvatarService {
     private final String AVATAR_API_URL = "https://avatars.dicebear.com/api/adventurer/:";
 
     private final AuthenticationService authenticationService;
+    private final StorageService storageService;
 
-    @Autowired
-    public AvatarService(AuthenticationService authenticationService) {
+    public AvatarService(AuthenticationService authenticationService, StorageService storageService) {
         this.authenticationService = authenticationService;
+        this.storageService = storageService;
     }
 
     @Transactional
     public String uploadAvatar(MultipartFile file) throws IOException {
         authenticationService.getLoggedAccount();
         String filename = RandomStringUtils.random(24, true, true);
-        storeAvatar(file, filename);
+        storageService.storeFile(file, filename, avatarFolder);
         return avatarsPath + filename;
     }
 
-    public void storeAvatar(MultipartFile file, String filename) throws IOException {
-        Path avatarFolderPath = Paths.get(avatarFolder);
-        if (file.isEmpty()) {
-            throw new RuntimeException("Failed to store empty file.");
-        }
-
-        Path destinationFile = avatarFolderPath.resolve(Paths.get(filename)).normalize().toAbsolutePath();
-
-        if (!destinationFile.getParent().equals(avatarFolderPath.toAbsolutePath())) {
-            throw new RuntimeException("Cannot store file outside current directory.");
-        }
-
-        try (InputStream inputStream = file.getInputStream()) {
-            Files.copy(inputStream, destinationFile,
-                    StandardCopyOption.REPLACE_EXISTING);
-        }
-    }
 
     public String getAvatarUrl(Account account) {
         if (account.getAvatarFilename() == null) {

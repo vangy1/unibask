@@ -1,4 +1,4 @@
-import {Component, Input, OnInit, ViewChild} from '@angular/core';
+import {Component, Input, ViewChild} from '@angular/core';
 import {Question} from "../question";
 import {QuillEditorBase} from "ngx-quill";
 import {EditorService} from "../../editor/editor.service";
@@ -9,17 +9,14 @@ import {AnswerService} from "../answer/answer.service";
   templateUrl: './answer-question.component.html',
   styleUrls: ['./answer-question.component.scss']
 })
-export class AnswerQuestionComponent implements OnInit {
+export class AnswerQuestionComponent {
   @ViewChild('editor', {static: false}) quillEditorBase: QuillEditorBase;
 
   @Input() question: Question
   text: string;
   isAnonymous: boolean;
 
-  constructor(private answerService: AnswerService, public quillService: EditorService) {
-  }
-
-  ngOnInit(): void {
+  constructor(private answerService: AnswerService, private quillService: EditorService) {
   }
 
   createNewAnswer() {
@@ -27,5 +24,9 @@ export class AnswerQuestionComponent implements OnInit {
       this.text = '';
       this.question.answers.push(answer);
     });
+  }
+
+  getQuillModules() {
+    return this.quillService.modules
   }
 }

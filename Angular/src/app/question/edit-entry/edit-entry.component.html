@@ -4,7 +4,7 @@
   <div class="card">
 
     <div class="editor ql-fix-height">
-      <quill-editor #editor [(ngModel)]="entry.text" [modules]="quillService.modules"
+      <quill-editor #editor [(ngModel)]="entry.text" [modules]="getQuillModules()"
                     placeholder="Text tvojej otázky *"></quill-editor>
     </div>
 

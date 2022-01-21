@@ -2,27 +2,27 @@
   <mat-sidenav class="mobile-navigation" fixedInViewport="false">
     <mat-toolbar color="primary">Navigácia</mat-toolbar>
     <mat-nav-list>
-      <a mat-list-item [class.selected-navbar-item]="this.router.url.startsWith('/ask')"
+      <a mat-list-item [class.selected-navbar-item]="currentUrlStartsWith('/ask')"
          (click)="goToRoute('/ask', null)">
         Opýtaj sa
       </a>
-      <a mat-list-item [class.selected-navbar-item]="this.router.url.startsWith('/list?followed=true')"
+      <a mat-list-item [class.selected-navbar-item]="currentUrlStartsWith('/list?followed=true')"
          (click)="goToRoute('/list', {followed: true})">
         Sledované
       </a>
-      <a mat-list-item [class.selected-navbar-item]="this.router.url.startsWith('/categories')"
+      <a mat-list-item [class.selected-navbar-item]="currentUrlStartsWith('/categories')"
          (click)="goToRoute('/categories', null)">
         Kategórie
       </a>
-      <a mat-list-item [class.selected-navbar-item]="this.router.url.startsWith('/profile')"
+      <a mat-list-item [class.selected-navbar-item]="currentUrlStartsWith('/profile')"
          (click)="goToProfile()">
         Profil
       </a>
-      <a mat-list-item [class.selected-navbar-item]="this.router.url.endsWith('/leaderboard')"
+      <a mat-list-item [class.selected-navbar-item]="currentUrlStartsWith('/leaderboard')"
          (click)="goToRoute('/leaderboard',null)">
         Rebríček
       </a>
-      <a mat-list-item [class.selected-navbar-item]="this.router.url.endsWith('/feedback')"
+      <a mat-list-item [class.selected-navbar-item]="currentUrlStartsWith('/feedback')"
          (click)="goToRoute('/feedback',null)">
         Feedback
       </a>
@@ -35,41 +35,42 @@
     <mat-toolbar color="primary" #toolbar id="toolbar" class="fixed-header">
       <button class="toggle-sidenav-button" type="button" aria-label="Toggle sidenav" mat-icon-button
               (click)="drawer.toggle()">
-        <img src="/src/assets/menu.svg" alt="Menu"/>
+        <img src="/assets/menu.svg" alt="Menu">
       </button>
       <span class="unibask-title" (click)="goToRoute('/list', null)">
         <span>UnibASK</span>
       </span>
-      <img src="/src/assets/logo-transparent-white.svg" class="unibask-logo" (click)="goToRoute('/list', null)"/>
+      <img alt="Unibask logo" src="/assets/logo-transparent-white.svg" class="unibask-logo"
+           (click)="goToRoute('/list', null)">
       <button mat-icon-button [matMenuTriggerFor]="menu" (click)="fetchNotifications()"
               (onMenuClose)="markNotificationsAsViewed()" class="mobile-notifications">
         <mat-icon *ngIf="!hasNewNotifications()">notifications_none</mat-icon>
         <mat-icon *ngIf="hasNewNotifications()" color="accent">notifications</mat-icon>
       </button>
       <div class="desktop-navigation">
-        <button class="button-text" mat-button [class.selected-navbar-item]="this.router.url.startsWith('/feedback')"
+        <button class="button-text" mat-button [class.selected-navbar-item]="currentUrlStartsWith('/feedback')"
                 (click)="goToRoute('/feedback', null)">
           Feedback
         </button>
-        <button class="button-text" mat-button [class.selected-navbar-item]="this.router.url.startsWith('/profile')"
+        <button class="button-text" mat-button [class.selected-navbar-item]="currentUrlStartsWith('/profile')"
                 (click)="goToProfile()">
           Profil
         </button>
-        <button class="button-text" mat-button [class.selected-navbar-item]="this.router.url.endsWith('/leaderboard')"
+        <button class="button-text" mat-button [class.selected-navbar-item]="currentUrlStartsWith('/leaderboard')"
                 (click)="goToRoute('/leaderboard',null)">
           Rebríček
         </button>
-        <button class="button-text" mat-button [class.selected-navbar-item]="this.router.url.startsWith('/categories')"
+        <button class="button-text" mat-button [class.selected-navbar-item]="currentUrlStartsWith('/categories')"
                 (click)="goToRoute('/categories', null)">
           Kategórie
         </button>
         <button class="button-text" mat-button
-                [class.selected-navbar-item]="this.router.url.startsWith('/list?followed=true')"
+                [class.selected-navbar-item]="currentUrlStartsWith('/list?followed=true')"
                 (click)="goToRoute('/list', {followed: true})">
           Sledované
         </button>
         <button class="button-text" mat-button color="accent"
-                [class.selected-navbar-item]="this.router.url.startsWith('/ask')"
+                [class.selected-navbar-item]="currentUrlStartsWith('/ask')"
                 style="color: white; margin-right: 8px"
                 (click)="goToRoute('/ask', null)">
           Opýtaj sa

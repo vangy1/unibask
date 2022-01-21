@@ -56,7 +56,9 @@ public class AnswerService {
     @Transactional
     public void markSolved(Long answerId, boolean isSolved) {
         var loggedAccount = authenticationService.getLoggedAccount();
-        var answer = answerRepository.findById(answerId).get();
+        var answer = answerRepository.findById(answerId)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Odpoveď neexistuje."));
+
         if (!Objects.equals(answer.getQuestion().getAccount().getId(), loggedAccount.getId()))
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Prihlásený používateľ nie je autorom otázky tejto odpovede.");
 

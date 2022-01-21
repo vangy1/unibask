@@ -11,19 +11,13 @@ import {Router} from "@angular/router";
 export class AuthenticationPageComponent {
   public state: AuthenticationState = AuthenticationState.START;
   AuthenticationState = AuthenticationState;
-
   loginMail: string = "";
   loginPassword: string = "";
-
   newPassword: string = "";
-
   registerMail: string = "";
   username: string = "";
   registerPassword: string = "";
-
   verificationCode: string = "";
-
-
   isRegisterButtonDisabled = false
 
 
@@ -98,7 +92,7 @@ export class AuthenticationPageComponent {
     })
   }
 
-  isUnibaMail(mail: string) {
+  private isUnibaMail(mail: string) {
     return mail.endsWith("@uniba.sk") || mail.endsWith("@fmph.uniba.sk");
   }
 }

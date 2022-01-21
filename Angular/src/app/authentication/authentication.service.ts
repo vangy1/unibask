@@ -9,7 +9,6 @@ import {User} from "./user";
   providedIn: 'root'
 })
 export class AuthenticationService {
-
   user: Observable<User>;
 
   constructor(private http: HttpClient) {
@@ -22,30 +21,7 @@ export class AuthenticationService {
     }).pipe(shareReplay(1));
   }
 
-
-  recheckStatus() {
-    this.user = this.getStatus();
-    this.user.subscribe()
-  }
-
-
-  // createCheckIfSignedInRequest(): Observable<User> {
-  //   return this.http.get<User>(environment.apiUrl + '/authentication/status', {
-  //     withCredentials: true
-  //   }).pipe(shareReplay(1));
-  // }
-
-  logout() {
-    this.http.post(environment.apiUrl + '/authentication/logout', null, {
-      withCredentials: true
-    }).subscribe((response) => {
-      window.location.href = environment.appUrl;
-      this.user = undefined;
-    });
-  }
-
-
-  public login(loginMail: string, loginPassword: string): Observable<User> {
+  login(loginMail: string, loginPassword: string): Observable<User> {
     return this.http.post<User>(environment.apiUrl + '/authentication/login', {
       'mail': loginMail,
       'password': loginPassword
@@ -57,27 +33,7 @@ export class AuthenticationService {
     }).pipe(shareReplay(1))))
   }
 
-  public generateVerificationCode(mail: string): Observable<any> {
-    return this.http.post(environment.apiUrl + '/authentication/code', {
-      'mail': mail
-    }, {
-      headers: new HttpHeaders({'Content-Type': 'application/json', 'ngsw-bypass': 'true'}),
-      withCredentials: true,
-    })
-  }
-
-  public checkAgainstVerificationCode(mail: string, codeInput: string): Observable<any> {
-    let params = new HttpParams();
-    params = params.append('mail', mail).append('codeInput', codeInput);
-
-    return this.http.get(environment.apiUrl + '/authentication/code', {
-      headers: new HttpHeaders({'Content-Type': 'application/json', 'ngsw-bypass': 'true'}),
-      withCredentials: true,
-      params: params
-    })
-  }
-
-  public register(registerMail: string, registerPassword: string, username: string, verificationCode: string): Observable<any> {
+  register(registerMail: string, registerPassword: string, username: string, verificationCode: string): Observable<any> {
     return this.http.post<User>(environment.apiUrl + '/authentication/register', {
       'mail': registerMail,
       'password': registerPassword,
@@ -91,6 +47,35 @@ export class AuthenticationService {
     }).pipe(shareReplay(1))))
   }
 
+  logout() {
+    this.http.post(environment.apiUrl + '/authentication/logout', null, {
+      withCredentials: true
+    }).subscribe((response) => {
+      window.location.href = environment.appUrl;
+      this.user = undefined;
+    });
+  }
+
+  generateVerificationCode(mail: string): Observable<any> {
+    return this.http.post(environment.apiUrl + '/authentication/code', {
+      'mail': mail
+    }, {
+      headers: new HttpHeaders({'Content-Type': 'application/json', 'ngsw-bypass': 'true'}),
+      withCredentials: true,
+    })
+  }
+
+  checkAgainstVerificationCode(mail: string, codeInput: string): Observable<any> {
+    let params = new HttpParams();
+    params = params.append('mail', mail).append('codeInput', codeInput);
+
+    return this.http.get(environment.apiUrl + '/authentication/code', {
+      headers: new HttpHeaders({'Content-Type': 'application/json', 'ngsw-bypass': 'true'}),
+      withCredentials: true,
+      params: params
+    })
+  }
+
   completePasswordChange(loginMail: string, newPassword: string, verificationCode: string) {
     return this.http.post<User>(environment.apiUrl + '/authentication/password-new', {
       'mail': loginMail,
@@ -102,5 +87,10 @@ export class AuthenticationService {
     }).pipe(tap((loggedUser) => this.user = new Observable<User>((observer: Observer<User>) => {
       observer.next(loggedUser)
     }).pipe(shareReplay(1))))
+  }
+
+  private recheckStatus() {
+    this.user = this.getStatus();
+    this.user.subscribe()
   }
 }

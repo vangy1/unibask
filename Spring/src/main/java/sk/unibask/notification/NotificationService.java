@@ -33,7 +33,9 @@ public class NotificationService {
         Category category = question.getCategory();
         createNewNotification((question.isAnonymous() ? "Anonym" : question.getAccount().getUsername()) + " vytvoril novú otázku v kategórií " + category.getTitle(),
                 question.getId(),
-                accountRepository.findAccountsWithCategoryFollowed(category).stream().filter(account -> !Objects.equals(account.getId(), question.getAccount().getId())).collect(Collectors.toSet()));
+                accountRepository.findAccountsWithCategoryFollowed(category).stream()
+                        .filter(account -> !Objects.equals(account.getId(), question.getAccount().getId()))
+                        .collect(Collectors.toSet()));
     }
 
     @Transactional
@@ -41,12 +43,14 @@ public class NotificationService {
         Question question = answer.getQuestion();
         createNewNotification((answer.isAnonymous() ? "Anonym" : answer.getAccount().getUsername()) + " odpovedal na otázku " + question.getTitle(),
                 question.getId(),
-                accountRepository.findAccountsWithQuestionFollowed(question).stream().filter(account -> !Objects.equals(account.getId(), answer.getAccount().getId())).collect(Collectors.toSet()));
+                accountRepository.findAccountsWithQuestionFollowed(question).stream()
+                        .filter(account -> !Objects.equals(account.getId(), answer.getAccount().getId()))
+                        .collect(Collectors.toSet()));
     }
 
     @Transactional
     public void createNewCommentNotification(Comment comment) {
-        Question question = null;
+        Question question;
         if (comment.getEntry() instanceof Question q) {
             question = q;
         } else if (comment.getEntry() instanceof Answer answer) {
@@ -57,7 +61,9 @@ public class NotificationService {
 
         createNewNotification(comment.getAccount().getUsername() + " komentoval otázku " + question.getTitle(),
                 question.getId(),
-                accountRepository.findAccountsWithQuestionFollowed(question).stream().filter(account -> !Objects.equals(account.getId(), comment.getAccount().getId())).collect(Collectors.toSet()));
+                accountRepository.findAccountsWithQuestionFollowed(question).stream()
+                        .filter(account -> !Objects.equals(account.getId(), comment.getAccount().getId()))
+                        .collect(Collectors.toSet()));
     }
 
     @Transactional
@@ -75,13 +81,14 @@ public class NotificationService {
     @Transactional
     public List<NotificationDto> getNotifications() {
         return authenticationService.getLoggedAccount().getNotifications().stream()
-                .map(notification -> new NotificationDto(notification.getId(), notification.getCreationDate(), notification.getTitle(), notification.getUrl(), notification.isViewed())).limit(10).toList();
+                .map(notification -> new NotificationDto(notification.getId(), notification.getCreationDate(), notification.getTitle(), notification.getUrl(), notification.isViewed()))
+                .limit(10).toList();
     }
 
     @Transactional
     public void markNotificationsAsViewed(Set<Long> notificationIds) {
-        authenticationService.getLoggedAccount().getNotifications().stream().filter(notification -> notificationIds.contains(notification.getId())).forEach(notification -> {
-            notification.setViewed(true);
-        });
+        authenticationService.getLoggedAccount().getNotifications().stream()
+                .filter(notification -> notificationIds.contains(notification.getId()))
+                .forEach(notification -> notification.setViewed(true));
     }
 }

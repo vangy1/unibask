@@ -18,7 +18,7 @@
   </div>
   <div class="meta-author">
     <div class="author" (click)="goToProfile(question?.author?.id)" *ngIf="question?.author; else anonymous">
-      <img class="avatar" [src]="question?.author?.avatar"/>
+      <img class="avatar" [src]="question?.author?.avatar" alt="Avatar">
       <div class="name-reputation">
         <mat-icon *ngIf="question.author.mail.endsWith('fmph.uniba.sk')">school</mat-icon>
         <span class="name">{{question?.author?.username}}</span>
@@ -30,7 +30,7 @@
     </ng-template>
     <div class="meta">
       <div class="buttons">
-        <div class="button-container" *ngIf="(authenticationService?.user | async)?.id == question?.author?.id"
+        <div class="button-container" *ngIf="(getAuthenticatedUser() | async)?.id == question?.author?.id"
              (click)="edit()">
           <button mat-icon-button matTooltip="Upraviť otázku" matTooltipPosition="above">
             <mat-icon>edit</mat-icon>

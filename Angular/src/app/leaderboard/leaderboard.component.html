@@ -3,7 +3,7 @@
   <div *ngFor="let leaderboardItem of getLeaderboardItems(); let i = index" class="leaderboard-item card"
        (click)="goToProfile(leaderboardItem.userId)">
     <span class="position">{{i + 1}}. </span>
-    <img [src]="leaderboardItem?.profilePicture"/>
+    <img alt="Profilová fotka" [src]="leaderboardItem?.profilePicture">
     <span class="name">{{leaderboardItem?.name}}</span>
     <mat-icon *ngIf="i < 3" [style.color]="getColor(i)">star</mat-icon>
     <span class="reputation">{{leaderboardItem?.reputation}}</span>

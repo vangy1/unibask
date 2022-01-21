@@ -1,6 +1,6 @@
 <div class="full-page-component" *ngIf="user">
   <div class="public-info card">
-    <img class="avatar" [src]="user?.avatar" alt="avatar"/>
+    <img class="avatar" [src]="user?.avatar" alt="Avatar">
     <div class="user-info">
       <div>
         <mat-icon *ngIf="user?.mail.endsWith('fmph.uniba.sk')">school</mat-icon>
@@ -16,7 +16,7 @@
       <span>REPUTÁCIA</span>
     </div>
   </div>
-  <div class="change-info" *ngIf="user?.id == (authenticationService?.user | async)?.id">
+  <div class="change-info" *ngIf="user?.id == (getAuthenticatedUser() | async)?.id">
     <div class="card change-user-info" style="flex: 1">
       <h2 class="subsection-title">Zmena údajov</h2>
       <mat-form-field appearance="outline" class="study-program-input">
@@ -60,14 +60,14 @@
     <div class="card change-avatar" style="flex: 1">
       <h2 class="subsection-title">Zmena avataru</h2>
       <div class="change-avatar-container">
-        <img class="avatar" [src]="newAvatar" alt="avatar"/>
+        <img class="avatar" [src]="newAvatar" alt="Avatar">
 
         <div class="change-avatar-buttons">
           <button mat-stroked-button color="accent" (click)="setNewPictureSeed()">Generuj nový</button>
           <button mat-stroked-button color="accent" (click)="imageInput.click()"
                   [disabled]="uploadProgress != -1">{{uploadPictureButtonText}}</button>
           <input hidden #imageInput type="file" name="imageInput" (change)="uploadImagePick()"
-                 accept="image/*"/>
+                 accept="image/*">
         </div>
       </div>
       <button mat-flat-button color="accent" class="save-avatar-button" (click)="saveImage()">Ulož avatar</button>

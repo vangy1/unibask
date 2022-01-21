@@ -4,8 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import sk.unibask.data.repository.AccountRepository;
-import sk.unibask.user.UserDto;
-import sk.unibask.user.UserService;
+import sk.unibask.profile.ProfileService;
 
 import java.util.Map;
 
@@ -13,12 +12,12 @@ import java.util.Map;
 @RequestMapping("/api/authentication")
 public class AuthenticationController {
     private final AuthenticationService authenticationService;
-    private final UserService userService;
+    private final ProfileService userService;
     private final VerificationCodeService verificationCodeService;
     private final AccountRepository accountRepository;
 
     @Autowired
-    public AuthenticationController(AuthenticationService authenticationService, UserService userService, VerificationCodeService verificationCodeService, AccountRepository accountRepository) {
+    public AuthenticationController(AuthenticationService authenticationService, ProfileService userService, VerificationCodeService verificationCodeService, AccountRepository accountRepository) {
         this.authenticationService = authenticationService;
         this.userService = userService;
         this.verificationCodeService = verificationCodeService;

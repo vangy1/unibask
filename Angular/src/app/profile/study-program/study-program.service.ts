@@ -9,7 +9,6 @@ export class StudyProgramService {
 
   constructor(private http: HttpClient) {
     this.getStudyPrograms();
-
   }
 
   getStudyPrograms() {

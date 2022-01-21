@@ -11,8 +11,8 @@ import {ReportService} from "./report.service";
 export class ReportDialogComponent implements OnInit {
   reportReason: string;
 
-  constructor(private http: HttpClient, private reportService: ReportService, public dialogRef: MatDialogRef<ReportDialogComponent>,
-              @Inject(MAT_DIALOG_DATA) public data: any) {
+  constructor(private http: HttpClient, private reportService: ReportService, private dialogRef: MatDialogRef<ReportDialogComponent>,
+              @Inject(MAT_DIALOG_DATA) private data: any) {
   }
 
   ngOnInit(): void {
@@ -26,6 +26,4 @@ export class ReportDialogComponent implements OnInit {
   onDismiss(): void {
     this.dialogRef.close();
   }
-
-
 }

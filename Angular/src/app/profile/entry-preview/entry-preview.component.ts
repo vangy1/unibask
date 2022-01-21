@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, Input} from '@angular/core';
 import {EntryProfile} from "./entry-profile";
 
 @Component({
@@ -6,13 +6,9 @@ import {EntryProfile} from "./entry-profile";
   templateUrl: './entry-preview.component.html',
   styleUrls: ['./entry-preview.component.scss']
 })
-export class EntryPreviewComponent implements OnInit {
-
+export class EntryPreviewComponent {
   @Input('profileEntry') profileEntry: EntryProfile
 
   constructor() {
-  }
-
-  ngOnInit(): void {
   }
 }

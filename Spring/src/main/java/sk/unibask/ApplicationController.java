@@ -10,7 +10,6 @@ public class ApplicationController {
 
     @GetMapping("/")
     public String index() {
-
         return "index";
     }
 

@@ -30,7 +30,11 @@ export class QuestionAskComponent implements OnDestroy {
   protected _onDestroy = new Subject<void>();
 
 
-  constructor(private http: HttpClient, private router: Router, private questionService: QuestionService, private categoryService: CategoryService, public quillService: EditorService) {
+  constructor(private http: HttpClient,
+              private router: Router,
+              private questionService: QuestionService,
+              private categoryService: CategoryService,
+              private quillService: EditorService) {
     this.categoryService.getLeafCategories().subscribe((categories) => {
       this.categories = categories;
 
@@ -44,8 +48,22 @@ export class QuestionAskComponent implements OnDestroy {
     })
   }
 
+  createNewQuestion() {
+    this.questionService.createNewQuestion(this.title, this.text, this.quillEditorBase.editorElem.innerText, this.selectedCategory.id, this.isAnonymous).subscribe(id => {
+      this.router.navigate(['/question'], {queryParams: {id: id}})
+    });
+  }
 
-  filterCategories() {
+  getPath(category: Category) {
+    return '[' + category.path.join(', ') + ']'
+  }
+
+  getQuillModules() {
+    return this.quillService.modules
+  }
+
+
+  private filterCategories() {
     if (!this.categories) {
       return;
     }
@@ -63,19 +81,6 @@ export class QuestionAskComponent implements OnDestroy {
         return (category.title + this.getPath(category)).toLowerCase().indexOf(search) > -1
       })
     );
-  }
-
-  getPath(category: Category) {
-    return '[' + category.path.join(', ') + ']'
-  }
-
-  ngOnInit(): void {
-  }
-
-  createNewQuestion() {
-    this.questionService.createNewQuestion(this.title, this.text, this.quillEditorBase.editorElem.innerText, this.selectedCategory.id, this.isAnonymous).subscribe(id => {
-      this.router.navigate(['/question'], {queryParams: {id: id}})
-    });
   }
 
   ngOnDestroy() {

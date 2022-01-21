@@ -1,36 +1,31 @@
-package sk.unibask.user;
+package sk.unibask.profile;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 import sk.unibask.authentication.AuthenticationService;
+import sk.unibask.authentication.UserDto;
 import sk.unibask.data.model.Account;
 import sk.unibask.data.model.Authority;
 import sk.unibask.data.model.StudyProgram;
 import sk.unibask.data.repository.AccountRepository;
 import sk.unibask.data.repository.StudyProgramRepository;
-import sk.unibask.user.avatar.AvatarService;
-import sk.unibask.user.studyprogram.StudyProgramDto;
+import sk.unibask.profile.avatar.AvatarService;
+import sk.unibask.profile.studyprogram.StudyProgramDto;
 import sk.unibask.vote.VoteService;
 
 @Service
-public class UserService {
-    @Autowired
-    private UserService userService;
+public class ProfileService {
     private final AuthenticationService authenticationService;
     private final AvatarService avatarService;
     private final AccountRepository accountRepository;
     private final StudyProgramRepository studyProgramRepository;
     private final VoteService voteService;
 
-    @Value("${app.avatars-path}")
-    private String avatarsPath;
-
     @Autowired
-    public UserService(AuthenticationService authenticationService, AvatarService avatarService, AccountRepository accountRepository, StudyProgramRepository studyProgramRepository, VoteService voteService) {
+    public ProfileService(AuthenticationService authenticationService, AvatarService avatarService, AccountRepository accountRepository, StudyProgramRepository studyProgramRepository, VoteService voteService) {
         this.authenticationService = authenticationService;
         this.avatarService = avatarService;
         this.accountRepository = accountRepository;
@@ -50,6 +45,7 @@ public class UserService {
     }
 
     public UserDto getUser(Long userId) {
+        authenticationService.getLoggedAccount();
         Account account = accountRepository.findById(userId).orElse(null);
         if (account == null) return null;
         StudyProgram studyProgram = account.getStudyProgram();

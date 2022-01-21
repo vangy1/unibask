@@ -13,7 +13,7 @@
   </div>
   <div class="meta-author">
     <div class="author" (click)="goToProfile(answer?.author?.id)" *ngIf="answer?.author; else anonymous">
-      <img class="avatar" [src]="answer?.author?.avatar"/>
+      <img class="avatar" [src]="answer?.author?.avatar" alt="Avatar">
       <div class="name-reputation">
         <mat-icon *ngIf="answer.author.mail.endsWith('fmph.uniba.sk')">school</mat-icon>
         <span class="name">{{answer?.author?.username}}</span>
@@ -25,12 +25,12 @@
     </ng-template>
     <div class="meta">
       <div class="buttons">
-        <div class="button-container" *ngIf="(authenticationService?.user | async)?.id == answer?.author?.id">
+        <div class="button-container" *ngIf="(getAuthenticatedUser() | async)?.id == answer?.author?.id">
           <button mat-icon-button (click)="edit()" matTooltip="Upraviť odpoveď" matTooltipPosition="above">
             <mat-icon>edit</mat-icon>
           </button>
         </div>
-        <div class="button-container" *ngIf="(authenticationService?.user | async)?.id == question?.author?.id">
+        <div class="button-container" *ngIf="(getAuthenticatedUser() | async)?.id == question?.author?.id">
           <button mat-icon-button *ngIf="!answer.solvesQuestion" (click)="markSolved()"
                   matTooltip="Označiť odpoveď ako riešenie otázky" matTooltipPosition="above">
             <mat-icon>verified</mat-icon>

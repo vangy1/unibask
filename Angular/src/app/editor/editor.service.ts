@@ -39,7 +39,5 @@ export class EditorService {
   }
 
   constructor(private http: HttpClient) {
-
-
   }
 }

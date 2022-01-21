@@ -2,7 +2,7 @@
 <section>
   <div class="editor ql-fix-height">
     <quill-editor #editor [(ngModel)]="text" placeholder="Text tvojej odpovede *"
-                  [modules]="quillService.modules"></quill-editor>
+                  [modules]="getQuillModules()"></quill-editor>
   </div>
   <div class="action">
     <mat-checkbox class="example-margin" [(ngModel)]="isAnonymous">Skryť moju identitu</mat-checkbox>

@@ -12,7 +12,6 @@ public class FeedbackService {
     private final FeedbackRepository feedbackRepository;
     private final AuthenticationService authenticationService;
 
-
     public FeedbackService(FeedbackRepository feedbackRepository, AuthenticationService authenticationService) {
         this.feedbackRepository = feedbackRepository;
         this.authenticationService = authenticationService;

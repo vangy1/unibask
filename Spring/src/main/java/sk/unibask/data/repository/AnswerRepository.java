@@ -8,8 +8,6 @@ import sk.unibask.data.model.Answer;
 import java.util.List;
 
 public interface AnswerRepository extends JpaRepository<Answer, Long> {
-    List<Answer> findAllByQuestionId(long id);
-
     @Query("SELECT a from answers a " +
             "left join fetch a.votes " +
             "where a.isAnonymous = false and a.account.id = :accountId " +

@@ -1,8 +1,10 @@
 package sk.unibask.category;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.server.ResponseStatusException;
 import sk.unibask.authentication.AuthenticationService;
 import sk.unibask.data.model.Account;
 import sk.unibask.data.model.Category;
@@ -14,14 +16,12 @@ import java.util.List;
 
 @Service
 public class CategoryService {
-
     @Autowired
     private CategoryService categoryService;
 
     private final CategoryRepository categoryRepository;
     private final AuthenticationService authenticationService;
     private final AccountRepository accountRepository;
-
 
     @Autowired
     public CategoryService(CategoryRepository categoryRepository, AuthenticationService authenticationService, AccountRepository accountRepository) {
@@ -39,9 +39,16 @@ public class CategoryService {
     }
 
     @Transactional
+    public CategoryDto getCategory(Long id) {
+        authenticationService.getLoggedAccount();
+        return categoryRepository.findById(id).map(category -> new CategoryDto(category.getId(), category.getTitle(), false)).orElse(null);
+    }
+
+    @Transactional
     public void followCategory(String categoryId) {
         var account = authenticationService.getLoggedAccount();
-        Category category = categoryRepository.findById(Long.valueOf(categoryId)).get();
+        Category category = categoryRepository.findById(Long.valueOf(categoryId))
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Kategória neexistuje."));
         account.getFollowingCategories().add(category);
         accountRepository.save(account);
     }
@@ -49,7 +56,8 @@ public class CategoryService {
     @Transactional
     public void unfollowCategory(String categoryId) {
         var account = authenticationService.getLoggedAccount();
-        Category category = categoryRepository.findById(Long.valueOf(categoryId)).get();
+        Category category = categoryRepository.findById(Long.valueOf(categoryId))
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Kategória neexistuje."));
         account.getFollowingCategories().remove(category);
         accountRepository.save(account);
     }
@@ -82,20 +90,9 @@ public class CategoryService {
         for (CategoryDto category : categories) {
             filterLeafCategories(category, leafCategories);
         }
-
         return leafCategories;
     }
 
-    public void filterLeafCategories(CategoryDto category, List<CategoryDto> leafCategories) {
-        List<CategoryDto> childrenCategories = category.getChildrenCategories();
-        if (childrenCategories.isEmpty()) {
-            leafCategories.add(category);
-        } else {
-            for (CategoryDto childrenCategory : childrenCategories) {
-                filterLeafCategories(childrenCategory, leafCategories);
-            }
-        }
-    }
 
     @Transactional
     public void setChildrenCategories(Category parentCategory, CategoryDto parentCategoryDto, Account account) {
@@ -111,6 +108,18 @@ public class CategoryService {
 
         for (var i = 0; i < childrenCategories.size(); i++) {
             categoryService.setChildrenCategories(childrenCategories.get(i), childrenCategoryDtos.get(i), account);
+        }
+    }
+
+
+    private void filterLeafCategories(CategoryDto category, List<CategoryDto> leafCategories) {
+        List<CategoryDto> childrenCategories = category.getChildrenCategories();
+        if (childrenCategories.isEmpty()) {
+            leafCategories.add(category);
+        } else {
+            for (CategoryDto childrenCategory : childrenCategories) {
+                filterLeafCategories(childrenCategory, leafCategories);
+            }
         }
     }
 
@@ -134,11 +143,4 @@ public class CategoryService {
             setPaths(childrenCategory, newPath);
         }
     }
-
-    public CategoryDto getCategory(Long id) {
-        authenticationService.getLoggedAccount();
-        return categoryRepository.findById(id).map(category -> new CategoryDto(category.getId(), category.getTitle(), false)).orElse(null);
-    }
-
-
 }

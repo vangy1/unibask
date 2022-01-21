@@ -7,7 +7,7 @@ import sk.unibask.data.model.*;
 import sk.unibask.entry.answer.AnswerDto;
 import sk.unibask.entry.comment.CommentDto;
 import sk.unibask.entry.question.QuestionDto;
-import sk.unibask.user.UserService;
+import sk.unibask.profile.ProfileService;
 
 import java.util.ArrayList;
 import java.util.Objects;
@@ -15,10 +15,10 @@ import java.util.Objects;
 @Service
 public class EntityToDtoService {
 
-    private final UserService userService;
+    private final ProfileService userService;
 
     @Autowired
-    public EntityToDtoService(UserService userService) {
+    public EntityToDtoService(ProfileService userService) {
         this.userService = userService;
     }
 

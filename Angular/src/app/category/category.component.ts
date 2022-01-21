@@ -11,7 +11,6 @@ import {Router} from "@angular/router";
   styleUrls: ['./category.component.scss'],
 })
 export class CategoryComponent implements OnInit {
-
   categories: Category[]
   treeControl = new NestedTreeControl<Category>(node => node.childrenCategories);
   dataSource = new MatTreeNestedDataSource<Category>();
@@ -30,7 +29,6 @@ export class CategoryComponent implements OnInit {
 
   hasChild = (_: number, node: Category) => !!node.childrenCategories && node.childrenCategories.length > 0;
 
-
   changeFollowStatus(category: Category) {
     category.followed = !category.followed
     this.categoryService.changeFollowStatus(category.id, category.followed).subscribe()
@@ -38,6 +36,5 @@ export class CategoryComponent implements OnInit {
 
   goToCategory(category: Category) {
     this.router.navigate(['/list'], {queryParams: {category: category.id}})
-
   }
 }

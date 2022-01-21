@@ -18,7 +18,7 @@ export class ProfileService {
     let params = new HttpParams();
     params = params.append('userId', userId);
 
-    return this.http.get<User>(environment.apiUrl + '/user', {
+    return this.http.get<User>(environment.apiUrl + '/profile', {
       headers: new HttpHeaders({'Content-Type': 'application/json', 'ngsw-bypass': 'true'}),
       withCredentials: true,
       params: params
@@ -38,7 +38,6 @@ export class ProfileService {
         'ngsw-bypass': 'true',
       })
     });
-
   }
 
   getProfileEntries(userId: string) {
@@ -76,16 +75,12 @@ export class ProfileService {
 
 
   setStudyProgram(studyProgramId: string) {
-    return this.http.post(environment.apiUrl + '/user/study-program', {
+    return this.http.post(environment.apiUrl + '/profile/study-program', {
       'studyProgramId': studyProgramId,
     }, {
       headers: new HttpHeaders({'Content-Type': 'application/json', 'ngsw-bypass': 'true'}),
       withCredentials: true,
     })
-  }
-
-  setMailNotifications(selectedMailNotifications: string) {
-
   }
 
   changePassword(oldPassword: string, newPassword: string) {

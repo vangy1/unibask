@@ -1,7 +1,7 @@
 package sk.unibask.entry;
 
+import sk.unibask.authentication.UserDto;
 import sk.unibask.entry.comment.CommentDto;
-import sk.unibask.user.UserDto;
 
 import java.util.Date;
 import java.util.List;

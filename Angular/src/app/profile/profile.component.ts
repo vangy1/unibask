@@ -29,7 +29,12 @@ export class ProfileComponent implements OnInit {
   oldPassword: string;
   newPassword: string;
 
-  constructor(public authenticationService: AuthenticationService, private router: Router, private http: HttpClient, private profileService: ProfileService, private studyProgramService: StudyProgramService, private route: ActivatedRoute) {
+  constructor(private authenticationService: AuthenticationService,
+              private router: Router,
+              private http: HttpClient,
+              private profileService: ProfileService,
+              private studyProgramService: StudyProgramService,
+              private route: ActivatedRoute) {
     this.route.queryParams.subscribe(params => {
       this.profileService.getUser(params['id']).subscribe((user) => this.user = user);
       this.profileService.getProfileEntries(params['id']).subscribe((profileEntries: EntryProfile[]) => this.profileEntries = profileEntries)
@@ -59,20 +64,6 @@ export class ProfileComponent implements OnInit {
     this.imageInput.nativeElement.value = '';
   }
 
-  uploadImage(fileInput: any) {
-    this.uploadProgress = 0;
-    this.profileService.getUploadRequest(fileInput.nativeElement.files[0]).subscribe(event => {
-      if (event.type === HttpEventType.UploadProgress) {
-        this.uploadProgress = Math.round(100 * event.loaded / event.total);
-        this.uploadPictureButtonText = "Uploading (" + this.uploadProgress + ")";
-      } else if (event.type === HttpEventType.Response) {
-        this.newAvatar = event.body.toString()
-        this.uploadPictureButtonText = "Nahraj avatar"
-        this.uploadProgress = -1
-      }
-    });
-  }
-
   setNewPictureSeed() {
     let seed = Math.random() * 99999999;
     this.newAvatar = "https://avatars.dicebear.com/api/adventurer/:" + seed + ".svg"
@@ -100,7 +91,7 @@ export class ProfileComponent implements OnInit {
       })
     }
     if (this.selectedMailNotifications != 'not-set') {
-      this.profileService.setMailNotifications(this.selectedMailNotifications);
+      // this.profileService.setMailNotifications(this.selectedMailNotifications);
     }
   }
 
@@ -111,4 +102,23 @@ export class ProfileComponent implements OnInit {
   openEntry(profileEntry: EntryProfile) {
     this.router.navigate(['/question'], {queryParams: {id: profileEntry.entry.questionId}})
   }
+
+  getAuthenticatedUser() {
+    return this.authenticationService?.user
+  }
+
+  private uploadImage(fileInput: any) {
+    this.uploadProgress = 0;
+    this.profileService.getUploadRequest(fileInput.nativeElement.files[0]).subscribe(event => {
+      if (event.type === HttpEventType.UploadProgress) {
+        this.uploadProgress = Math.round(100 * event.loaded / event.total);
+        this.uploadPictureButtonText = "Uploading (" + this.uploadProgress + ")";
+      } else if (event.type === HttpEventType.Response) {
+        this.newAvatar = event.body.toString()
+        this.uploadPictureButtonText = "Nahraj avatar"
+        this.uploadProgress = -1
+      }
+    });
+  }
+
 }

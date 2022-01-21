@@ -10,7 +10,6 @@ import java.io.IOException;
 @RequestMapping("/api/picture")
 
 public class PictureController {
-
     private final PictureService pictureService;
 
     public PictureController(PictureService pictureService) {
@@ -19,7 +18,7 @@ public class PictureController {
 
     @PostMapping("/upload")
     @ResponseStatus(value = HttpStatus.OK)
-    private String uploadPicture(@RequestParam("picture") MultipartFile file) throws IOException {
+    public String uploadPicture(@RequestParam("picture") MultipartFile file) throws IOException {
         return pictureService.uploadPicture(file);
     }
 

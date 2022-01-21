@@ -20,7 +20,7 @@ export class QuestionListComponent implements OnInit {
 
   constructor(private questionService: QuestionService,
               private route: ActivatedRoute,
-              public listQuestionsService: QuestionListService,
+              private listQuestionsService: QuestionListService,
               private categoryService: CategoryService) {
     this.questionSearchChanged
       .pipe(
@@ -38,6 +38,10 @@ export class QuestionListComponent implements OnInit {
       this.setTitle(params);
       this.listQuestionsService.loadInitial(params['followed'], params['category'], this.searchPhrase);
     });
+  }
+
+  getQuestions() {
+    return this.listQuestionsService?.questions
   }
 
   setTitle(params: Params) {

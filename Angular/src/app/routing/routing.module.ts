@@ -12,7 +12,7 @@ const routes: Routes = [
   },
   {
     path: 'authentication',
-    loadChildren: () => import('../authentication/authentication.module').then(m => m.AuthenticationModule),
+    loadChildren: () => import('../authentication/auth.module').then(m => m.AuthModule),
     canActivate: [GuestGuard]
   },
   {

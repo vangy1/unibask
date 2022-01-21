@@ -7,18 +7,11 @@ import sk.unibask.data.model.Category;
 import sk.unibask.data.model.Entry;
 
 import java.util.List;
-import java.util.Optional;
 
 public interface CategoryRepository extends JpaRepository<Category, Long> {
-    Optional<Category> findById(Long id);
-
     @Query("SELECT c FROM categories c where c not in (select c from categories c join c.parentCategories pc)")
     List<Category> findRoots();
 
-
-    //    @Query(
-//            value = "SELECT * FROM category_parent_categories u WHERE u.status = 1",
-//            nativeQuery = true)
     @Query("SELECT c FROM categories c where c not in (select c from categories c join c.childrenCategories pc)")
     List<Category> findLeafs();
 

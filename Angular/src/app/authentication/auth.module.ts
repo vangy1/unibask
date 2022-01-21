@@ -16,5 +16,5 @@ const routes: Routes = [
   ],
   exports: [AuthenticationPageComponent]
 })
-export class AuthenticationModule {
+export class AuthModule {
 }

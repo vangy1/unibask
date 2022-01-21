@@ -1,4 +1,4 @@
-package sk.unibask.user.studyprogram;
+package sk.unibask.profile.studyprogram;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

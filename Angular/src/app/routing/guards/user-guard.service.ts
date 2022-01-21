@@ -7,7 +7,7 @@ import {catchError, map, tap} from "rxjs/operators";
 @Injectable()
 export class UserGuard implements CanActivate {
 
-  constructor(public authenticationService: AuthenticationService, public router: Router) {
+  constructor(private authenticationService: AuthenticationService, private router: Router) {
 
   }
 

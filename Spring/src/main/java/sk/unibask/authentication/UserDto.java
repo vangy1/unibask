@@ -1,6 +1,6 @@
-package sk.unibask.user;
+package sk.unibask.authentication;
 
-import sk.unibask.user.studyprogram.StudyProgramDto;
+import sk.unibask.profile.studyprogram.StudyProgramDto;
 
 import java.util.Date;
 import java.util.List;
@@ -62,9 +62,7 @@ public class UserDto {
         return roles;
     }
 
-    public void setRoles(List<String>
-
-                                 roles) {
+    public void setRoles(List<String> roles) {
         this.roles = roles;
     }
 

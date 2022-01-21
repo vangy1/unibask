@@ -5,11 +5,8 @@ import org.springframework.data.jpa.repository.Query;
 import sk.unibask.data.model.StudyProgram;
 
 import java.util.List;
-import java.util.Optional;
 
 public interface StudyProgramRepository extends JpaRepository<StudyProgram, Long> {
     @Query("select sp from study_programs sp order by sp.longName asc")
     List<StudyProgram> findAllOrderByLongName();
-
-    Optional<StudyProgram> findById(Long id);
 }

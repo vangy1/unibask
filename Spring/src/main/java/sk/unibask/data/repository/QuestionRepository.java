@@ -19,13 +19,6 @@ public interface QuestionRepository extends JpaRepository<Question, Long> {
             "where q.id = :questionId ")
     Optional<Question> findOneWithAllData(@Param("questionId") Long questionId);
 
-    @Query("SELECT q FROM questions q " +
-            "left join fetch q.votes votes " +
-            "left join fetch q.viewers viewers " +
-            "where q.id = :questionId")
-    Optional<Question> findOneWithVotesViewers(@Param("questionId") Long questionId);
-
-
     @Query("SELECT distinct q FROM questions q " +
             "left join fetch q.viewers viewers " +
             "left join fetch q.votes votes " +

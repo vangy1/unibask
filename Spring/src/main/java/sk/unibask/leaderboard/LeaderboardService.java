@@ -5,7 +5,7 @@ import org.springframework.transaction.annotation.Transactional;
 import sk.unibask.authentication.AuthenticationService;
 import sk.unibask.data.model.Account;
 import sk.unibask.data.repository.VoteRepository;
-import sk.unibask.user.avatar.AvatarService;
+import sk.unibask.profile.avatar.AvatarService;
 
 import java.util.List;
 

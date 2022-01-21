@@ -8,12 +8,15 @@ import {Router} from "@angular/router";
   styleUrls: ['./leaderboard.component.scss']
 })
 export class LeaderboardComponent implements OnInit {
-
   constructor(private leaderboardService: LeaderboardService, private router: Router) {
     leaderboardService.getLeaderboard()
   }
 
   ngOnInit(): void {
+  }
+
+  goToProfile(userId: number) {
+    this.router.navigate(['/profile'], {queryParams: {id: userId}})
   }
 
   getLeaderboardItems() {
@@ -30,9 +33,5 @@ export class LeaderboardComponent implements OnInit {
         return '#CD7F32'
     }
     return ''
-  }
-
-  goToProfile(userId: number) {
-    this.router.navigate(['/profile'], {queryParams: {id: userId}})
   }
 }

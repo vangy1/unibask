@@ -57,21 +57,15 @@ export class VoteService {
     })
   }
 
-  unvoteEntry(entry: Entry) {
 
-    entry.reputation -= entry.myVote;
-    entry.myVote = null;
-    this.getUnvoteEntryRequest(entry.id).subscribe();
-  }
-
-  isVotingOnOwnEntry(entry: Entry) {
+  private isVotingOnOwnEntry(entry: Entry) {
     return this.authenticationService.user.pipe(map(user => {
       if (!entry.author) return false
       return entry.author.mail == user.mail
     }))
   }
 
-  getUpvoteEntryRequest(entryId: number) {
+  private getUpvoteEntryRequest(entryId: number) {
     return this.http.post(environment.apiUrl + '/votes/entry/upvote', {
       entryId: entryId
     }, {
@@ -80,7 +74,7 @@ export class VoteService {
     })
   }
 
-  getDownvoteEntryRequest(entryId: number) {
+  private getDownvoteEntryRequest(entryId: number) {
     return this.http.post(environment.apiUrl + '/votes/entry/downvote', {
       entryId: entryId
     }, {
@@ -89,7 +83,14 @@ export class VoteService {
     })
   }
 
-  getUnvoteEntryRequest(entryId: number) {
+  private unvoteEntry(entry: Entry) {
+    entry.reputation -= entry.myVote;
+    entry.myVote = null;
+    this.getUnvoteEntryRequest(entry.id).subscribe();
+  }
+
+
+  private getUnvoteEntryRequest(entryId: number) {
     let params = new HttpParams();
     params = params.append('entryId', entryId);
 
@@ -99,4 +100,5 @@ export class VoteService {
       params: params
     })
   }
+
 }
