@@ -98,6 +98,10 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         CorsConfiguration config = new CorsConfiguration();
         config.addAllowedOrigin("http://localhost:4200");
         config.addAllowedOrigin("http://192.168.0.168:4200");
+        config.addAllowedOrigin("http://unibask.sk");
+        config.addAllowedOrigin("http://www.unibask.sk");
+        config.addAllowedOrigin("https://www.unibask.sk");
+        config.addAllowedOrigin("https://www.unibask.sk");
         config.setAllowCredentials(true);
         config.setAllowedHeaders(List.of("Authorization", "Cache-Control", "Content-Type", "X-Requested-With", "ngsw-bypass"));
         config.addAllowedMethod(HttpMethod.GET);

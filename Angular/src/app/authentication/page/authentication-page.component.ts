@@ -60,7 +60,7 @@ export class AuthenticationPageComponent {
   }
 
   continueToRegisterVerification() {
-    if (this.isUnibaMail(this.loginMail)) {
+    if (this.isUnibaMail(this.registerMail)) {
       this.state = AuthenticationState.VERIFY_REGISTRATION
       this.authenticationService.generateVerificationCode(this.registerMail).subscribe()
     } else {

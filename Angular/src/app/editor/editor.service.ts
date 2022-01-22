@@ -25,6 +25,7 @@ export class EditorService {
           try {
             let result = await this.http.post(environment.apiUrl + '/picture/upload', uploadData, {
               responseType: 'text',
+              withCredentials: true,
               headers: new HttpHeaders({
                 'ngsw-bypass': 'true',
               })

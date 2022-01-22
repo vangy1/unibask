@@ -16,7 +16,6 @@ export class AppComponent {
     this.showNavigation = this.router.events
       .pipe(filter(event => event instanceof NavigationEnd),
         map(() => {
-          console.log(this.router.url !== '/authentication')
           return this.router.url !== '/authentication'
         }))
   }
