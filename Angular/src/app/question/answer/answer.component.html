@@ -9,7 +9,7 @@
     </button>
   </div>
   <div class="content">
-    <quill-view class="no-padding-ql-editor" [content]="answer.text"></quill-view>
+    <quill-view [modules]="{ syntax: true }" class="no-padding-ql-editor" [content]="answer.text"></quill-view>
   </div>
   <div class="meta-author">
     <div class="author" (click)="goToProfile(answer?.author?.id)" *ngIf="answer?.author; else anonymous">

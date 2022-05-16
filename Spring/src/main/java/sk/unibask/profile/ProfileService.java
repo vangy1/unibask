@@ -55,11 +55,20 @@ public class ProfileService {
                 new StudyProgramDto(studyProgram.getId(), studyProgram.getShortName(), studyProgram.getLongName()), voteService.getReputationOfAccount(userId));
     }
 
-    @Transactional
-    public void setStudyProgramId(long studyProgramId) {
+    public UserInfoDto getUserInfo() {
         Account loggedAccount = authenticationService.getLoggedAccount();
-        StudyProgram studyProgram = studyProgramRepository.findById(studyProgramId).orElseThrow(() -> new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Študijný plán neexisutje."));
-        if (studyProgram == null) return;
+        return new UserInfoDto(loggedAccount.getStudyProgram() == null ? null : loggedAccount.getStudyProgram().getId(), loggedAccount.getMailNotifications());
+    }
+
+    @Transactional
+    public void setUserInfo(String studyProgramId, boolean mailNotificationsEnabled) {
+        Account loggedAccount = authenticationService.getLoggedAccount();
+        StudyProgram studyProgram = null;
+        if (studyProgramId != null) {
+            studyProgram = studyProgramRepository.findById(Long.valueOf(studyProgramId))
+                    .orElseThrow(() -> new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Študijný plán neexisutje."));
+        }
         loggedAccount.setStudyProgram(studyProgram);
+        loggedAccount.setMailNotifications(mailNotificationsEnabled);
     }
 }

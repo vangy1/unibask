@@ -4,6 +4,7 @@ import {AuthenticationService} from "../authentication/authentication.service";
 import {Router} from "@angular/router";
 import {NotificationService} from "../notification/notification.service";
 import {Notification} from "../notification/notification";
+import {map} from "rxjs/operators";
 
 @Component({
   selector: 'navigation',
@@ -55,7 +56,17 @@ export class NavigationComponent {
     return this.router.url.startsWith(value)
   }
 
+  currentUrlEndsWith(value: string) {
+    return this.router.url.endsWith(value)
+  }
+
+
   logout() {
     this.authenticationService.logout()
+  }
+
+  isOwnProfile() {
+    return this.authenticationService.user.pipe(map(user => this.router.url.startsWith('/profile?id=' + user.id)))
+
   }
 }

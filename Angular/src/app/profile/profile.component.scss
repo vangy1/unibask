@@ -6,46 +6,94 @@ $lg: "(min-width: 900px)";
 
 
 .public-info {
-  display: flex;
+  display: grid;
+
+  @media #{$sm} {
+    grid-template-rows: auto auto;
+    grid-template-columns: auto 1fr;
+  }
+
+  @media #{$md},#{$lg}{
+    grid-template-rows: auto;
+    grid-template-columns: auto 1fr auto;
+  }
+
   align-items: center;
+  flex-wrap: wrap;
 
   .avatar {
-    height: 128px;
-    width: 128px;
     border-radius: 4px;
+
+    @media #{$sm} {
+      height: 64px;
+      width: 64px;
+    }
+
+    @media #{$md},#{$lg}{
+      height: 128px;
+      width: 128px;
+    }
   }
 
   .user-info {
-    margin-left: 32px;
-
     mat-icon {
       margin-right: 8px;
     }
 
     .username {
-      font-size: 32px;
+      @media #{$sm} {
+        font-size: 24px;
+      }
+      @media #{$md},#{$lg}{
+        font-size: 32px;
+      }
     }
 
     .study-program {
-      font-size: 24px;
       color: #000000AA;
-      margin-top: 16px;
+
+      @media #{$sm} {
+        font-size: 18px;
+        margin-top: 4px;
+      }
+
+      @media #{$md},#{$lg}{
+        font-size: 24px;
+        margin-top: 16px;
+
+      }
     }
 
     .join-date {
       color: #000000AA;
       margin-top: 4px;
     }
+
+    @media #{$sm} {
+      margin-left: 12px;
+    }
+
+    @media #{$md},#{$lg}{
+      margin-left: 32px;
+    }
   }
 
   .reputation {
-    margin-left: auto;
     display: flex;
     flex-direction: column;
+
+    @media #{$sm} {
+      margin-top: 16px;
+      grid-row: 2;
+      grid-column: 1/span 2;
+      align-self: center;
+    }
+
 
     span {
       text-align: center;
       font-weight: bold;
+
     }
 
     .reputation-value {

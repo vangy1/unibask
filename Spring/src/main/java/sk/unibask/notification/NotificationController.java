@@ -24,5 +24,4 @@ public class NotificationController {
     public void markNotificationsAsViewed(@RequestBody Map<String, Set<Long>> body) {
         notificationService.markNotificationsAsViewed(body.get("notificationIds"));
     }
-
 }

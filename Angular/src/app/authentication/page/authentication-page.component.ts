@@ -93,7 +93,12 @@ export class AuthenticationPageComponent {
   }
 
   private isUnibaMail(mail: string) {
-    return mail.endsWith("@uniba.sk") || mail.endsWith("@fmph.uniba.sk");
+    return true;
+    // return mail.endsWith("@uniba.sk") || mail.endsWith("@fmph.uniba.sk");
+  }
+
+  goToStart() {
+    this.state = AuthenticationState.START;
   }
 }
 

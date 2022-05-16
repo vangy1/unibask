@@ -1,7 +1,7 @@
 {
-  "name": "unibask",
-  "short_name": "unibask",
-  "theme_color": "#1976d2",
+  "name": "UnibASK",
+  "short_name": "UnibASK",
+  "theme_color": "#9e2b2f",
   "background_color": "#fafafa",
   "display": "standalone",
   "scope": "./",

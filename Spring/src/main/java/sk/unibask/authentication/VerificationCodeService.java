@@ -33,7 +33,7 @@ public class VerificationCodeService {
 
     @Transactional
     public void createVerificationCode(String mail) {
-        checkMail(mail);
+//        checkMail(mail);
 
         String generatedCode = generateVerificationCode();
         var verificationCode = new VerificationCode();

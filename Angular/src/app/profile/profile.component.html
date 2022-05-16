@@ -21,9 +21,9 @@
       <h2 class="subsection-title">Zmena údajov</h2>
       <mat-form-field appearance="outline" class="study-program-input">
         <mat-label>Študijný program</mat-label>
-        <mat-select [(value)]="selectedStudyProgram">
-          <mat-option value="not-set">
-            Bez zmeny
+        <mat-select [(value)]="userInfo.studyProgramId">
+          <mat-option [value]="null">
+            Žiadny
           </mat-option>
           <mat-option *ngFor="let studyProgram of getStudyPrograms()" [value]="studyProgram.id">
             {{studyProgram.longName}} ({{studyProgram.shortName}})
@@ -32,27 +32,27 @@
       </mat-form-field>
       <mat-form-field appearance="outline" class="notifications-input">
         <mat-label>Emailové notifikácie</mat-label>
-        <mat-select [(value)]="selectedMailNotifications">
-          <mat-option value="enabled-new-answers">
+        <mat-select [(value)]="userInfo.mailNotificationsEnabled">
+          <mat-option [value]="false">
             Vypnuté
           </mat-option>
-          <mat-option value="enabled-new-answers-and-comments">
+          <mat-option [value]="true">
             Zapnuté
           </mat-option>
         </mat-select>
       </mat-form-field>
-      <button mat-flat-button color="accent" (click)="saveProfileDetails()">Uložiť zmeny</button>
+      <button mat-flat-button color="accent" (click)="saveUserInfo()">Uložiť zmeny</button>
     </div>
 
     <div class="card change-password" style="flex: 1">
       <h2 class="subsection-title">Zmena hesla</h2>
       <mat-form-field appearance="outline" class="old-password-input">
         <mat-label>Staré heslo</mat-label>
-        <input matInput [(ngModel)]="oldPassword">
+        <input matInput [(ngModel)]="oldPassword" type="password">
       </mat-form-field>
       <mat-form-field appearance="outline" class="new-password-input">
         <mat-label>Nové heslo</mat-label>
-        <input matInput [(ngModel)]="newPassword">
+        <input matInput [(ngModel)]="newPassword" type="password">
       </mat-form-field>
       <button mat-flat-button color="accent" (click)="changePassword()">Zmeniť heslo</button>
     </div>

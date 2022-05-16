@@ -38,13 +38,13 @@ public class AuthenticationService {
     }
 
     public Account login(String mail, String password) {
-        checkMail(mail);
+//        checkMail(mail);
         SecurityContextHolder.getContext().setAuthentication(authenticationProvider.authenticate(new UsernamePasswordAuthenticationToken(mail, password)));
         return authenticationService.getLoggedAccount();
     }
 
     public Account register(String mail, String password, String username, String verificationCode) {
-        checkMail(mail);
+//        checkMail(mail);
         if (accountRepository.findByEmail(mail).isPresent())
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Účet so zadanou e-mailovou adresou už existuje.");
         if (accountRepository.findByUsername(username).isPresent())
@@ -74,12 +74,13 @@ public class AuthenticationService {
         account.setUsername(username);
         account.setPassword(passwordEncoder.encode(password));
         account.setCreationDate(new Date());
+        account.setMailNotifications(false);
         accountRepository.save(account);
     }
 
     @Transactional
     public Account passwordNew(String mail, String password, String verificationCode) {
-        checkMail(mail);
+//        checkMail(mail);
         if (verificationCodeService.isVerificationCodeValid(mail, verificationCode)) {
             Account account = accountRepository.findByEmail(mail).orElseThrow(() -> new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Účet s daným mailom neexistuje."));
             account.setPassword(passwordEncoder.encode(password));

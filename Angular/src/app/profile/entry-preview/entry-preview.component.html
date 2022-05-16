@@ -8,7 +8,7 @@
   <h3 class="entry-type">{{profileEntry.entryName}}</h3>
   <div class="entry-content">
     <h2 class="title">{{profileEntry.title}}</h2>
-    <quill-view class="no-padding-ql-editor" [content]="profileEntry.entry.text"
+    <quill-view [modules]="{ syntax: true }" class="no-padding-ql-editor" [content]="profileEntry.entry.text"
                 (click)="$event.stopPropagation()"></quill-view>
   </div>
   <span class="activity">{{profileEntry.entry.creationDate | date:'d. MMMM y, HH:mm:ss '  }}</span>

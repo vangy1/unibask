@@ -1,12 +1,12 @@
 package sk.unibask.notification;
 
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import sk.unibask.authentication.AuthenticationService;
 import sk.unibask.data.model.*;
 import sk.unibask.data.repository.AccountRepository;
 import sk.unibask.data.repository.NotificationRepository;
+import sk.unibask.mail.MailService;
 
 import java.util.List;
 import java.util.Objects;
@@ -18,14 +18,13 @@ public class NotificationService {
     private final AuthenticationService authenticationService;
     private final AccountRepository accountRepository;
     private final NotificationRepository notificationRepository;
+    private final MailService mailService;
 
-    @Value("${web.url}")
-    private String webUrl;
-
-    public NotificationService(AuthenticationService authenticationService, AccountRepository accountRepository, NotificationRepository notificationRepository) {
+    public NotificationService(AuthenticationService authenticationService, AccountRepository accountRepository, NotificationRepository notificationRepository, MailService mailService) {
         this.authenticationService = authenticationService;
         this.accountRepository = accountRepository;
         this.notificationRepository = notificationRepository;
+        this.mailService = mailService;
     }
 
     @Transactional
@@ -69,6 +68,8 @@ public class NotificationService {
     @Transactional
     public void createNewNotification(String title, Long questionId, Set<Account> accounts) {
         accounts.forEach(account -> {
+            if (Boolean.TRUE == account.getMailNotifications())
+                mailService.sendNotification(title, questionId, account);
             var notification = new Notification();
             notification.setTitle(title);
             notification.setUrl("question?id=" + questionId);

@@ -14,7 +14,6 @@ import {CategoryService} from "../category/category.service";
 export class QuestionListComponent implements OnInit {
   params: Params;
   title: string
-
   searchPhrase: string;
   questionSearchChanged: Subject<string> = new Subject<string>();
 
@@ -23,12 +22,11 @@ export class QuestionListComponent implements OnInit {
               private listQuestionsService: QuestionListService,
               private categoryService: CategoryService) {
     this.questionSearchChanged
-      .pipe(
-        debounceTime(700),
-        distinctUntilChanged())
+      .pipe(debounceTime(700), distinctUntilChanged())
       .subscribe(phrase => {
         this.searchPhrase = phrase;
-        this.listQuestionsService.loadInitial(this.params['followed'], this.params['category'], this.searchPhrase);
+        this.listQuestionsService.loadInitial(
+          this.params['followed'], this.params['category'], this.searchPhrase);
       });
   }
 
@@ -36,8 +34,18 @@ export class QuestionListComponent implements OnInit {
     this.route.queryParams.subscribe(params => {
       this.params = params;
       this.setTitle(params);
-      this.listQuestionsService.loadInitial(params['followed'], params['category'], this.searchPhrase);
+      this.listQuestionsService.loadInitial(
+        params['followed'], params['category'], this.searchPhrase);
     });
+  }
+
+  onScroll(): void {
+    this.listQuestionsService.loadMore(
+      this.params["followed"], this.params["category"], this.searchPhrase)
+  }
+
+  searchPhraseChanged(text: string) {
+    this.questionSearchChanged.next(text);
   }
 
   getQuestions() {
@@ -48,17 +56,12 @@ export class QuestionListComponent implements OnInit {
     if (params['followed']) {
       this.title = 'Sledované kategórie'
     } else if (params['category']) {
-      this.categoryService.getCategory(params['category']).subscribe(category => this.title = category.title)
+      this.categoryService.getCategory(params['category'])
+        .subscribe(category => this.title = category.title)
     } else {
       this.title = 'Všetky otázky'
     }
   }
 
-  onScroll(): void {
-    this.listQuestionsService.loadMore(this.params["followed"], this.params["category"], this.searchPhrase)
-  }
 
-  searchPhraseChanged(text: string) {
-    this.questionSearchChanged.next(text);
-  }
 }

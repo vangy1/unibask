@@ -7,6 +7,7 @@ import sk.unibask.data.model.Question;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 public interface QuestionRepository extends JpaRepository<Question, Long> {
     @Query("SELECT q FROM questions q " +
@@ -70,11 +71,11 @@ public interface QuestionRepository extends JpaRepository<Question, Long> {
             "order by q.lastActivity desc nulls last")
     List<Question> findAllByFollowing(@Param("accountId") Long accountId, @Param("phrase") String phrase);
 
-    @Query("SELECT q from questions q " +
+    @Query("SELECT distinct q from questions q " +
             "left join fetch q.votes " +
             "where q.isAnonymous = false and q.account.id = :accountId " +
             "order by q.creationDate desc nulls last")
-    List<Question> findAllByAccountWithVotes(@Param("accountId") Long accountId);
+    Set<Question> findAllByAccountWithVotes(@Param("accountId") Long accountId);
 
 
 }

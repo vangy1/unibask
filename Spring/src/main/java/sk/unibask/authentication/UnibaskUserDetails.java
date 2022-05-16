@@ -6,13 +6,14 @@ import org.springframework.security.core.userdetails.UserDetails;
 import java.util.Collection;
 import java.util.List;
 
-public class MyUserDetails implements UserDetails {
-
+public class UnibaskUserDetails implements UserDetails {
     private final String email;
     private final String password;
     private final List<GrantedAuthority> authorities;
 
-    public MyUserDetails(String email, String password, List<GrantedAuthority> authorities) {
+    public UnibaskUserDetails(String email,
+                              String password,
+                              List<GrantedAuthority> authorities) {
         this.email = email;
         this.password = password;
         this.authorities = authorities;

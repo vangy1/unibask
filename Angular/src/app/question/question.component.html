@@ -14,7 +14,7 @@
     </button>
   </div>
   <div class="content">
-    <quill-view class="no-padding-ql-editor" [content]="question?.text"></quill-view>
+    <quill-view [modules]="{ syntax: true }" class="no-padding-ql-editor" [content]="question?.text"></quill-view>
   </div>
   <div class="meta-author">
     <div class="author" (click)="goToProfile(question?.author?.id)" *ngIf="question?.author; else anonymous">

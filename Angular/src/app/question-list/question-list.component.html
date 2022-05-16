@@ -15,8 +15,7 @@
       Sledovať kategóriu môžeš v sekcii "Kategórie" kliknutím na ikonu hviezdičky napravo od názvu kategórie.</p>
   </div>
 
-  <div class="question-list" infiniteScroll
-       (scrolled)="onScroll()">
+  <div class="question-list" infiniteScroll (scrolled)="onScroll()">
     <div *ngFor="let question of getQuestions()">
       <app-question-preview [question]="question"></app-question-preview>
     </div>

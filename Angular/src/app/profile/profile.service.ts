@@ -7,21 +7,35 @@ import {Comment} from "../question/comment/comment";
 import {map} from "rxjs/operators";
 import {User} from "../authentication/user";
 import {EntryProfile} from "./entry-preview/entry-profile";
+import {UserInfo} from "./user-info";
 
 @Injectable()
 export class ProfileService {
-
   constructor(private http: HttpClient) {
   }
 
   getUser(userId: string) {
-    let params = new HttpParams();
-    params = params.append('userId', userId);
-
     return this.http.get<User>(environment.apiUrl + '/profile', {
       headers: new HttpHeaders({'Content-Type': 'application/json', 'ngsw-bypass': 'true'}),
       withCredentials: true,
-      params: params
+      params: new HttpParams().append('userId', userId)
+    })
+  }
+
+  getUserInfo() {
+    return this.http.get<UserInfo>(environment.apiUrl + '/profile/info', {
+      headers: new HttpHeaders({'Content-Type': 'application/json', 'ngsw-bypass': 'true'}),
+      withCredentials: true,
+    })
+  }
+
+  saveUserInfo(userInfo: UserInfo) {
+    return this.http.post(environment.apiUrl + '/profile/info', {
+      'studyProgramId': userInfo.studyProgramId,
+      'mailNotificationsEnabled': userInfo.mailNotificationsEnabled,
+    }, {
+      headers: new HttpHeaders({'Content-Type': 'application/json', 'ngsw-bypass': 'true'}),
+      withCredentials: true,
     })
   }
 
@@ -73,15 +87,6 @@ export class ProfileService {
     })
   }
 
-
-  setStudyProgram(studyProgramId: string) {
-    return this.http.post(environment.apiUrl + '/profile/study-program', {
-      'studyProgramId': studyProgramId,
-    }, {
-      headers: new HttpHeaders({'Content-Type': 'application/json', 'ngsw-bypass': 'true'}),
-      withCredentials: true,
-    })
-  }
 
   changePassword(oldPassword: string, newPassword: string) {
     return this.http.post(environment.apiUrl + '/authentication/password-change', {

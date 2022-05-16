@@ -17,6 +17,7 @@ public class Account {
     private String password;
     private String avatarSeed;
     private String avatarFilename;
+    private Boolean mailNotifications = false;
 
     @ManyToOne
     @JoinColumn
@@ -174,5 +175,13 @@ public class Account {
 
     public void setNotifications(Set<Notification> notifications) {
         this.notifications = notifications;
+    }
+
+    public Boolean getMailNotifications() {
+        return mailNotifications;
+    }
+
+    public void setMailNotifications(Boolean mailNotifications) {
+        this.mailNotifications = mailNotifications;
     }
 }

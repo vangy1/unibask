@@ -26,11 +26,12 @@ public class QuestionController {
     }
 
     @GetMapping("/questions")
-    public List<QuestionDto> getQuestions(@RequestParam(value = "followed", required = false) boolean followed,
-                                          @RequestParam(value = "category", required = false) Long category,
-                                          @RequestParam(value = "phrase", required = false) String phrase,
-                                          @RequestParam(value = "page", required = false, defaultValue = "0") int page,
-                                          @RequestParam(value = "limit", required = false, defaultValue = "50") int limit) {
+    public List<QuestionDto> getQuestions(
+            @RequestParam(value = "followed", required = false) boolean followed,
+            @RequestParam(value = "category", required = false) Long category,
+            @RequestParam(value = "phrase", required = false) String phrase,
+            @RequestParam(value = "page", required = false, defaultValue = "0") int page,
+            @RequestParam(value = "limit", required = false, defaultValue = "50") int limit) {
         List<QuestionDto> questions = questionService.getQuestions(phrase != null ? phrase.toLowerCase() : null, followed, category, page, limit);
         questions.forEach(questionDto -> questionDto.setText(null));
         return questions;

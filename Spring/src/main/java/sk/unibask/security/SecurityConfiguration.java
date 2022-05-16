@@ -25,7 +25,6 @@ import java.util.List;
 @Configuration
 @EnableGlobalAuthentication
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
-
     private final UserDetailsService userDetailsService;
 
     @Autowired
@@ -33,10 +32,10 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         this.userDetailsService = userDetailsService;
     }
 
-//    @Override
-//    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-//        auth.authenticationProvider(daoAuthenticationProvider());
-//    }
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
 
     @Bean
     public AuthenticationProvider daoAuthenticationProvider() {
@@ -46,13 +45,6 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         return provider;
     }
 
-//    @Override
-//    protected void configure(HttpSecurity http) throws Exception {
-//        http.authorizeRequests()
-//                .antMatchers("/admin").hasRole("ADMIN")
-//                .antMatchers("/").hasRole("USER")
-//                .and().formLogin();
-//    }
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
@@ -70,37 +62,16 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .rememberMe();
     }
 
-//    @Override
-//    public void configure(WebSecurity web) throws Exception {
-//        web.ignoring()
-//                .antMatchers("/webjars/**", "/favicon.ico", "/**/*.css", "/**/*.png", "/**/*.gif", "/**/*.jpg")
-//                .and().httpFirewall(defaultHttpFirewall());
-//    }
-
-//    @Override
-//    protected void configure(HttpSecurity http) throws Exception {
-//        http.cors().configurationSource(configurationSource());
-//        http.csrf().disable();
-//        http.formLogin()
-//                .loginPage("/")
-//                .failureUrl("/")
-//                .and()
-//                .logout().logoutUrl("/authentication/logout").deleteCookies("JSESSIONID").invalidateHttpSession(true).clearAuthentication(true).logoutSuccessHandler((new HttpStatusReturningLogoutSuccessHandler(HttpStatus.OK)))
-//                .and()
-//                .authorizeRequests()
-//                .antMatchers("/**").permitAll()
-//                .and()
-//                .rememberMe();
-//    }
 
     private CorsConfigurationSource configurationSource() {
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         CorsConfiguration config = new CorsConfiguration();
         config.addAllowedOrigin("http://localhost:4200");
+        config.addAllowedOrigin("http://192.168.1.222:4200");
         config.addAllowedOrigin("http://192.168.0.168:4200");
         config.addAllowedOrigin("http://unibask.sk");
         config.addAllowedOrigin("http://www.unibask.sk");
-        config.addAllowedOrigin("https://www.unibask.sk");
+        config.addAllowedOrigin("https://unibask.sk");
         config.addAllowedOrigin("https://www.unibask.sk");
         config.setAllowCredentials(true);
         config.setAllowedHeaders(List.of("Authorization", "Cache-Control", "Content-Type", "X-Requested-With", "ngsw-bypass"));
@@ -118,10 +89,6 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         return new DefaultHttpFirewall();
     }
 
-    @Bean
-    public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
-    }
 
 }
 

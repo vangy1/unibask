@@ -8,6 +8,8 @@ import {User} from "../authentication/user";
 import {Observable, Observer} from "rxjs";
 import {shareReplay} from "rxjs/operators";
 import {EntryProfile} from "./entry-preview/entry-profile";
+import {UserInfo} from "./user-info";
+import {MatSnackBar} from "@angular/material/snack-bar";
 
 @Component({
   selector: 'profile',
@@ -22,6 +24,7 @@ export class ProfileComponent implements OnInit {
   uploadPictureButtonText = "Nahraj avatar"
   profileEntries: EntryProfile[] = []
   user: User
+  userInfo: UserInfo
 
   selectedStudyProgram = 'not-set';
   selectedMailNotifications = 'not-set';
@@ -34,9 +37,11 @@ export class ProfileComponent implements OnInit {
               private http: HttpClient,
               private profileService: ProfileService,
               private studyProgramService: StudyProgramService,
+              private snackBar: MatSnackBar,
               private route: ActivatedRoute) {
     this.route.queryParams.subscribe(params => {
       this.profileService.getUser(params['id']).subscribe((user) => this.user = user);
+      this.profileService.getUserInfo().subscribe((userInfo) => this.userInfo = userInfo);
       this.profileService.getProfileEntries(params['id']).subscribe((profileEntries: EntryProfile[]) => this.profileEntries = profileEntries)
     });
   }
@@ -59,6 +64,7 @@ export class ProfileComponent implements OnInit {
     })
   }
 
+
   uploadImagePick() {
     this.uploadImage(this.imageInput);
     this.imageInput.nativeElement.value = '';
@@ -73,30 +79,20 @@ export class ProfileComponent implements OnInit {
     return this.studyProgramService.studyPrograms;
   }
 
-  saveProfileDetails() {
-    let studyProgramId = this.selectedStudyProgram;
-    if (studyProgramId != 'not-set') {
-      this.profileService.setStudyProgram(studyProgramId).subscribe(() => {
-        let newStudyProgram = this.studyProgramService.studyPrograms.find((program) => String(program.id) == studyProgramId)
-
-        this.authenticationService.user.subscribe(user => {
-          user.studyProgram = newStudyProgram;
-          this.authenticationService.user = new Observable<User>((observer: Observer<User>) => {
-            observer.next(user)
-          }).pipe(shareReplay(1))
-        })
-
-        this.user.studyProgram = newStudyProgram;
-        this.selectedStudyProgram = 'not-set'
-      })
-    }
-    if (this.selectedMailNotifications != 'not-set') {
-      // this.profileService.setMailNotifications(this.selectedMailNotifications);
+  saveUserInfo() {
+    if (this.userInfo != null) {
+      this.profileService.saveUserInfo(this.userInfo).subscribe(() =>
+        this.snackBar.open("Údaje boli úspešne zmenené.", undefined, {duration: 3000}));
     }
   }
 
   changePassword() {
-    this.profileService.changePassword(this.oldPassword, this.newPassword).subscribe()
+    this.profileService.changePassword(this.oldPassword, this.newPassword).subscribe(() => {
+        this.oldPassword = ""
+        this.newPassword = ""
+        this.snackBar.open("Heslo bolo úspešne zmenené.", undefined, {duration: 3000})
+      }
+    );
   }
 
   openEntry(profileEntry: EntryProfile) {

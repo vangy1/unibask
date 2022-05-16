@@ -22,8 +22,14 @@ public class ProfileController {
         return userService.getUser(Long.valueOf(userId));
     }
 
-    @PostMapping("/study-program")
-    public void setStudyProgram(@RequestBody Map<String, String> body) {
-        userService.setStudyProgramId(Integer.valueOf(body.get("studyProgramId")));
+    @GetMapping("/info")
+    public UserInfoDto getUserInfo() {
+        return userService.getUserInfo();
+    }
+
+    @PostMapping("/info")
+    public void setUserInfo(@RequestBody Map<String, String> body) {
+        userService.setUserInfo(body.get("studyProgramId"),
+                Boolean.parseBoolean(body.get("mailNotificationsEnabled")));
     }
 }

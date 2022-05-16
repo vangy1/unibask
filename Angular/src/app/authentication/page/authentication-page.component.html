@@ -1,4 +1,5 @@
 <div class="auth-info-small">
+  <img class="logo" src="assets/logo-transparent-white.svg" alt="Unibask logo">
   <h1>Unibask je uzavretý systém</h1>
   <h2>
     Vstup je možný iba s platnou uniba.sk e-mailovou adresou
@@ -16,7 +17,7 @@
         <mat-label>Heslo</mat-label>
         <input matInput type="password" [(ngModel)]="loginPassword">
       </mat-form-field>
-      <button color="accent" mat-raised-button (click)="login()">Prihlásiť sa</button>
+      <button color="accent" mat-flat-button (click)="login()">Prihlásiť sa</button>
       <button color="accent" mat-stroked-button (click)="continueToPasswordChange()" class="forgot-password-button">
         Zabudol som heslo
       </button>
@@ -28,20 +29,26 @@
         <mat-label>E-mail</mat-label>
         <input type="email" matInput [(ngModel)]="registerMail">
       </mat-form-field>
-      <button color="accent" mat-raised-button [disabled]="isRegisterButtonDisabled"
+      <button color="accent" mat-flat-button [disabled]="isRegisterButtonDisabled"
               (click)="continueToRegisterVerification()">Pokračovať v registrácii
       </button>
     </div>
   </div>
 
   <div class="inputs" *ngIf="state == AuthenticationState.PASSWORD_CHANGE">
-    <div class="register ">
-      <h2>Zmena hesla</h2>
+    <div class="register">
+      <div class="title-container">
+        <button mat-icon-button color="primary" (click)="goToStart()">
+          <mat-icon>arrow_back</mat-icon>
+        </button>
+        <h2>Zmena hesla</h2>
+        <div style="width: 40px"></div>
+      </div>
       <mat-form-field appearance="outline">
         <mat-label>E-mail</mat-label>
         <input type="email" matInput [(ngModel)]="loginMail">
       </mat-form-field>
-      <button color="accent" mat-raised-button (click)="continueToPasswordChangeVerification()">Pokračovať v zmene
+      <button color="accent" mat-flat-button (click)="continueToPasswordChangeVerification()">Pokračovať v zmene
         hesla
       </button>
     </div>
@@ -49,35 +56,53 @@
 
   <div class="inputs" *ngIf="state == AuthenticationState.VERIFY_PASSWORD_CHANGE">
     <div class="register ">
-      <h2>Overenie identity</h2>
+      <div class="title-container">
+        <button mat-icon-button color="primary" (click)="goToStart()">
+          <mat-icon>arrow_back</mat-icon>
+        </button>
+        <h2>Overenie identity</h2>
+        <div style="width: 40px"></div>
+      </div>
       <p class="verification-notice">Na adresu <span
         style="font-weight: bold">{{this.loginMail}}</span> bol zaslaný
         overovací kód pre potvrdenie tvojej identity.</p>
-      <p class="verification-notice">V prípade, že mail nevieš nájsť ani v spame, prosím kontaktuj ma na
-        vangor2@uniba.sk.</p>
+      <p class="verification-notice">Prosím kontaktuj ma na
+        vangor2@uniba.sk, ak mail nevieš nájsť ani v spame.</p>
       <mat-form-field appearance="outline">
         <mat-label>Overovací kód</mat-label>
         <input type="text" [(ngModel)]="verificationCode" matInput>
       </mat-form-field>
-      <button color="accent" mat-raised-button (click)="continueToPasswordChangeFinish()">Pokračovať v zmene hesla
+      <button color="accent" mat-flat-button (click)="continueToPasswordChangeFinish()">Pokračovať v zmene hesla
       </button>
     </div>
   </div>
 
   <div class="inputs" *ngIf="state == AuthenticationState.FINISH_PASSWORD_CHANGE">
     <div class="register ">
-      <h2>Dokončenie zmeny hesla</h2>
+      <div class="title-container">
+        <button mat-icon-button color="primary" (click)="goToStart()">
+          <mat-icon>arrow_back</mat-icon>
+        </button>
+        <h2>Dokončenie zmeny hesla</h2>
+        <div style="width: 40px"></div>
+      </div>
       <mat-form-field appearance="outline">
         <mat-label>Nové heslo</mat-label>
         <input matInput type="password" [(ngModel)]="newPassword">
       </mat-form-field>
-      <button color="accent" mat-raised-button (click)="completePasswordChange()">Zmeniť heslo</button>
+      <button color="accent" mat-flat-button (click)="completePasswordChange()">Zmeniť heslo</button>
     </div>
   </div>
 
   <div class="inputs" *ngIf="state == AuthenticationState.VERIFY_REGISTRATION">
     <div class="register ">
-      <h2>Overenie identity</h2>
+      <div class="title-container">
+        <button mat-icon-button color="primary" (click)="goToStart()">
+          <mat-icon>arrow_back</mat-icon>
+        </button>
+        <h2>Overenie identity</h2>
+        <div style="width: 40px"></div>
+      </div>
       <p class="verification-notice">Na adresu <span
         style="font-weight: bold">{{this.registerMail}}</span> bol zaslaný
         overovací kód pre potvrdenie tvojej identity.</p>
@@ -87,14 +112,20 @@
         <mat-label>Overovací kód</mat-label>
         <input type="text" [(ngModel)]="verificationCode" matInput>
       </mat-form-field>
-      <button color="accent" mat-raised-button (click)="continueToRegistrationFinish()">Pokračovať v registrácii
+      <button color="accent" mat-flat-button (click)="continueToRegistrationFinish()">Pokračovať v registrácii
       </button>
     </div>
   </div>
 
   <div class="inputs" *ngIf="state == AuthenticationState.FINISH_REGISTRATION">
     <div class="register ">
-      <h2>Dokončenie registrácie</h2>
+      <div class="title-container">
+        <button mat-icon-button color="primary" (click)="goToStart()">
+          <mat-icon>arrow_back</mat-icon>
+        </button>
+        <h2>Dokončenie registrácie</h2>
+        <div style="width: 40px"></div>
+      </div>
       <mat-form-field appearance="outline">
         <mat-label>Používateľské meno</mat-label>
         <input type="text" matInput [(ngModel)]="username">
@@ -104,7 +135,7 @@
         <input matInput type="password" [(ngModel)]="registerPassword">
       </mat-form-field>
       <!--      študijny odbor-->
-      <button color="accent" mat-raised-button (click)="register()">Registrovať sa</button>
+      <button color="accent" mat-flat-button (click)="register()">Registrovať sa</button>
     </div>
   </div>
 
@@ -114,9 +145,9 @@
     <h2>
       Vstup je možný iba s platnou uniba.sk e-mailovou adresou
     </h2>
-    <div class="device-pictures">
-      <img alt="Laptop webpage preview" class="laptop-picture" src="../../../assets/macbook.png">
-      <img alt="Phone webpage preview" class="phone-picture" src="../../../assets/iphone.png">
-    </div>
+    <!--    <div class="device-pictures">-->
+    <!--      <img alt="Laptop webpage preview" class="laptop-picture" src="../../../assets/macbook.png">-->
+    <!--      <img alt="Phone webpage preview" class="phone-picture" src="../../../assets/iphone.png">-->
+    <!--    </div>-->
   </div>
 </div>
